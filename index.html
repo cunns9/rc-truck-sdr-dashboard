@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Truck Remote</title>
+<style>
+:root {
+  color-scheme: light;
+  --page: #f9f9f7; --surface: #fcfcfb; --ink: #0b0b0b; --ink-2: #52514e; --muted: #898781;
+  --grid: #e1e0d9; --axis: #c3c2b7; --border: rgba(11,11,11,0.10);
+  --series-1: #2a78d6; --series-2: #eb6834; --wash: rgba(42,120,214,0.10);
+  --good: #0ca30c; --critical: #d03b3b; --warning: #fab219;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --page: #0d0d0d; --surface: #1a1a19; --ink: #ffffff; --ink-2: #c3c2b7; --muted: #898781;
+    --grid: #2c2c2a; --axis: #383835; --border: rgba(255,255,255,0.10);
+    --series-1: #3987e5; --series-2: #d95926; --wash: rgba(57,135,229,0.14);
+  }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--page); color: var(--ink);
+  font: 14px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; }
+main { max-width: 1120px; margin: 0 auto; padding: 20px 16px 48px; }
+header { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; margin-bottom: 16px; }
+h1 { font-size: 20px; margin: 0; font-weight: 650; }
+h2 { font-size: 14px; margin: 0; font-weight: 600; }
+.sub { color: var(--ink-2); font-size: 12px; margin: 2px 0 10px; }
+.pill { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 999px;
+  border: 1px solid var(--border); background: var(--surface); font-size: 13px; }
+.pill .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--muted); }
+.pill.good .dot { background: var(--good); }
+.pill.bad .dot { background: var(--critical); border-radius: 2px; }
+.pill.tx .dot { background: var(--series-2); }
+#drive button.act { min-width: 84px; padding: 10px 14px; font-weight: 600; }
+#drive button.act[aria-pressed="true"] { background: var(--series-2); border-color: var(--series-2); color: #fff; }
+#drive button.stop { border-color: var(--critical); color: var(--critical); }
+.spacer { flex: 1; }
+.seg { display: inline-flex; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; background: var(--surface); }
+.seg button { border: 0; background: none; color: var(--ink-2); padding: 6px 12px; font: inherit; cursor: pointer; }
+.seg button + button { border-left: 1px solid var(--border); }
+.seg button[aria-pressed="true"] { background: var(--wash); color: var(--ink); font-weight: 600; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; min-width: 0; }
+.tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 12px; }
+.tile .k { color: var(--ink-2); font-size: 12px; }
+.tile .v { font-size: 28px; font-weight: 650; line-height: 1.2; }
+.tile .u { font-size: 13px; color: var(--ink-2); font-weight: 400; margin-left: 3px; }
+.charts { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+.charts .wide { grid-column: 1 / -1; }
+.chart { position: relative; }
+.chart svg { display: block; width: 100%; height: 170px; }
+.chart text { fill: var(--muted); font-size: 11px; font-variant-numeric: tabular-nums; }
+.tip { position: absolute; pointer-events: none; background: var(--surface); border: 1px solid var(--border);
+  border-radius: 6px; padding: 3px 8px; font-size: 12px; white-space: nowrap; transform: translate(-50%, -130%);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12); display: none; }
+.cols { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 12px; }
+.mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; }
+.hex { word-break: break-all; color: var(--ink); }
+.bits { display: grid; grid-template-columns: repeat(16, 16px); gap: 3px; margin: 10px 0 6px; }
+.bit { width: 16px; height: 16px; border-radius: 3px; border: 1px solid var(--axis); }
+.bit.on { background: var(--series-1); border-color: var(--series-1); }
+.bit.diff { outline: 2px solid var(--series-2); outline-offset: 1px; }
+.bit.gap { margin-left: 0; }
+.legend { display: flex; flex-wrap: wrap; gap: 14px; color: var(--ink-2); font-size: 12px; align-items: center; }
+.legend .bit { display: inline-block; vertical-align: -3px; margin-right: 5px; }
+.row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 12px; }
+input[type=text] { font: inherit; padding: 6px 10px; border-radius: 8px; border: 1px solid var(--axis);
+  background: var(--page); color: var(--ink); width: 150px; }
+button.act { font: inherit; padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border);
+  background: var(--surface); color: var(--ink); cursor: pointer; }
+button.act:hover { background: var(--wash); }
+button.act.primary { background: var(--series-1); border-color: var(--series-1); color: #fff; }
+button.link { border: 0; background: none; color: var(--ink-2); cursor: pointer; font: inherit; text-decoration: underline; padding: 0; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { text-align: left; color: var(--ink-2); font-weight: 500; font-size: 12px; padding: 4px 8px 4px 0; border-bottom: 1px solid var(--grid); }
+td { padding: 6px 8px 6px 0; border-bottom: 1px solid var(--grid); vertical-align: top; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+.empty { color: var(--ink-2); padding: 10px 0; }
+.msg { color: var(--ink-2); font-size: 12px; min-height: 18px; margin-top: 6px; }
+.tablewrap { overflow-x: auto; }
+@media (max-width: 760px) {
+  .tiles { grid-template-columns: repeat(2, 1fr); }
+  .charts, .cols { grid-template-columns: 1fr; }
+  .bits { grid-template-columns: repeat(16, 14px); }
+  .bit { width: 14px; height: 14px; }
+}
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Truck Remote</h1>
+    <span id="status" class="pill"><span class="dot"></span><span id="statusText">Connecting…</span></span>
+    <span class="spacer"></span>
+    <span class="sub" style="margin:0">Channel</span>
+    <div id="channels" class="seg" role="group" aria-label="Channel"></div>
+  </header>
+
+  <section class="tiles">
+    <div class="card tile"><div class="k">Packets</div><div class="v"><span id="tRate">–</span><span class="u">per second</span></div></div>
+    <div class="card tile"><div class="k">Signal above noise</div><div class="v"><span id="tSnr">–</span><span class="u">dB</span></div></div>
+    <div class="card tile"><div class="k">Noise floor</div><div class="v"><span id="tNoise">–</span><span class="u">dBFS</span></div></div>
+    <div class="card tile"><div class="k">Distinct payloads seen</div><div class="v"><span id="tSeen">–</span></div></div>
+  </section>
+
+  <section class="card" style="margin-bottom:12px" id="driveCard">
+    <h2>Drive</h2>
+    <div class="sub">Hold a button or an arrow key to transmit that saved control; release to send <b>idle</b> (or stop if none is saved)</div>
+    <div class="row" id="drive" style="margin-top:4px"><span class="empty">Save controls from the remote first.</span></div>
+    <div class="msg" id="driveMsg"></div>
+  </section>
+
+  <section class="charts">
+    <div class="card wide">
+      <h2>Packet rate</h2><div class="sub">Remote-length bursts per second on this channel, last 15 seconds</div>
+      <div class="chart" id="cRate"></div>
+    </div>
+    <div class="card">
+      <h2>Burst timeline</h2><div class="sub">Channel power above noise across the latest 100 ms window (dB)</div>
+      <div class="chart" id="cEnv"></div>
+    </div>
+    <div class="card">
+      <h2>Spectrum</h2><div class="sub">Average power across the receive span (dBFS)</div>
+      <div class="chart" id="cSpec"></div>
+    </div>
+  </section>
+
+  <section class="cols">
+    <div class="card">
+      <h2>Current packet</h2>
+      <div class="sub" id="curSub">Most common payload in the last second</div>
+      <div id="curBody"><div class="empty">No packets decoded yet. Turn the remote on and hold it near the antenna.</div></div>
+      <div class="row">
+        <input id="labelName" type="text" placeholder="Label, e.g. forward" aria-label="Label name">
+        <button class="act primary" id="saveBtn">Save current packet</button>
+        <span id="quick"></span>
+      </div>
+      <div class="msg" id="msg"></div>
+    </div>
+    <div>
+      <div class="card" style="margin-bottom:12px">
+        <h2>Saved controls</h2>
+        <div class="sub">Bits that differ from the packet labelled <b>idle</b></div>
+        <div class="tablewrap" id="labels"></div>
+      </div>
+      <div class="card">
+        <h2>Payloads seen this session</h2>
+        <div class="sub">Packets decoded on this channel, most frequent first</div>
+        <div class="tablewrap" id="seen"></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+const $ = id => document.getElementById(id);
+const setHTML = (el, h) => { if (el._h !== h) { el._h = h; el.innerHTML = h; } };
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const hex = bits => (bits.match(/.{1,8}/g) || []).map(b => parseInt(b.padEnd(8, '0'), 2).toString(16).padStart(2, '0')).join(' ');
+const diffBits = (a, b) => { const d = []; for (let i = 0; i < Math.min(a.length, b.length); i++) if (a[i] !== b[i]) d.push(i); return d; };
+
+// Single-series line chart with crosshair + tooltip.
+function lineChart(el, o) {
+  const W = el.clientWidth || 500, H = 170, L = 38, R = 10, T = 8, B = 24;
+  const n = o.ys.length, [x0, x1] = o.xDomain, [y0, y1] = o.yDomain;
+  const px = x => L + (x - x0) / (x1 - x0) * (W - L - R);
+  const py = y => T + (1 - (Math.min(Math.max(y, y0), y1) - y0) / (y1 - y0)) * (H - T - B);
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(o.label)}">`;
+  for (const t of o.yTicks) s += `<line x1="${L}" x2="${W - R}" y1="${py(t)}" y2="${py(t)}" stroke="var(--grid)"/><text x="${L - 6}" y="${py(t) + 4}" text-anchor="end">${t}</text>`;
+  o.xTicks.forEach((t, i) => { s += `<text x="${px(t)}" y="${H - 6}" text-anchor="${i === o.xTicks.length - 1 ? 'end' : i === 0 ? 'start' : 'middle'}">${o.xFmt(t)}</text>`; });
+  s += `<line x1="${L}" x2="${W - R}" y1="${py(y0)}" y2="${py(y0)}" stroke="var(--axis)"/>`;
+  if (o.marker != null) s += `<line x1="${px(o.marker)}" x2="${px(o.marker)}" y1="${T}" y2="${H - B}" stroke="var(--axis)" stroke-dasharray="3 3"/><text x="${px(o.marker) + 5}" y="${T + 10}">${esc(o.markerLabel)}</text>`;
+  if (n > 1) {
+    const pts = o.ys.map((y, i) => `${px(o.xs[i]).toFixed(1)},${py(y).toFixed(1)}`);
+    if (o.area) s += `<polygon points="${px(o.xs[0])},${py(y0)} ${pts.join(' ')} ${px(o.xs[n - 1])},${py(y0)}" fill="var(--wash)"/>`;
+    s += `<polyline points="${pts.join(' ')}" fill="none" stroke="var(--series-1)" stroke-width="2" stroke-linejoin="round"/>`;
+  } else {
+    s += `<text x="${(L + W - R) / 2}" y="${H / 2}" text-anchor="middle">Waiting for data</text>`;
+  }
+  let tip = '';
+  if (el._hx != null && n > 1) {
+    const xv = x0 + (el._hx - L) / (W - L - R) * (x1 - x0);
+    let bi = 0; for (let i = 1; i < n; i++) if (Math.abs(o.xs[i] - xv) < Math.abs(o.xs[bi] - xv)) bi = i;
+    const cx = px(o.xs[bi]), cy = py(o.ys[bi]);
+    s += `<line x1="${cx}" x2="${cx}" y1="${T}" y2="${H - B}" stroke="var(--axis)"/><circle cx="${cx}" cy="${cy}" r="4" fill="var(--series-1)" stroke="var(--surface)" stroke-width="2"/>`;
+    tip = `<div class="tip" style="display:block;left:${cx / W * 100}%;top:${cy}px"><b>${o.yFmt(o.ys[bi])}</b> · ${o.xFmt(o.xs[bi])}</div>`;
+  }
+  el.innerHTML = s + '</svg>' + tip;
+  if (!el._bound) {
+    el._bound = true;
+    el.addEventListener('mousemove', e => { el._hx = (e.clientX - el.getBoundingClientRect().left) / el.clientWidth * (el.clientWidth || 500); el._redraw && el._redraw(); });
+    el.addEventListener('mouseleave', () => { el._hx = null; el._redraw && el._redraw(); });
+  }
+  el._redraw = () => lineChart(el, o);
+}
+
+function bitGrid(payload, diffs) {
+  const d = new Set(diffs);
+  let h = '<div class="bits" role="img" aria-label="Payload bits">';
+  for (let i = 0; i < payload.length; i++)
+    h += `<span class="bit${payload[i] === '1' ? ' on' : ''}${d.has(i) ? ' diff' : ''}" title="bit ${i} = ${payload[i]}${d.has(i) ? ' (differs from idle)' : ''}"></span>`;
+  return h + '</div>';
+}
+
+let state = null;
+const QUICK = ['idle', 'forward', 'reverse', 'left', 'right'];
+$('quick').innerHTML = QUICK.map(q => `<button class="act" data-q="${q}">${q}</button>`).join(' ');
+
+async function post(path, body) {
+  const r = await fetch(path, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+  return r.ok;
+}
+async function save(name) {
+  name = name.trim();
+  if (!name) { $('msg').textContent = 'Type a label first.'; return; }
+  const ok = await post('/api/label', { name });
+  $('msg').textContent = ok ? `Saved “${name}”.` : 'Nothing to save: no packet decoded in the last second.';
+  if (ok) $('labelName').value = '';
+}
+$('saveBtn').onclick = () => save($('labelName').value);
+$('labelName').onkeydown = e => { if (e.key === 'Enter') save($('labelName').value); };
+$('quick').onclick = e => { if (e.target.dataset.q) save(e.target.dataset.q); };
+$('labels').onclick = e => { if (e.target.dataset.del) post('/api/label/delete', { name: e.target.dataset.del }); };
+const KEYS = { ArrowUp: 'forward', ArrowDown: 'reverse', ArrowLeft: 'left', ArrowRight: 'right' };
+let driving = null;
+async function drive(name) {
+  if (name === driving) return;
+  driving = name;
+  const ok = await post('/api/drive', { name });
+  $('driveMsg').textContent = ok ? (name ? `Transmitting “${name}”` : 'Stopped transmitting; listening again.') : `No control named “${name}” saved.`;
+}
+function release() { drive(state && state.labels.idle ? 'idle' : null); }
+let pressed = false;
+$('drive').addEventListener('pointerdown', e => { const b = e.target.closest('button'); if (!b) return;
+  e.preventDefault(); if (b.dataset.stop !== undefined) drive(null); else { pressed = true; drive(b.dataset.drive); } });
+for (const ev of ['pointerup', 'pointercancel']) window.addEventListener(ev, () => { if (pressed) { pressed = false; release(); } });
+const held = new Set();
+function keyCombo() {   // combine held arrows into a saved label, e.g. forward-left
+  const v = held.has('forward') ? 'forward' : held.has('reverse') ? 'reverse' : null;
+  const h = held.has('left') ? 'left' : held.has('right') ? 'right' : null;
+  if (v && h && state && state.labels[`${v}-${h}`]) return `${v}-${h}`;
+  return v || h;
+}
+window.addEventListener('keydown', e => { if (e.target.tagName === 'INPUT') return;
+  if (KEYS[e.key]) { e.preventDefault(); held.add(KEYS[e.key]); drive(keyCombo()); }
+  else if (e.key === 'Escape' || e.key === ' ') { e.preventDefault(); held.clear(); drive(null); } });
+window.addEventListener('keyup', e => { if (!KEYS[e.key]) return; held.delete(KEYS[e.key]);
+  const next = keyCombo(); if (next) drive(next); else release(); });
+window.addEventListener('blur', () => { if (driving) drive(null); });
+$('channels').onclick = e => { if (e.target.dataset.mhz) post('/api/channel', { mhz: +e.target.dataset.mhz }); };
+
+function render(s) {
+  const active = !s.error && s.packets_per_s >= 20;
+  $('status').className = 'pill ' + (s.error ? 'bad' : s.transmitting ? 'tx' : active ? 'good' : '');
+  $('statusText').textContent = s.error ? 'HackRF problem: ' + s.error
+    : s.transmitting ? `Transmitting “${s.transmitting}” on ${s.channel} MHz` : active ? 'Remote transmitting' : 'Listening, no remote signal';
+  const order = ['forward', 'reverse', 'left', 'right', 'forward-left', 'forward-right', 'reverse-left', 'reverse-right', 'idle'];
+  const lnames = Object.keys(s.labels).sort((a, b) => (order.indexOf(a) + 1 || 99) - (order.indexOf(b) + 1 || 99));
+  setHTML($('drive'), lnames.length ? lnames.map(n => `<button class="act" data-drive="${esc(n)}" aria-pressed="${s.transmitting === n}">${esc(n)}</button>`).join('') +
+    `<button class="act stop" data-stop>Stop</button>` : '<span class="empty">Save controls from the remote first.</span>');
+  setHTML($('channels'), s.channels.map(c =>
+    `<button data-mhz="${c}" aria-pressed="${c === s.channel}"${s.source === 'file' ? ' disabled' : ''}>${c} MHz</button>`).join(''));
+
+  $('tRate').textContent = Math.round(s.packets_per_s);
+  $('tSnr').textContent = s.snr_db == null ? '–' : s.snr_db.toFixed(0);
+  $('tNoise').textContent = s.noise_db == null ? '–' : s.noise_db.toFixed(0);
+  $('tSeen').textContent = s.seen.length;
+
+  lineChart($('cRate'), { label: 'Packet rate', xs: s.rate_history.map(p => p[0]), ys: s.rate_history.map(p => p[1]),
+    xDomain: [-15, 0], yDomain: [0, 250], yTicks: [0, 50, 100, 150, 200, 250], xTicks: [-15, -10, -5, 0],
+    xFmt: t => t === 0 ? 'now' : `${Math.abs(t).toFixed(t % 1 ? 1 : 0)} s ago`, yFmt: v => `${Math.round(v)} packets/s`, area: true });
+  const ne = s.envelope.length;
+  lineChart($('cEnv'), { label: 'Burst timeline', xs: s.envelope.map((_, i) => i / ne * s.window_ms), ys: s.envelope,
+    xDomain: [0, s.window_ms], yDomain: [0, 40], yTicks: [0, 10, 20, 30, 40], xTicks: [0, 25, 50, 75, 100],
+    xFmt: t => `${(+t).toFixed(t % 1 ? 1 : 0)} ms`, yFmt: v => `${v.toFixed(0)} dB above noise` });
+  const nb = s.spectrum.length, f0 = s.center_mhz - s.span_mhz / 2;
+  const chMark = s.source === 'file' ? null : s.channel;
+  lineChart($('cSpec'), { label: 'Spectrum', xs: s.spectrum.map((_, i) => f0 + (i + 0.5) / nb * s.span_mhz), ys: s.spectrum,
+    xDomain: [f0, f0 + s.span_mhz], yDomain: [-80, -10], yTicks: [-80, -60, -40, -20],
+    xTicks: [f0 + s.span_mhz * 0.125, s.center_mhz, f0 + s.span_mhz * 0.875],
+    xFmt: f => `${(+f).toFixed(f % 1 ? 1 : 0)} MHz`, yFmt: v => `${v.toFixed(0)} dBFS`, marker: chMark, markerLabel: 'remote' });
+
+  const idle = s.labels.idle;
+  if (s.current) {
+    const c = s.current, d = idle ? diffBits(c.payload, idle.payload) : [];
+    setHTML($('curBody'),
+      `<div class="mono hex">${hex(c.payload)}</div>` + bitGrid(c.payload, d) +
+      `<div class="legend"><span><span class="bit on"></span>1</span><span><span class="bit"></span>0</span>` +
+      (idle ? `<span><span class="bit diff"></span>differs from idle${d.length ? ': bit ' + d.join(', ') : ' (none)'}</span>` : `<span>Save an <b>idle</b> packet to highlight changes.</span>`) +
+      `</div><div class="sub" style="margin-top:8px">Header <span class="mono">${c.header}</span> · ${c.count} copies in the last second</div>`);
+  } else if (!$('curBody').querySelector('.bits')) {
+    $('curBody').innerHTML = '<div class="empty">No packets decoded yet. Turn the remote on and hold it near the antenna.</div>';
+  }
+  $('curSub').textContent = s.current ? 'Most common payload in the last second' : 'No packet in the last second (showing the last one decoded, if any)';
+
+  const names = Object.keys(s.labels);
+  setHTML($('labels'), names.length ? `<table><tr><th>Label</th><th>Payload</th><th class="num">Bits changed</th><th></th></tr>` +
+    names.map(nm => { const l = s.labels[nm], d = idle && nm !== 'idle' ? diffBits(l.payload, idle.payload) : null;
+      return `<tr><td><b>${esc(nm)}</b><div class="sub" style="margin:0">${l.channel} MHz</div></td><td class="mono hex">${hex(l.payload)}</td>` +
+        `<td class="num">${d ? (d.length ? d.join(', ') : 'none') : '–'}</td><td><button class="link" data-del="${esc(nm)}">remove</button></td></tr>`; }).join('') + '</table>'
+    : '<div class="empty">Nothing saved yet. Hold a control on the remote, then press its button on the left.</div>');
+
+  setHTML($('seen'), s.seen.length ? `<table><tr><th>Payload</th><th class="num">Packets</th><th class="num">Last seen</th></tr>` +
+    s.seen.map(p => `<tr><td class="mono hex">${hex(p.payload)}</td><td class="num">${p.count}</td><td class="num">${p.age < 1 ? 'now' : p.age.toFixed(0) + ' s ago'}</td></tr>`).join('') + '</table>'
+    : '<div class="empty">No payloads decoded yet.</div>');
+}
+
+async function poll() {
+  try { state = await (await fetch('/api/state')).json(); render(state); }
+  catch (e) { $('status').className = 'pill bad'; $('statusText').textContent = 'Dashboard server not running'; }
+  setTimeout(poll, 400);
+}
+poll();
+</script>
+</body>
+</html>

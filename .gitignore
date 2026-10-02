@@ -1,0 +1,11 @@
+# Generated / captured IQ data (tx_frame.iq is rebuilt by server.py)
+*.iq
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# macOS
+.DS_Store
