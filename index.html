@@ -42,6 +42,7 @@ h2 { font-size: 14px; margin: 0; font-weight: 600; }
 .seg button { border: 0; background: none; color: var(--ink-2); padding: 6px 12px; font: inherit; cursor: pointer; }
 .seg button + button { border-left: 1px solid var(--border); }
 .seg button[aria-pressed="true"] { background: var(--wash); color: var(--ink); font-weight: 600; }
+.seg .n { color: var(--muted); font-weight: 400; margin-left: 4px; font-variant-numeric: tabular-nums; }
 .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; min-width: 0; }
 .tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 12px; }
 .tile .k { color: var(--ink-2); font-size: 12px; }
@@ -92,6 +93,7 @@ td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
 <main>
   <header>
     <h1>Truck Remote</h1>
+    <div id="vehicles" class="seg" role="group" aria-label="Vehicle"></div>
     <span id="status" class="pill"><span class="dot"></span><span id="statusText">Connecting…</span></span>
     <span class="spacer"></span>
     <span class="sub" style="margin:0">Channel</span>
@@ -106,8 +108,8 @@ td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
   </section>
 
   <section class="card" style="margin-bottom:12px" id="driveCard">
-    <h2>Drive</h2>
-    <div class="sub">Hold a button or an arrow key to transmit that saved control; release to send <b>idle</b> (or stop if none is saved)</div>
+    <h2 id="driveTitle">Drive</h2>
+    <div class="sub">Hold a button, an arrow key, or W / S (lift up / down) to transmit that saved control; release to send <b>idle</b> (or stop if none is saved)</div>
     <div class="row" id="drive" style="margin-top:4px"><span class="empty">Save controls from the remote first.</span></div>
     <div class="msg" id="driveMsg"></div>
   </section>
@@ -141,7 +143,7 @@ td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
     </div>
     <div>
       <div class="card" style="margin-bottom:12px">
-        <h2>Saved controls</h2>
+        <h2 id="labelsTitle">Saved controls</h2>
         <div class="sub">Bits that differ from the packet labelled <b>idle</b></div>
         <div class="tablewrap" id="labels"></div>
       </div>
@@ -205,6 +207,10 @@ function bitGrid(payload, diffs) {
 }
 
 let state = null;
+let vehicle = 'truck';
+try { vehicle = localStorage.getItem('vehicle') || vehicle; } catch (e) {}
+const cap = s => s[0].toUpperCase() + s.slice(1);
+const vLabels = s => (s && s.labels[vehicle]) || {};
 const QUICK = ['idle', 'forward', 'reverse', 'left', 'right'];
 $('quick').innerHTML = QUICK.map(q => `<button class="act" data-q="${q}">${q}</button>`).join(' ');
 
@@ -215,51 +221,69 @@ async function post(path, body) {
 async function save(name) {
   name = name.trim();
   if (!name) { $('msg').textContent = 'Type a label first.'; return; }
-  const ok = await post('/api/label', { name });
-  $('msg').textContent = ok ? `Saved “${name}”.` : 'Nothing to save: no packet decoded in the last second.';
-  if (ok) $('labelName').value = '';
+  const r = await fetch('/api/label', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ vehicle, name }) });
+  const res = await r.json().catch(() => ({}));
+  $('msg').textContent = r.ok ? `Saved “${name}” for the ${vehicle}.` : (res.error || 'Could not save.');
+  if (r.ok) $('labelName').value = '';
 }
 $('saveBtn').onclick = () => save($('labelName').value);
 $('labelName').onkeydown = e => { if (e.key === 'Enter') save($('labelName').value); };
 $('quick').onclick = e => { if (e.target.dataset.q) save(e.target.dataset.q); };
-$('labels').onclick = e => { if (e.target.dataset.del) post('/api/label/delete', { name: e.target.dataset.del }); };
-const KEYS = { ArrowUp: 'forward', ArrowDown: 'reverse', ArrowLeft: 'left', ArrowRight: 'right' };
+$('labels').onclick = e => { if (e.target.dataset.del) post('/api/label/delete', { vehicle, name: e.target.dataset.del }); };
+// Physical keys (e.code), so W/S work whatever the keyboard layout or Caps Lock.
+const KEYS = { ArrowUp: 'forward', ArrowDown: 'reverse', ArrowLeft: 'left', ArrowRight: 'right', KeyW: 'lift-up', KeyS: 'lift-down' };
+const keyOf = e => e.metaKey || e.ctrlKey || e.altKey ? null : KEYS[e.code];
 let driving = null;
 async function drive(name) {
   if (name === driving) return;
   driving = name;
-  const ok = await post('/api/drive', { name });
-  $('driveMsg').textContent = ok ? (name ? `Transmitting “${name}”` : 'Stopped transmitting; listening again.') : `No control named “${name}” saved.`;
+  const ok = await post('/api/drive', { vehicle, name });
+  $('driveMsg').textContent = ok ? (name ? `Transmitting “${name}” to the ${vehicle}` : 'Stopped transmitting; listening again.') : `No control named “${name}” saved.`;
 }
-function release() { drive(state && state.labels.idle ? 'idle' : null); }
+function release() { drive(vLabels(state).idle ? 'idle' : null); }
 let pressed = false;
 $('drive').addEventListener('pointerdown', e => { const b = e.target.closest('button'); if (!b) return;
   e.preventDefault(); if (b.dataset.stop !== undefined) drive(null); else { pressed = true; drive(b.dataset.drive); } });
 for (const ev of ['pointerup', 'pointercancel']) window.addEventListener(ev, () => { if (pressed) { pressed = false; release(); } });
 const held = new Set();
 function keyCombo() {   // combine held arrows into a saved label, e.g. forward-left
+  // Only one packet can go out at a time, so a held lift key wins over driving.
+  for (const l of ['lift-up', 'lift-down']) if (held.has(l)) return l;
   const v = held.has('forward') ? 'forward' : held.has('reverse') ? 'reverse' : null;
   const h = held.has('left') ? 'left' : held.has('right') ? 'right' : null;
-  if (v && h && state && state.labels[`${v}-${h}`]) return `${v}-${h}`;
+  if (v && h && vLabels(state)[`${v}-${h}`]) return `${v}-${h}`;
   return v || h;
 }
 window.addEventListener('keydown', e => { if (e.target.tagName === 'INPUT') return;
-  if (KEYS[e.key]) { e.preventDefault(); held.add(KEYS[e.key]); drive(keyCombo()); }
+  const k = keyOf(e);
+  if (k) { e.preventDefault(); held.add(k); drive(keyCombo()); }
   else if (e.key === 'Escape' || e.key === ' ') { e.preventDefault(); held.clear(); drive(null); } });
-window.addEventListener('keyup', e => { if (!KEYS[e.key]) return; held.delete(KEYS[e.key]);
+window.addEventListener('keyup', e => { const k = KEYS[e.code]; if (!k) return; held.delete(k);
   const next = keyCombo(); if (next) drive(next); else release(); });
 window.addEventListener('blur', () => { if (driving) drive(null); });
+$('vehicles').onclick = e => { const b = e.target.closest('button'); if (!b || b.dataset.v === vehicle) return;
+  if (driving) drive(null);   // never keep driving one machine while looking at another
+  vehicle = b.dataset.v; try { localStorage.setItem('vehicle', vehicle); } catch (err) {}
+  $('msg').textContent = $('driveMsg').textContent = ''; if (state) render(state); };
 $('channels').onclick = e => { if (e.target.dataset.mhz) post('/api/channel', { mhz: +e.target.dataset.mhz }); };
 
 function render(s) {
+  if (!s.vehicles.includes(vehicle)) vehicle = s.vehicles[0];
+  const labels = s.labels[vehicle] || {}, tx = s.transmitting;
+  const txName = tx && tx.vehicle === vehicle ? tx.name : null;
+  setHTML($('vehicles'), s.vehicles.map(v => { const n = Object.keys(s.labels[v] || {}).length;
+    return `<button data-v="${v}" aria-pressed="${v === vehicle}">${cap(v)}${n ? `<span class="n">${n}</span>` : ''}</button>`; }).join(''));
+  $('driveTitle').textContent = `Drive the ${vehicle}`;
+  $('labelsTitle').textContent = `Saved controls: ${vehicle}`;
+  $('labelName').placeholder = vehicle === 'truck' ? 'Label, e.g. forward' : 'Label, e.g. forward or bucket-up';
   const active = !s.error && s.packets_per_s >= 20;
   $('status').className = 'pill ' + (s.error ? 'bad' : s.transmitting ? 'tx' : active ? 'good' : '');
   $('statusText').textContent = s.error ? 'HackRF problem: ' + s.error
-    : s.transmitting ? `Transmitting “${s.transmitting}” on ${s.channel} MHz` : active ? 'Remote transmitting' : 'Listening, no remote signal';
-  const order = ['forward', 'reverse', 'left', 'right', 'forward-left', 'forward-right', 'reverse-left', 'reverse-right', 'idle'];
-  const lnames = Object.keys(s.labels).sort((a, b) => (order.indexOf(a) + 1 || 99) - (order.indexOf(b) + 1 || 99));
-  setHTML($('drive'), lnames.length ? lnames.map(n => `<button class="act" data-drive="${esc(n)}" aria-pressed="${s.transmitting === n}">${esc(n)}</button>`).join('') +
-    `<button class="act stop" data-stop>Stop</button>` : '<span class="empty">Save controls from the remote first.</span>');
+    : tx ? `Transmitting “${tx.name}” to the ${tx.vehicle}` : active ? 'Remote transmitting' : 'Listening, no remote signal';
+  const order = ['forward', 'reverse', 'left', 'right', 'forward-left', 'forward-right', 'reverse-left', 'reverse-right', 'lift-up', 'lift-down', 'idle'];
+  const lnames = Object.keys(labels).sort((a, b) => (order.indexOf(a) + 1 || 99) - (order.indexOf(b) + 1 || 99));
+  setHTML($('drive'), lnames.length ? lnames.map(n => `<button class="act" data-drive="${esc(n)}" aria-pressed="${txName === n}">${esc(n)}</button>`).join('') +
+    `<button class="act stop" data-stop>Stop</button>` : `<span class="empty">No controls saved for the ${vehicle} yet. Turn on its remote, hold a control, and save it below.</span>`);
   setHTML($('channels'), s.channels.map(c =>
     `<button data-mhz="${c}" aria-pressed="${c === s.channel}"${s.source === 'file' ? ' disabled' : ''}>${c} MHz</button>`).join(''));
 
@@ -282,28 +306,29 @@ function render(s) {
     xTicks: [f0 + s.span_mhz * 0.125, s.center_mhz, f0 + s.span_mhz * 0.875],
     xFmt: f => `${(+f).toFixed(f % 1 ? 1 : 0)} MHz`, yFmt: v => `${v.toFixed(0)} dBFS`, marker: chMark, markerLabel: 'remote' });
 
-  const idle = s.labels.idle;
+  const idle = labels.idle;
   if (s.current) {
     const c = s.current, d = idle ? diffBits(c.payload, idle.payload) : [];
     setHTML($('curBody'),
       `<div class="mono hex">${hex(c.payload)}</div>` + bitGrid(c.payload, d) +
       `<div class="legend"><span><span class="bit on"></span>1</span><span><span class="bit"></span>0</span>` +
       (idle ? `<span><span class="bit diff"></span>differs from idle${d.length ? ': bit ' + d.join(', ') : ' (none)'}</span>` : `<span>Save an <b>idle</b> packet to highlight changes.</span>`) +
-      `</div><div class="sub" style="margin-top:8px">Header <span class="mono">${c.header}</span> · ${c.count} copies in the last second</div>`);
+      `</div><div class="sub" style="margin-top:8px">${c.vehicle ? `From the <b>${esc(c.vehicle)}</b>'s remote` : 'From a remote with no saved controls yet'} · ` +
+      `sync <span class="mono">${c.sync}</span> · header <span class="mono">${c.header}</span> · ${c.count} copies in the last second</div>`);
   } else if (!$('curBody').querySelector('.bits')) {
     $('curBody').innerHTML = '<div class="empty">No packets decoded yet. Turn the remote on and hold it near the antenna.</div>';
   }
   $('curSub').textContent = s.current ? 'Most common payload in the last second' : 'No packet in the last second (showing the last one decoded, if any)';
 
-  const names = Object.keys(s.labels);
+  const names = Object.keys(labels);
   setHTML($('labels'), names.length ? `<table><tr><th>Label</th><th>Payload</th><th class="num">Bits changed</th><th></th></tr>` +
-    names.map(nm => { const l = s.labels[nm], d = idle && nm !== 'idle' ? diffBits(l.payload, idle.payload) : null;
+    names.map(nm => { const l = labels[nm], d = idle && nm !== 'idle' ? diffBits(l.payload, idle.payload) : null;
       return `<tr><td><b>${esc(nm)}</b><div class="sub" style="margin:0">${l.channel} MHz</div></td><td class="mono hex">${hex(l.payload)}</td>` +
         `<td class="num">${d ? (d.length ? d.join(', ') : 'none') : '–'}</td><td><button class="link" data-del="${esc(nm)}">remove</button></td></tr>`; }).join('') + '</table>'
-    : '<div class="empty">Nothing saved yet. Hold a control on the remote, then press its button on the left.</div>');
+    : `<div class="empty">Nothing saved for the ${vehicle} yet. Hold a control on its remote, then press its button on the left.</div>`);
 
-  setHTML($('seen'), s.seen.length ? `<table><tr><th>Payload</th><th class="num">Packets</th><th class="num">Last seen</th></tr>` +
-    s.seen.map(p => `<tr><td class="mono hex">${hex(p.payload)}</td><td class="num">${p.count}</td><td class="num">${p.age < 1 ? 'now' : p.age.toFixed(0) + ' s ago'}</td></tr>`).join('') + '</table>'
+  setHTML($('seen'), s.seen.length ? `<table><tr><th>Remote</th><th>Payload</th><th class="num">Packets</th><th class="num">Last seen</th></tr>` +
+    s.seen.map(p => `<tr><td>${p.vehicle ? esc(cap(p.vehicle)) : 'New'}</td><td class="mono hex">${hex(p.payload)}</td><td class="num">${p.count}</td><td class="num">${p.age < 1 ? 'now' : p.age.toFixed(0) + ' s ago'}</td></tr>`).join('') + '</table>'
     : '<div class="empty">No payloads decoded yet.</div>');
 }
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Live dashboard for the toy truck's 2.4 GHz remote.
+"""Live dashboard for the toy vehicles' 2.4 GHz remotes (truck, loader, excavator, tractor).
 
 Streams IQ from a HackRF, finds the remote's packets, decodes them and serves
 a web page at http://localhost:8642.
@@ -22,9 +22,12 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 LABELS_PATH = os.path.join(HERE, "labels.json")
 PORT = 8642
 
-CHANNELS = [2415, 2435, 2470]
+# Truck: 2415/2435/2470. Loader: 2418/2438/2458/2473 (re-pairing a remote can move it).
+CHANNELS = [2415, 2418, 2435, 2438, 2458, 2470, 2473]
+VEHICLES = ["truck", "loader", "excavator", "tractor"]
 BITRATE = 1e6
-SYNC = "0001111110110"   # follows the 1010... preamble
+SYNC = "0001111110110"   # the truck remote's sync; each remote has its own (labels store it)
+SYNC_BITS = 13
 HEADER_BITS = 19         # raw bits between sync and the 3x-repeated payload
 PAYLOAD_BITS = 112
 CHUNK_SECONDS = 0.1
@@ -37,14 +40,14 @@ TX_GAIN = 20
 TX_FRAME_PATH = os.path.join(HERE, "tx_frame.iq")
 
 
-def packet_bits(header, payload):
-    return PREAMBLE + SYNC + header + "".join(b * 3 for b in payload) + "1010"
+def packet_bits(header, payload, sync=SYNC):
+    return PREAMBLE + sync + header + "".join(b * 3 for b in payload) + "1010"
 
 
-def synth_frame(header, payload, fs, offset_hz):
+def synth_frame(header, payload, fs, offset_hz, sync=SYNC):
     """One 20 ms frame of GFSK (three packet copies) as int8 IQ, shifted by offset_hz."""
     sps = int(round(fs / BITRATE))
-    nrz = np.repeat(np.array([1.0 if b == "1" else -1.0 for b in packet_bits(header, payload)]), sps)
+    nrz = np.repeat(np.array([1.0 if b == "1" else -1.0 for b in packet_bits(header, payload, sync)]), sps)
     t = np.arange(-2 * sps, 2 * sps + 1) / sps
     g = np.exp(-2 * np.pi ** 2 * 0.5 ** 2 * t ** 2 / np.log(2))   # Gaussian, BT = 0.5
     shaped = np.convolve(nrz, g / g.sum(), "same")
@@ -62,8 +65,44 @@ def synth_frame(header, payload, fs, offset_hz):
     return iq.tobytes()
 
 
-def decode_chunk(x, fs, offset_hz):
-    """Find and decode remote packets in one chunk of complex samples."""
+def payload_triples(bits, k):
+    """The 3x-repeated payload of a packet whose sync starts at bit k."""
+    start = k + SYNC_BITS + HEADER_BITS
+    if len(bits) < start + 3 * PAYLOAD_BITS:
+        return None
+    return [bits[start + 3 * n : start + 3 * n + 3] for n in range(PAYLOAD_BITS)]
+
+
+def find_unknown_sync(bits):
+    """Locate the sync of a remote we have no sync for yet.
+
+    Each remote has its own sync word, so try every alignment after the preamble
+    and keep the cleanest one whose payload triples are followed by an
+    alternating trailer ("1010" or "0101"); clean triples alone can lock on a
+    whole triple early or late.
+    """
+    i = bits.find(PREAMBLE[:8], 0, 70)
+    if i < 0:
+        return -1, None
+    best = (2, -1, None)            # accept at most one bad triple
+    for k in range(i, i + 50):
+        triples = payload_triples(bits, k)
+        if triples is None:
+            break
+        end = k + SYNC_BITS + HEADER_BITS + 3 * PAYLOAD_BITS
+        if bits[end : end + 4] in ("1010", "0101"):
+            bad = sum(t not in ("000", "111") for t in triples)
+            if bad < best[0]:
+                best = (bad, k, triples)
+    return best[1], best[2]
+
+
+def decode_chunk(x, fs, offset_hz, syncs=(SYNC,)):
+    """Find and decode remote packets in one chunk of complex samples.
+
+    syncs are the remotes we already know; packets from others are still found
+    (see find_unknown_sync) so their controls can be saved.
+    """
     sps = int(round(fs / BITRATE))
     x = x - x.mean()
 
@@ -110,17 +149,17 @@ def decode_chunk(x, fs, offset_hz):
             continue
         ph = int(round(np.angle(np.mean(np.exp(2j * np.pi * z / sps))) / (2 * np.pi) * sps)) % sps
         bits = "".join("1" if v else "0" for v in b[(ph + sps // 2) % sps :: sps])
-        i = bits.find(SYNC, 0, 70)
-        if i < 0:
-            continue
-        body = bits[i + len(SYNC) :]
-        if len(body) < HEADER_BITS + 3 * PAYLOAD_BITS:
-            continue
-        triples = [body[HEADER_BITS + 3 * k : HEADER_BITS + 3 * k + 3] for k in range(PAYLOAD_BITS)]
-        if sum(t not in ("000", "111") for t in triples) > 6:
-            continue  # collision or bad slice
+        k = next((i for i in (bits.find(sy, 0, 70) for sy in syncs) if i >= 0), -1)
+        if k >= 0:
+            triples = payload_triples(bits, k)
+            if triples is None or sum(t not in ("000", "111") for t in triples) > 6:
+                continue  # collision or bad slice
+        else:
+            k, triples = find_unknown_sync(bits)
+            if triples is None:
+                continue
         payload = "".join("1" if t.count("1") >= 2 else "0" for t in triples)
-        packets.append((body[:HEADER_BITS], payload))
+        packets.append((bits[k : k + SYNC_BITS], bits[k + SYNC_BITS : k + SYNC_BITS + HEADER_BITS], payload))
 
     return {
         "spectrum": spectrum,
@@ -130,6 +169,13 @@ def decode_chunk(x, fs, offset_hz):
         "bursts": bursts,
         "packets": packets,
     }
+
+
+def migrate_labels(labels):
+    """Older labels.json was one flat name -> label map, all for the truck."""
+    if any("payload" in v for v in labels.values()):
+        return {"truck": labels}
+    return labels
 
 
 class Radio:
@@ -142,15 +188,15 @@ class Radio:
         self.latest = None
         self.restart = False
         self.rate_history = collections.deque(maxlen=RATE_HISTORY)
-        self.recent = collections.deque()          # (time, header, payload)
-        self.seen = {}                             # payload -> [count, first, last, header]
+        self.recent = collections.deque()          # (time, sync, header, payload)
+        self.seen = {}                             # payload -> [count, first, last, header, sync]
         self.last = {}
         self.frame = None
-        self.tx_label = None
-        self.labels = {}
+        self.tx_label = None                       # (vehicle, name) while transmitting
+        self.labels = {}                           # vehicle -> name -> label
         if os.path.exists(LABELS_PATH):
             with open(LABELS_PATH) as f:
-                self.labels = json.load(f)
+                self.labels = migrate_labels(json.load(f))
 
     # --- sample source -----------------------------------------------------
     @property
@@ -206,21 +252,38 @@ class Radio:
             self.proc.kill()
             self.proc.wait()
 
-    def transmit(self, name):
-        """Stream frames to one hackrf_transfer process; swap the packet without restarting."""
-        cmd = ["hackrf_transfer", "-t", "-", "-f", str(int((self.channel + 1) * 1e6)),
+    def label(self, key):
+        vehicle, name = key
+        return self.labels.get(vehicle, {}).get(name)
+
+    def transmit(self, key):
+        """Stream frames to one hackrf_transfer process; swap the packet without restarting.
+
+        Transmits on the channel the control was saved on; a control on another
+        channel restarts the transmitter there.
+        """
+        first = self.label(key)
+        if not first:
+            self.tx_label = None
+            return
+        mhz = first.get("channel", self.channel)
+        cmd = ["hackrf_transfer", "-t", "-", "-f", str(int((mhz + 1) * 1e6)),
                "-s", str(int(self.fs)), "-x", str(TX_GAIN), "-a", "0"]
         self.proc = subprocess.Popen(cmd, stdin=subprocess.PIPE, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)
-        frames, cur = {}, None
+        frames, cur, retune = {}, None, False
         try:
             while self.tx_label and self.proc.poll() is None:
                 if self.tx_label != cur:
                     cur = self.tx_label
-                    label = self.labels.get(cur)
+                    label = self.label(cur)
                     if not label:
                         break
+                    if label.get("channel", self.channel) != mhz:
+                        retune = True
+                        break
                     if cur not in frames:
-                        frames[cur] = synth_frame(label["header"], label["payload"], self.fs, self.offset)
+                        frames[cur] = synth_frame(label["header"], label["payload"], self.fs, self.offset,
+                                                  label.get("sync", SYNC))
                 self.proc.stdin.write(frames[cur])   # blocks at the radio's pace
             if self.proc.poll() is not None and self.tx_label:
                 err = self.proc.stderr.read().decode(errors="replace").strip().splitlines()
@@ -230,18 +293,20 @@ class Radio:
         except BrokenPipeError:
             pass
         finally:
-            self.tx_label = None
+            if not retune:
+                self.tx_label = None
             self.proc.kill()
             self.proc.wait()
             self.restart = True
 
-    def drive(self, name):
+    def drive(self, vehicle, name):
         """Start transmitting a saved control, switch control, or stop with name=None."""
-        if name is not None and name not in self.labels:
+        key = None if name is None else (vehicle, name)
+        if key is not None and not self.label(key):
             return False
         was = self.tx_label
-        self.tx_label = name
-        if was and name:
+        self.tx_label = key
+        if was and key:
             return True            # transmitter keeps running with the new frame
         self.restart = True
         if self.proc:
@@ -256,14 +321,15 @@ class Radio:
                 time.sleep(0.01)
                 continue
             d = np.frombuffer(buf, dtype=np.int8).astype(np.float32)
-            r = decode_chunk(d[0::2] + 1j * d[1::2], self.fs, self.offset)
+            syncs = [SYNC] + sorted({l.get("sync", SYNC) for v in self.labels.values() for l in v.values()} - {SYNC})
+            r = decode_chunk(d[0::2] + 1j * d[1::2], self.fs, self.offset, syncs)
             now = time.time()
             with self.lock:
                 self.last = r
                 self.rate_history.append((now, r["bursts"] / CHUNK_SECONDS))
-                for header, payload in r["packets"]:
-                    self.recent.append((now, header, payload))
-                    s = self.seen.setdefault(payload, [0, now, now, header])
+                for sync, header, payload in r["packets"]:
+                    self.recent.append((now, sync, header, payload))
+                    s = self.seen.setdefault(payload, [0, now, now, header, sync])
                     s[0] += 1
                     s[2] = now
                 while self.recent and self.recent[0][0] < now - 1.0:
@@ -282,23 +348,34 @@ class Radio:
     def current(self):
         if not self.recent:
             return None
-        payload, n = collections.Counter(p for _, _, p in self.recent).most_common(1)[0]
-        header = next(h for _, h, p in self.recent if p == payload)
-        return {"header": header, "payload": payload, "count": n}
+        payload, n = collections.Counter(p for _, _, _, p in self.recent).most_common(1)[0]
+        sync, header = next((sy, h) for _, sy, h, p in self.recent if p == payload)
+        return {"sync": sync, "header": header, "payload": payload, "count": n,
+                "vehicle": self.vehicle_for(sync)}
 
-    def save_label(self, name):
+    def vehicle_for(self, sync):
+        """Which vehicle already has controls saved from the remote with this sync."""
+        for vehicle, labels in self.labels.items():
+            if any(l.get("sync", SYNC) == sync for l in labels.values()):
+                return vehicle
+        return None
+
+    def save_label(self, vehicle, name):
+        """Returns None on success, else why the packet was not saved."""
         with self.lock:
             cur = self.current()
             if not cur:
-                return False
-            self.labels[name] = {"header": cur["header"], "payload": cur["payload"],
+                return "Nothing to save: no packet decoded in the last second."
+            if cur["vehicle"] not in (None, vehicle):
+                return f"That packet is from the {cur['vehicle']}'s remote, not the {vehicle}'s."
+            self.labels.setdefault(vehicle, {})[name] = {"sync": cur["sync"], "header": cur["header"], "payload": cur["payload"],
                                  "channel": self.channel, "saved": time.time()}
             self.write_labels()
-        return True
+        return None
 
-    def delete_label(self, name):
+    def delete_label(self, vehicle, name):
         with self.lock:
-            self.labels.pop(name, None)
+            self.labels.get(vehicle, {}).pop(name, None)
             self.write_labels()
 
     def write_labels(self):
@@ -310,7 +387,7 @@ class Radio:
             mtime = os.path.getmtime(LABELS_PATH)
             if mtime != getattr(self, "_labels_mtime", None):
                 with open(LABELS_PATH) as f:
-                    self.labels = json.load(f)
+                    self.labels = migrate_labels(json.load(f))
                 self._labels_mtime = mtime
         except (OSError, ValueError):
             pass
@@ -321,7 +398,8 @@ class Radio:
             center = (2410 if self.args.file else self.channel + 1)
             return {
                 "error": self.error,
-                "transmitting": self.tx_label,
+                "transmitting": dict(zip(("vehicle", "name"), self.tx_label)) if self.tx_label else None,
+                "vehicles": VEHICLES,
                 "source": "file" if self.args.file else "hackrf",
                 "channel": self.channel,
                 "channels": CHANNELS,
@@ -336,7 +414,8 @@ class Radio:
                 "rate_history": [[round(t - now, 2), v] for t, v in self.rate_history],
                 "current": self.current(),
                 "seen": sorted(
-                    ({"payload": p, "header": s[3], "count": s[0], "age": round(now - s[2], 1)}
+                    ({"payload": p, "header": s[3], "sync": s[4], "vehicle": self.vehicle_for(s[4]),
+                      "count": s[0], "age": round(now - s[2], 1)}
                      for p, s in self.seen.items() if s[0] >= 3),
                     key=lambda d: -d["count"])[:8],
                 "labels": self.labels,
@@ -365,6 +444,7 @@ class Handler(BaseHTTPRequestHandler):
                 body = f.read()
             self.send_response(200)
             self.send_header("Content-Type", "text/html; charset=utf-8")
+            self.send_header("Cache-Control", "no-store")
             self.send_header("Content-Length", str(len(body)))
             self.end_headers()
             return self.wfile.write(body)
@@ -376,16 +456,19 @@ class Handler(BaseHTTPRequestHandler):
             data = json.loads(self.rfile.read(n) or b"{}")
         except ValueError:
             return self.send_json({"ok": False}, 400)
+        vehicle = data.get("vehicle")
+        if self.path in ("/api/label", "/api/label/delete", "/api/drive") and vehicle not in VEHICLES:
+            return self.send_json({"ok": False}, 400)
         if self.path == "/api/label":
             name = str(data.get("name", "")).strip()[:40]
-            ok = bool(name) and self.radio.save_label(name)
-            return self.send_json({"ok": ok}, 200 if ok else 409)
+            err = self.radio.save_label(vehicle, name) if name else "Type a label first."
+            return self.send_json({"ok": not err, "error": err}, 409 if err else 200)
         if self.path == "/api/label/delete":
-            self.radio.delete_label(str(data.get("name", "")))
+            self.radio.delete_label(vehicle, str(data.get("name", "")))
             return self.send_json({"ok": True})
         if self.path == "/api/drive":
             name = data.get("name")
-            ok = self.radio.drive(None if name in (None, "") else str(name))
+            ok = self.radio.drive(vehicle, None if name in (None, "") else str(name))
             return self.send_json({"ok": ok}, 200 if ok else 404)
         if self.path == "/api/channel":
             mhz = data.get("mhz")
