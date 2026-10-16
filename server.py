@@ -18,12 +18,19 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 import numpy as np
 
+try:
+    import serial
+    import serial.tools.list_ports
+except ImportError:  # dashboard still works without the proximity sensor
+    serial = None
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 LABELS_PATH = os.path.join(HERE, "labels.json")
 PORT = 8642
 
-# Truck: 2415/2435/2470. Loader: 2418/2438/2458/2473 (re-pairing a remote can move it).
-CHANNELS = [2415, 2418, 2435, 2438, 2458, 2470, 2473]
+# Truck: 2415/2435/2470. Loader: 2418/2438/2458/2473. Excavator: 2411/2431.
+# Re-pairing a remote can move it, and a remote's payload differs per channel.
+CHANNELS = [2411, 2415, 2418, 2431, 2435, 2438, 2458, 2470, 2473]
 VEHICLES = ["truck", "loader", "excavator", "tractor"]
 BITRATE = 1e6
 SYNC = "0001111110110"   # the truck remote's sync; each remote has its own (labels store it)
@@ -37,6 +44,10 @@ DEVIATION_HZ = 340e3     # measured on the real remote
 FRAME_SECONDS = 0.02     # one packet group every 20 ms
 COPY_SPACING = 0.0022    # three copies 2.2 ms apart
 TX_GAIN = 20
+STOP_CM = 152            # safety stop when someone is closer than this (5 ft)
+RELEASE_CM = 15          # hysteresis: resume only once this much farther away
+SENSOR_STALE_S = 1.0     # no reading for this long -> treat as "sensor offline"
+SENSOR_BAUD = 115200
 TX_FRAME_PATH = os.path.join(HERE, "tx_frame.iq")
 
 
@@ -178,9 +189,99 @@ def migrate_labels(labels):
     return labels
 
 
+class Proximity:
+    """Reads "D <cm>" lines from the HC-SR04 sketch over USB serial.
+
+    blocked() is True while someone is within the stop distance (with hysteresis).
+    With no sensor connected the guard simply stays clear.
+    """
+
+    def __init__(self, port=None, stop_cm=STOP_CM):
+        self.port_arg = port
+        self.port = None
+        self.cm = None
+        self.at = 0.0
+        self.enabled = True
+        self.stop_cm = stop_cm
+        self.history = collections.deque(maxlen=RATE_HISTORY)
+        self._blocked = False
+        self.error = None
+        if serial:
+            threading.Thread(target=self.run, daemon=True).start()
+        else:
+            self.error = "pyserial not installed (python3 -m pip install pyserial)"
+
+    def find_port(self):
+        if self.port_arg:
+            return self.port_arg
+        hints = ("usbserial", "usbmodem", "SLAB", "wchusbserial", "ttyUSB", "ttyACM")
+        for p in serial.tools.list_ports.comports():
+            if any(h in p.device for h in hints):
+                return p.device
+        return None
+
+    def run(self):
+        while True:
+            port = self.find_port()
+            if not port:
+                if self.port and not self.port.startswith("/dev"):
+                    pass                      # readings arrive over the network
+                else:
+                    self.port = None
+                time.sleep(2)
+                continue
+            try:
+                with serial.Serial(port, SENSOR_BAUD, timeout=1) as ser:
+                    self.port, self.error = port, None
+                    while True:
+                        line = ser.readline().decode(errors="replace").strip()
+                        if not line.startswith("D "):
+                            continue
+                        try:
+                            cm = int(line[2:])
+                        except ValueError:
+                            continue
+                        now = time.time()
+                        self.cm = None if cm < 0 else cm
+                        self.at = now
+                        self.history.append((now, self.cm))
+            except (serial.SerialException, OSError) as ex:
+                self.error = f"sensor on {port}: {ex}"
+                self.port = None
+                time.sleep(2)
+
+    def report(self, cm, source="wifi"):
+        """A reading pushed over the network by the sensor board."""
+        now = time.time()
+        self.port, self.error = source, None
+        self.cm = None if cm < 0 else int(cm)
+        self.at = now
+        self.history.append((now, self.cm))
+
+    def online(self):
+        return self.port is not None and time.time() - self.at < SENSOR_STALE_S
+
+    def blocked(self):
+        if not (self.enabled and self.online()) or self.cm is None:
+            self._blocked = False
+        elif self._blocked:
+            self._blocked = self.cm < self.stop_cm + RELEASE_CM
+        else:
+            self._blocked = self.cm < self.stop_cm
+        return self._blocked
+
+    def state(self):
+        now = time.time()
+        return {"port": self.port, "online": self.online(), "cm": self.cm, "age": round(now - self.at, 1) if self.at else None,
+                "enabled": self.enabled, "stop_cm": self.stop_cm, "blocked": self.blocked(), "error": self.error,
+                "history": [[round(t - now, 2), c] for t, c in self.history]}
+
+
 class Radio:
     def __init__(self, args):
         self.args = args
+        self.proximity = Proximity(args.sensor, args.stop_cm)
+        self.guard_stops = 0                       # how often the safety stop has kicked in
         self.lock = threading.Lock()
         self.channel = CHANNELS[0]
         self.proc = None
@@ -256,6 +357,13 @@ class Radio:
         vehicle, name = key
         return self.labels.get(vehicle, {}).get(name)
 
+    def guarded(self, key):
+        """The control actually sent: idle (or None = stop) while someone is too close."""
+        if key is None or key[1] == "idle" or not self.proximity.blocked():
+            return key
+        idle = (key[0], "idle")
+        return idle if self.label(idle) else None
+
     def transmit(self, key):
         """Stream frames to one hackrf_transfer process; swap the packet without restarting.
 
@@ -270,11 +378,17 @@ class Radio:
         cmd = ["hackrf_transfer", "-t", "-", "-f", str(int((mhz + 1) * 1e6)),
                "-s", str(int(self.fs)), "-x", str(TX_GAIN), "-a", "0"]
         self.proc = subprocess.Popen(cmd, stdin=subprocess.PIPE, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)
-        frames, cur, retune = {}, None, False
+        frames, cur, retune, guarding = {}, None, False, False
         try:
             while self.tx_label and self.proc.poll() is None:
-                if self.tx_label != cur:
-                    cur = self.tx_label
+                want = self.guarded(self.tx_label)
+                if want != self.tx_label and not guarding:
+                    self.guard_stops += 1
+                guarding = want != self.tx_label
+                if want is None:               # too close and no idle packet saved: stop
+                    break
+                if want != cur:
+                    cur = want
                     label = self.label(cur)
                     if not label:
                         break
@@ -399,6 +513,8 @@ class Radio:
             return {
                 "error": self.error,
                 "transmitting": dict(zip(("vehicle", "name"), self.tx_label)) if self.tx_label else None,
+                "proximity": self.proximity.state(),
+                "guard_stops": self.guard_stops,
                 "vehicles": VEHICLES,
                 "source": "file" if self.args.file else "hackrf",
                 "channel": self.channel,
@@ -470,6 +586,22 @@ class Handler(BaseHTTPRequestHandler):
             name = data.get("name")
             ok = self.radio.drive(vehicle, None if name in (None, "") else str(name))
             return self.send_json({"ok": ok}, 200 if ok else 404)
+        if self.path == "/api/proximity":        # pushed by the ESP32 over WiFi
+            try:
+                self.radio.proximity.report(int(data["cm"]), data.get("source", "wifi"))
+            except (KeyError, TypeError, ValueError):
+                return self.send_json({"ok": False}, 400)
+            return self.send_json({"ok": True})
+        if self.path == "/api/guard":
+            prox = self.radio.proximity
+            if "enabled" in data:
+                prox.enabled = bool(data["enabled"])
+            if "stop_cm" in data:
+                try:
+                    prox.stop_cm = max(10, min(400, int(data["stop_cm"])))
+                except (TypeError, ValueError):
+                    return self.send_json({"ok": False}, 400)
+            return self.send_json({"ok": True})
         if self.path == "/api/channel":
             mhz = data.get("mhz")
             if mhz not in CHANNELS:
@@ -484,6 +616,8 @@ def main():
     ap.add_argument("--file", help="replay an int8 IQ capture instead of using the HackRF")
     ap.add_argument("--fs", type=float, default=8e6, help="sample rate (default 8e6)")
     ap.add_argument("--offset", type=float, default=0, help="with --file: channel offset from centre, Hz")
+    ap.add_argument("--sensor", help="serial port of the HC-SR04 board (default: first USB serial port found)")
+    ap.add_argument("--stop-cm", type=int, default=STOP_CM, help=f"safety-stop distance in cm (default {STOP_CM} = 5 ft)")
     args = ap.parse_args()
 
     radio = Radio(args)
@@ -491,7 +625,8 @@ def main():
     threading.Thread(target=radio.reader, daemon=True).start()
     threading.Thread(target=radio.worker, daemon=True).start()
     print(f"Truck remote dashboard: http://localhost:{PORT}")
-    ThreadingHTTPServer(("127.0.0.1", PORT), Handler).serve_forever()
+    # 0.0.0.0 so the sensor board on the WiFi can post readings; the page itself is still local-network only.
+    ThreadingHTTPServer(("0.0.0.0", PORT), Handler).serve_forever()
 
 
 if __name__ == "__main__":

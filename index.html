@@ -105,6 +105,7 @@ td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
     <div class="card tile"><div class="k">Signal above noise</div><div class="v"><span id="tSnr">–</span><span class="u">dB</span></div></div>
     <div class="card tile"><div class="k">Noise floor</div><div class="v"><span id="tNoise">–</span><span class="u">dBFS</span></div></div>
     <div class="card tile"><div class="k">Distinct payloads seen</div><div class="v"><span id="tSeen">–</span></div></div>
+    <div class="card tile" id="tProxCard"><div class="k">Person distance</div><div class="v"><span id="tProx">–</span><span class="u" id="tProxU">ft</span></div><div class="sub" id="tProxSub" style="margin:4px 0 0">No sensor</div></div>
   </section>
 
   <section class="card" style="margin-bottom:12px" id="driveCard">
@@ -112,6 +113,11 @@ td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
     <div class="sub">Hold a button, an arrow key, or W / S (lift up / down) to transmit that saved control; release to send <b>idle</b> (or stop if none is saved)</div>
     <div class="row" id="drive" style="margin-top:4px"><span class="empty">Save controls from the remote first.</span></div>
     <div class="msg" id="driveMsg"></div>
+    <div class="row" id="guardRow" style="margin-top:8px;align-items:center;gap:10px">
+      <label style="display:flex;align-items:center;gap:6px"><input type="checkbox" id="guardOn" checked> Safety stop</label>
+      <label style="display:flex;align-items:center;gap:6px">within <input type="range" id="guardFt" min="1" max="8" step="0.5" value="5" style="width:120px"> <span id="guardFtV">5 ft</span></label>
+      <span class="sub" id="guardMsg" style="margin:0"></span>
+    </div>
   </section>
 
   <section class="charts">
@@ -266,6 +272,10 @@ $('vehicles').onclick = e => { const b = e.target.closest('button'); if (!b || b
   vehicle = b.dataset.v; try { localStorage.setItem('vehicle', vehicle); } catch (err) {}
   $('msg').textContent = $('driveMsg').textContent = ''; if (state) render(state); };
 $('channels').onclick = e => { if (e.target.dataset.mhz) post('/api/channel', { mhz: +e.target.dataset.mhz }); };
+let guardTouched = 0;   // don't let polling overwrite the slider while it's being dragged
+$('guardOn').onchange = e => { guardTouched = Date.now(); post('/api/guard', { enabled: e.target.checked }); };
+$('guardFt').oninput = e => { guardTouched = Date.now(); $('guardFtV').textContent = `${e.target.value} ft`; };
+$('guardFt').onchange = e => { guardTouched = Date.now(); post('/api/guard', { stop_cm: Math.round(e.target.value * 30.48) }); };
 
 function render(s) {
   if (!s.vehicles.includes(vehicle)) vehicle = s.vehicles[0];
@@ -291,6 +301,18 @@ function render(s) {
   $('tSnr').textContent = s.snr_db == null ? '–' : s.snr_db.toFixed(0);
   $('tNoise').textContent = s.noise_db == null ? '–' : s.noise_db.toFixed(0);
   $('tSeen').textContent = s.seen.length;
+  const px = s.proximity || {};
+  const ft = px.cm == null ? null : px.cm / 30.48;
+  $('tProx').textContent = !px.online ? '–' : ft == null ? '>14' : ft.toFixed(1);
+  $('tProxCard').style.borderColor = px.online && px.blocked ? '#e5484d' : '';
+  $('tProxSub').textContent = px.error ? px.error : !px.port ? 'No sensor (plug in or power the ESP32)' : !px.online ? `Sensor silent for ${px.age ?? '?'} s`
+    : px.blocked ? 'TOO CLOSE: movement held' : px.cm == null ? 'Nothing in range' : `${px.cm} cm · via ${px.port.startsWith('/dev') ? 'USB' : px.port}`;
+  if (Date.now() - guardTouched > 1500) {
+    $('guardOn').checked = !!px.enabled;
+    const v = Math.round(px.stop_cm / 30.48 * 2) / 2; $('guardFt').value = v; $('guardFtV').textContent = `${v} ft`;
+  }
+  $('guardMsg').textContent = !px.enabled ? 'Off: the truck will not stop for people.' : !px.online ? 'Armed, waiting for the sensor.'
+    : px.blocked ? `Holding ${tx ? `“${tx.name}”` : 'drive'}: someone is ${ft.toFixed(1)} ft away.` : s.guard_stops ? `Clear. Stopped ${s.guard_stops} time${s.guard_stops === 1 ? '' : 's'} so far.` : 'Clear.';
 
   lineChart($('cRate'), { label: 'Packet rate', xs: s.rate_history.map(p => p[0]), ys: s.rate_history.map(p => p[1]),
     xDomain: [-15, 0], yDomain: [0, 250], yTicks: [0, 50, 100, 150, 200, 250], xTicks: [-15, -10, -5, 0],
