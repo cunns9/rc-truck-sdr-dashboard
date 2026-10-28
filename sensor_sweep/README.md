@@ -17,3 +17,6 @@ white Trig=pin 4, blue Echo=pin 5 via breadboard divider), yet zero echo in ever
 peak on pin 5 < 0.2 V after trigger. Sensor end / breadboard still unverified; next step
 is the 4-wire direct test at 3V3 (VCC->3V3, Trig->4, Echo->5 direct, GND->GND) and, if
 still silent, swap the HC-SR04 module.
+
+Resolved 2026-10-28: moved the HC-SR04 to a 5 V Elegoo Mega 2560 (Trig D9, Echo D10,
+direct) and it worked immediately. See docs/PROGRESS.md.

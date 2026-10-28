@@ -1,5 +1,9 @@
-// HC-SR04 proximity sensor for the truck dashboard (ESP32).
+// HC-SR04 proximity sensor for the truck dashboard (ESP32 or Elegoo Mega 2560).
 //
+// Mega 2560 wiring (5 V board, no divider needed):
+//          HC-SR04 VCC -> 5V   GND -> GND   TRIG -> D9   ECHO -> D10
+//
+// ESP32 wiring:
 // Wiring:  HC-SR04 VCC -> 5V (VIN)   GND -> GND
 //          TRIG -> GPIO 5
 //          ECHO -> GPIO 18 through a divider (ECHO -> 1k -> GPIO18 -> 2k -> GND),
@@ -8,8 +12,13 @@
 // Prints one line per reading at ~20 Hz:  "D <cm>"  (-1 = no echo / out of range)
 // The dashboard server reads these over USB serial (115200 baud).
 
+#ifdef ARDUINO_AVR_MEGA2560
+const int TRIG = 9;
+const int ECHO = 10;
+#else
 const int TRIG = 5;
 const int ECHO = 18;
+#endif
 const unsigned long TIMEOUT_US = 25000;   // ~4.3 m round trip; beyond that report -1
 
 long readOnce() {
