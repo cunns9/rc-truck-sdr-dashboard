@@ -52,6 +52,11 @@ SENSOR_BAUD = 115200
 CAMERA_BAUD = 460800     # fastest the Mac's CH340 driver handles reliably (921600 garbles)
 CAMERA_VIDS = (0x1a86,)  # CH340 USB chip on the ESP32-CAM-MB
 CAMERA_STALE_S = 2.0
+DETECT_MODEL = os.path.join(HERE, "models", "yolo11n.pt")   # downloaded on first run if missing
+DETECT_CONF = 0.4        # minimum YOLO confidence to count a detection
+LIVING = {"person", "bird", "cat", "dog", "horse", "sheep", "cow", "elephant", "bear", "zebra", "giraffe"}
+DETECT_IMGSZ = 320       # matches the camera's 320x240 frames
+STARTED = time.time()
 TX_FRAME_PATH = os.path.join(HERE, "tx_frame.iq")
 
 
@@ -388,11 +393,89 @@ class Camera:
                 "kb": round(len(self.jpeg) / 1024, 1) if self.jpeg else None, "error": self.error}
 
 
+class Detector:
+    """Runs YOLO on every camera frame and keeps a copy with boxes drawn.
+
+    Everything the model knows (80 COCO classes) is reported; people and animals count as
+    "living" (red boxes), everything else as objects (grey boxes).
+
+    Exposes jpeg / at / wait_frame like Camera, so the dashboard can stream either one.
+    Needs `pip install ultralytics`; without it the dashboard shows the plain camera.
+    """
+
+    def __init__(self, camera):
+        self.camera = camera
+        self.jpeg = None
+        self.at = 0.0
+        self.found = []                            # [{"name", "living", "conf", "box": [x1, y1, x2, y2] as 0-1 fractions}]
+        self.ms = None
+        self.ready = False
+        self.error = None
+        self.cond = threading.Condition()
+        threading.Thread(target=self.run, daemon=True).start()
+
+    def run(self):
+        try:
+            import cv2
+            import torch
+            from ultralytics import YOLO
+            model = YOLO(DETECT_MODEL if os.path.exists(DETECT_MODEL) else os.path.basename(DETECT_MODEL))
+            device = "mps" if torch.backends.mps.is_available() else "cpu"
+        except Exception as ex:                    # missing package or model: keep the plain camera
+            self.error = f"person detection off: {ex}"
+            return
+        self.ready = True
+        last = 0.0
+        while True:
+            jpeg, at = self.camera.wait_frame(last)
+            if not jpeg or at <= last:
+                continue
+            last = at
+            img = cv2.imdecode(np.frombuffer(jpeg, np.uint8), cv2.IMREAD_COLOR)
+            if img is None:
+                continue
+            t = time.time()
+            r = model.predict(img, imgsz=DETECT_IMGSZ, conf=DETECT_CONF, device=device, verbose=False)[0]
+            ms = (time.time() - t) * 1e3
+            h, w = img.shape[:2]
+            found = []
+            for (x1, y1, x2, y2), conf, cls in zip(r.boxes.xyxy.tolist(), r.boxes.conf.tolist(), r.boxes.cls.tolist()):
+                name = model.names[int(cls)]
+                living = name in LIVING
+                found.append({"name": name, "living": living, "conf": round(conf, 2),
+                              "box": [round(x1 / w, 3), round(y1 / h, 3), round(x2 / w, 3), round(y2 / h, 3)]})
+                color = (77, 72, 229) if living else (170, 170, 170)    # BGR: red for living, grey for objects
+                cv2.rectangle(img, (int(x1), int(y1)), (int(x2), int(y2)), color, 2 if living else 1)
+                cv2.putText(img, f"{name} {conf:.0%}", (int(x1) + 3, max(12, int(y1) - 4)),
+                            cv2.FONT_HERSHEY_SIMPLEX, 0.45, color, 1, cv2.LINE_AA)
+            ok, buf = cv2.imencode(".jpg", img, [cv2.IMWRITE_JPEG_QUALITY, 80])
+            if not ok:
+                continue
+            with self.cond:
+                self.jpeg, self.at, self.found, self.ms = buf.tobytes(), at, found, ms
+                self.cond.notify_all()
+
+    def wait_frame(self, after, timeout=5):
+        with self.cond:
+            self.cond.wait_for(lambda: self.at > after, timeout)
+            return self.jpeg, self.at
+
+    def state(self):
+        fresh = time.time() - self.at < CAMERA_STALE_S
+        found = self.found if fresh else []
+        living = [f for f in found if f["living"]]
+        return {"ready": self.ready, "error": self.error, "fresh": fresh,
+                "living": len(living), "persons": sum(f["name"] == "person" for f in found),
+                "best_conf": max((f["conf"] for f in living), default=None),
+                "found": found, "ms": round(self.ms, 1) if self.ms is not None else None}
+
+
 class Radio:
     def __init__(self, args):
         self.args = args
         self.proximity = Proximity(args.sensor, args.stop_cm, args.camera)
         self.camera = Camera(args.camera)
+        self.detector = None if args.no_detect else Detector(self.camera)
         self.guard_stops = 0                       # how often the safety stop has kicked in
         self.lock = threading.Lock()
         self.channel = CHANNELS[0]
@@ -623,10 +706,12 @@ class Radio:
             rates = [v for t, v in self.rate_history if t > now - 1.0]
             center = (2410 if self.args.file else self.channel + 1)
             return {
+                "started": STARTED,                # lets the page notice a server restart
                 "error": self.error,
                 "transmitting": dict(zip(("vehicle", "name"), self.tx_label)) if self.tx_label else None,
                 "proximity": self.proximity.state(),
                 "camera": self.camera.state(),
+                "detect": self.detector.state() if self.detector else {"ready": False, "error": "off (--no-detect)"},
                 "guard_stops": self.guard_stops,
                 "vehicles": VEHICLES,
                 "source": "file" if self.args.file else "hackrf",
@@ -679,8 +764,10 @@ class Handler(BaseHTTPRequestHandler):
             self.send_header("Content-Length", str(len(jpeg)))
             self.end_headers()
             return self.wfile.write(jpeg)
-        if path == "/api/camera.mjpg":           # live view for the dashboard
-            return self.stream_camera()
+        if path == "/api/camera.mjpg":           # live view; boxes drawn when detection is running
+            det = self.radio.detector
+            raw = "raw=1" in self.path or not (det and det.ready)
+            return self.stream_camera(self.radio.camera if raw else det)
         if self.path in ("/", "/index.html"):
             with open(os.path.join(HERE, "index.html"), "rb") as f:
                 body = f.read()
@@ -692,8 +779,7 @@ class Handler(BaseHTTPRequestHandler):
             return self.wfile.write(body)
         self.send_error(404)
 
-    def stream_camera(self):
-        cam = self.radio.camera
+    def stream_camera(self, cam):
         self.send_response(200)
         self.send_header("Content-Type", "multipart/x-mixed-replace; boundary=frame")
         self.send_header("Cache-Control", "no-store")
@@ -762,6 +848,7 @@ def main():
     ap.add_argument("--offset", type=float, default=0, help="with --file: channel offset from centre, Hz")
     ap.add_argument("--sensor", help="serial port of the HC-SR04 board (default: first USB serial port found)")
     ap.add_argument("--camera", help="serial port of the ESP32-CAM (default: the CH340 USB port)")
+    ap.add_argument("--no-detect", action="store_true", help="don't run YOLO person detection on the camera")
     ap.add_argument("--stop-cm", type=int, default=STOP_CM, help=f"safety-stop distance in cm (default {STOP_CM} = 5 ft)")
     args = ap.parse_args()
 

@@ -6,6 +6,8 @@ tractor) from the Mac, plus a person-proximity safety stop and an on-truck camer
 Run the dashboard: `python3 server.py` then open http://localhost:8642
 (stop it with `pkill -f server.py`).
 
+**Starting a new class? Read [NEXT_CLASS.md](NEXT_CLASS.md) first.**
+
 ## Hardware
 
 | Part | Role | Status |
@@ -58,6 +60,22 @@ Run the dashboard: `python3 server.py` then open http://localhost:8642
 - Dashboard "Truck camera" card shows the live view. Working 2026-10-28 (the first
   frames were black until the lens was uncovered / pointed at something).
 
+### Detection on the camera (YOLO)
+- `ultralytics` 8.4 + `torchvision` 0.23 installed for the system `python3` (3.9, torch
+  2.8 was already there; numpy pinned at 2.0.2). Model `models/yolo11n.pt` (5 MB,
+  git-ignored, auto-downloads if missing). Runs on the Mac GPU (MPS), ~15-30 ms/frame.
+- `server.py` `Detector` class runs on every camera frame, draws boxes, and reports
+  everything the model knows (80 COCO classes). People and animals (person, bird, cat,
+  dog, horse, sheep, cow, elephant, bear, zebra, giraffe) count as **living** (red box);
+  everything else is an **object** (grey box). `--no-detect` turns it off.
+- Dashboard camera card: "Living in view: ..." / "Objects: ...", red border when
+  something living is seen. The page re-attaches the video after a server restart.
+- Limits: unknown things (paper, boxes, walls) aren't detected at all, which is why the
+  distance sensor stays. Toy animals / photos probably count as living (safe direction).
+  Close-up, partial views can be wrong: a close-up of a chin was called "bird".
+- **Not yet verified on a whole person** (camera kept pointing at the ceiling/chair).
+  Detection does NOT trigger the safety stop yet.
+
 ### Documentation media
 - C920 recordings and photos are kept in `docs/recordings/` (local only, git-ignored
   via `.git/info/exclude`; decide later whether to commit them). Video only, no audio.
@@ -67,7 +85,8 @@ Run the dashboard: `python3 server.py` then open http://localhost:8642
    would cut its internet. Options: plug Ethernet back in (preferred), put the camera on
    the lab WiFi (needs credentials from the professor), or add a USB WiFi adapter.
    Meanwhile, view the stream from a phone.
-2. Person detection (YOLO) on `/api/camera.jpg`; switch the camera to WiFi once networking is sorted.
+2. Verify detection on a whole person 1-2 m away, then make "living in view" hold the
+   truck like the distance sensor does. Switch the camera to WiFi once networking is sorted.
 3. Wire the TFmini-S to the ESP32-CAM and send its distance to `/api/proximity`.
 4. **Radio interference:** the truck remote uses 2415/2435/2470 MHz, which overlaps every
    WiFi channel. Test driving with the stream running; lower the resolution or move the

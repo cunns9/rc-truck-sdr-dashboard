@@ -111,6 +111,7 @@ td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
   <section class="card" style="margin-bottom:12px" id="camCard">
     <h2>Truck camera</h2>
     <div class="sub" id="camSub">Looking for the ESP32-CAM…</div>
+    <div class="sub" id="camPeople" style="margin:2px 0 0;font-weight:600"></div>
     <img id="camImg" alt="Live view from the truck camera" style="display:block;width:100%;max-width:640px;aspect-ratio:4/3;background:#000;border-radius:8px;margin-top:6px">
   </section>
 
@@ -325,8 +326,20 @@ function render(s) {
   const cam = s.camera || {};
   $('camSub').textContent = cam.error ? cam.error : !cam.port ? 'No camera (plug the ESP32-CAM board into USB)'
     : !cam.online ? 'Camera connected, waiting for frames…' : `${cam.fps} frames/s · ${cam.kb} KB per frame · via USB`;
-  if (cam.online && !camLive) { $('camImg').src = `/api/camera.mjpg?t=${Date.now()}`; camLive = true; }
+  const det = s.detect || {};
+  // Reattach the stream when detection comes up or the server restarts (the old stream dies silently).
+  const camWant = `${s.started}:${det.ready ? 'boxes' : 'raw'}`;
+  if (cam.online && camLive !== camWant) { $('camImg').src = `/api/camera.mjpg?t=${Date.now()}`; camLive = camWant; }
   if (!cam.online) camLive = false;
+  const seen = cam.online && det.ready && det.fresh && det.living > 0;
+  const tally = list => Object.entries(list.reduce((m, f) => (m[f.name] = (m[f.name] || 0) + 1, m), {}))
+    .map(([n, c]) => c > 1 ? `${c} ${n}s` : n).join(', ');
+  const found = det.found || [];
+  const alive = tally(found.filter(f => f.living)), things = tally(found.filter(f => !f.living));
+  $('camPeople').textContent = !cam.online ? '' : det.error ? det.error : !det.ready ? 'Detection starting…'
+    : (seen ? `Living in view: ${alive}` : 'No people or animals in view') + (things ? ` · Objects: ${things}` : '');
+  $('camPeople').style.color = seen ? '#e5484d' : '';
+  $('camCard').style.borderColor = seen ? '#e5484d' : '';
 
   lineChart($('cRate'), { label: 'Packet rate', xs: s.rate_history.map(p => p[0]), ys: s.rate_history.map(p => p[1]),
     xDomain: [-15, 0], yDomain: [0, 250], yTicks: [0, 50, 100, 150, 200, 250], xTicks: [-15, -10, -5, 0],
