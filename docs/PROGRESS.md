@@ -45,6 +45,19 @@ Run the dashboard: `python3 server.py` then open http://localhost:8642
   - `http://192.168.4.1/capture` single JPEG (for person detection)
   - Flash: `arduino-cli upload -p /dev/cu.usbserial-* --fqbn esp32:esp32:esp32cam truckcam`
 
+### Truck camera on the dashboard (USB bench mode)
+- The Mac has no Ethernet right now, so joining TruckCam WiFi would cut its internet.
+  For bench work the dashboard pulls frames over the camera's USB cable instead.
+- Protocol (truckcam sketch): boots at 115200; "f" -> "JPG" + 4-byte LE length + JPEG,
+  "q"/"v" = 320x240/640x480, "b" + 4-byte LE baud changes speed. The Mac's CH340 driver
+  is only reliable up to 460800 baud (921600 and 2M garble), giving ~7-14 frames/s at
+  320x240.
+- `server.py` `Camera` class finds the CH340 port (USB vendor 0x1a86), reboots the board
+  into a known state, and serves `/api/camera.mjpg` (live) and `/api/camera.jpg` (latest
+  frame). The distance-sensor reader skips that port. Override with `--camera <port>`.
+- Dashboard "Truck camera" card shows the live view. Working 2026-10-28 (the first
+  frames were black until the lens was uncovered / pointed at something).
+
 ### Documentation media
 - C920 recordings and photos are kept in `docs/recordings/` (local only, git-ignored
   via `.git/info/exclude`; decide later whether to commit them). Video only, no audio.
@@ -54,7 +67,7 @@ Run the dashboard: `python3 server.py` then open http://localhost:8642
    would cut its internet. Options: plug Ethernet back in (preferred), put the camera on
    the lab WiFi (needs credentials from the professor), or add a USB WiFi adapter.
    Meanwhile, view the stream from a phone.
-2. Embed the camera stream in the dashboard and add person detection (YOLO) on the Mac.
+2. Person detection (YOLO) on `/api/camera.jpg`; switch the camera to WiFi once networking is sorted.
 3. Wire the TFmini-S to the ESP32-CAM and send its distance to `/api/proximity`.
 4. **Radio interference:** the truck remote uses 2415/2435/2470 MHz, which overlaps every
    WiFi channel. Test driving with the stream running; lower the resolution or move the

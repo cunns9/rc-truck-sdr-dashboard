@@ -7,6 +7,11 @@
 //   http://192.168.4.1:81/stream MJPEG stream (for the dashboard)
 //   http://192.168.4.1/capture   one JPEG (for person detection)
 //
+// USB mode (no WiFi needed, bench only): the Mac sends "f" and gets back
+// "JPG" + 4-byte little-endian length + the JPEG. "q" switches to 320x240, "v" to
+// 640x480, "b" + 4-byte little-endian baud changes the serial speed (boots at 115200).
+// server.py uses this (Camera class).
+//
 // Flash: arduino-cli compile/upload --fqbn esp32:esp32:esp32cam
 // The MB enters upload mode by itself; no buttons needed.
 
@@ -17,6 +22,7 @@
 const char *AP_SSID = "TruckCam";
 const char *AP_PASS = "truckcam2026";
 const int AP_CHANNEL = 6;   // 2.4 GHz overlaps the truck remote; change if driving glitches
+const unsigned long USB_BAUD = 115200;
 
 // AI-Thinker ESP32-CAM pin map
 #define PWDN_GPIO_NUM  32
@@ -94,7 +100,7 @@ void startServers() {
 }
 
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(USB_BAUD);
   pinMode(FLASH_LED, OUTPUT);
   digitalWrite(FLASH_LED, LOW);
 
@@ -133,7 +139,30 @@ void setup() {
   startServers();
 }
 
+void sendFrameUsb() {
+  camera_fb_t *fb = esp_camera_fb_get();
+  if (!fb) return;
+  uint32_t n = fb->len;
+  Serial.write((const uint8_t *)"JPG", 3);
+  Serial.write((const uint8_t *)&n, 4);   // ESP32 is little-endian
+  Serial.write(fb->buf, n);
+  esp_camera_fb_return(fb);
+}
+
 void loop() {
-  delay(5000);
-  Serial.printf("clients %d\n", WiFi.softAPgetStationNum());
+  while (Serial.available()) {
+    char c = Serial.read();
+    sensor_t *s = esp_camera_sensor_get();
+    if (c == 'f') sendFrameUsb();
+    else if (c == 'q' && s) s->set_framesize(s, FRAMESIZE_QVGA);
+    else if (c == 'v' && s) s->set_framesize(s, FRAMESIZE_VGA);
+    else if (c == 'b') {
+      uint32_t baud = 0;
+      if (Serial.readBytes((char *)&baud, 4) == 4 && baud >= 9600 && baud <= 3000000) {
+        Serial.flush();
+        Serial.updateBaudRate(baud);
+      }
+    }
+  }
+  delay(1);
 }

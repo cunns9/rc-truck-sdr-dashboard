@@ -108,6 +108,12 @@ td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
     <div class="card tile" id="tProxCard"><div class="k">Person distance</div><div class="v"><span id="tProx">–</span><span class="u" id="tProxU">ft</span></div><div class="sub" id="tProxSub" style="margin:4px 0 0">No sensor</div></div>
   </section>
 
+  <section class="card" style="margin-bottom:12px" id="camCard">
+    <h2>Truck camera</h2>
+    <div class="sub" id="camSub">Looking for the ESP32-CAM…</div>
+    <img id="camImg" alt="Live view from the truck camera" style="display:block;width:100%;max-width:640px;aspect-ratio:4/3;background:#000;border-radius:8px;margin-top:6px">
+  </section>
+
   <section class="card" style="margin-bottom:12px" id="driveCard">
     <h2 id="driveTitle">Drive</h2>
     <div class="sub">Hold a button, an arrow key, or W / S (lift up / down) to transmit that saved control; release to send <b>idle</b> (or stop if none is saved)</div>
@@ -272,6 +278,8 @@ $('vehicles').onclick = e => { const b = e.target.closest('button'); if (!b || b
   vehicle = b.dataset.v; try { localStorage.setItem('vehicle', vehicle); } catch (err) {}
   $('msg').textContent = $('driveMsg').textContent = ''; if (state) render(state); };
 $('channels').onclick = e => { if (e.target.dataset.mhz) post('/api/channel', { mhz: +e.target.dataset.mhz }); };
+let camLive = false;   // is the <img> currently attached to the MJPEG stream?
+$('camImg').onerror = () => { camLive = false; };
 let guardTouched = 0;   // don't let polling overwrite the slider while it's being dragged
 $('guardOn').onchange = e => { guardTouched = Date.now(); post('/api/guard', { enabled: e.target.checked }); };
 $('guardFt').oninput = e => { guardTouched = Date.now(); $('guardFtV').textContent = `${e.target.value} ft`; };
@@ -313,6 +321,12 @@ function render(s) {
   }
   $('guardMsg').textContent = !px.enabled ? 'Off: the truck will not stop for people.' : !px.online ? 'Armed, waiting for the sensor.'
     : px.blocked ? `Holding ${tx ? `“${tx.name}”` : 'drive'}: someone is ${ft.toFixed(1)} ft away.` : s.guard_stops ? `Clear. Stopped ${s.guard_stops} time${s.guard_stops === 1 ? '' : 's'} so far.` : 'Clear.';
+
+  const cam = s.camera || {};
+  $('camSub').textContent = cam.error ? cam.error : !cam.port ? 'No camera (plug the ESP32-CAM board into USB)'
+    : !cam.online ? 'Camera connected, waiting for frames…' : `${cam.fps} frames/s · ${cam.kb} KB per frame · via USB`;
+  if (cam.online && !camLive) { $('camImg').src = `/api/camera.mjpg?t=${Date.now()}`; camLive = true; }
+  if (!cam.online) camLive = false;
 
   lineChart($('cRate'), { label: 'Packet rate', xs: s.rate_history.map(p => p[0]), ys: s.rate_history.map(p => p[1]),
     xDomain: [-15, 0], yDomain: [0, 250], yTicks: [0, 50, 100, 150, 200, 250], xTicks: [-15, -10, -5, 0],

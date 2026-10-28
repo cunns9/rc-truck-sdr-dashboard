@@ -11,6 +11,7 @@ import argparse
 import collections
 import json
 import os
+import struct
 import subprocess
 import threading
 import time
@@ -48,6 +49,9 @@ STOP_CM = 152            # safety stop when someone is closer than this (5 ft)
 RELEASE_CM = 15          # hysteresis: resume only once this much farther away
 SENSOR_STALE_S = 1.0     # no reading for this long -> treat as "sensor offline"
 SENSOR_BAUD = 115200
+CAMERA_BAUD = 460800     # fastest the Mac's CH340 driver handles reliably (921600 garbles)
+CAMERA_VIDS = (0x1a86,)  # CH340 USB chip on the ESP32-CAM-MB
+CAMERA_STALE_S = 2.0
 TX_FRAME_PATH = os.path.join(HERE, "tx_frame.iq")
 
 
@@ -189,6 +193,13 @@ def migrate_labels(labels):
     return labels
 
 
+def is_camera_port(p, camera_arg=None):
+    """True for the serial port the ESP32-CAM is on (so the sensor reader leaves it alone)."""
+    if camera_arg:
+        return p.device == camera_arg
+    return p.vid in CAMERA_VIDS
+
+
 class Proximity:
     """Reads "D <cm>" lines from the HC-SR04 sketch over USB serial.
 
@@ -196,8 +207,9 @@ class Proximity:
     With no sensor connected the guard simply stays clear.
     """
 
-    def __init__(self, port=None, stop_cm=STOP_CM):
+    def __init__(self, port=None, stop_cm=STOP_CM, camera_arg=None):
         self.port_arg = port
+        self.camera_arg = camera_arg
         self.port = None
         self.cm = None
         self.at = 0.0
@@ -216,7 +228,7 @@ class Proximity:
             return self.port_arg
         hints = ("usbserial", "usbmodem", "SLAB", "wchusbserial", "ttyUSB", "ttyACM")
         for p in serial.tools.list_ports.comports():
-            if any(h in p.device for h in hints):
+            if any(h in p.device for h in hints) and not is_camera_port(p, self.camera_arg):
                 return p.device
         return None
 
@@ -277,10 +289,110 @@ class Proximity:
                 "history": [[round(t - now, 2), c] for t, c in self.history]}
 
 
+class Camera:
+    """Pulls JPEG frames from the ESP32-CAM (truckcam sketch) over USB serial.
+
+    Bench mode until the Mac can join the TruckCam WiFi. Each "f" sent returns
+    "JPG" + 4-byte little-endian length + the JPEG.
+    """
+
+    def __init__(self, port=None):
+        self.port_arg = port
+        self.port = None
+        self.jpeg = None
+        self.at = 0.0
+        self.error = None
+        self.times = collections.deque(maxlen=20)
+        self.cond = threading.Condition()
+        if serial:
+            threading.Thread(target=self.run, daemon=True).start()
+        else:
+            self.error = "pyserial not installed (python3 -m pip install pyserial)"
+
+    def find_port(self):
+        for p in serial.tools.list_ports.comports():
+            if is_camera_port(p, self.port_arg):
+                return p.device
+        return None
+
+    def open(self, port):
+        ser = serial.Serial()
+        ser.port, ser.baudrate, ser.timeout = port, 115200, 1
+        ser.dtr = ser.rts = False      # the MB wires these to EN/IO0; leave the board running
+        ser.open()
+        ser.rts = True                 # pulse EN: reboot into a known state (115200, no stale speed)
+        time.sleep(0.1)
+        ser.rts = False
+        time.sleep(2.5)
+        ser.write(b"q" + b"b" + struct.pack("<I", CAMERA_BAUD))   # 320x240, then switch speed
+        ser.flush()
+        time.sleep(0.1)
+        ser.baudrate = CAMERA_BAUD
+        time.sleep(0.1)
+        return ser
+
+    def grab(self, ser):
+        ser.reset_input_buffer()
+        ser.write(b"f")
+        tail, deadline = b"", time.time() + 2
+        while tail != b"JPG":
+            c = ser.read(1)
+            if not c or time.time() > deadline:
+                return None
+            tail = (tail + c)[-3:]
+        n = struct.unpack("<I", ser.read(4))[0]
+        if not 0 < n < 300000:
+            return None
+        data = ser.read(n)
+        return data if len(data) == n and data[:2] == b"\xff\xd8" else None
+
+    def run(self):
+        while True:
+            port = self.find_port()
+            if not port:
+                self.port = None
+                time.sleep(2)
+                continue
+            try:
+                with self.open(port) as ser:
+                    self.port, self.error, misses = port, None, 0
+                    while misses < 5:          # five bad frames in a row: reboot the board
+                        jpeg = self.grab(ser)
+                        if not jpeg:
+                            misses += 1
+                            continue
+                        misses = 0
+                        with self.cond:
+                            self.jpeg, self.at = jpeg, time.time()
+                            self.times.append(self.at)
+                            self.cond.notify_all()
+                    self.error = f"camera on {port} stopped answering; restarting it"
+            except (serial.SerialException, OSError) as ex:
+                self.error = f"camera on {port}: {ex}"
+                self.port = None
+                time.sleep(2)
+
+    def wait_frame(self, after, timeout=5):
+        """Block until a frame newer than `after` arrives; returns (jpeg, time)."""
+        with self.cond:
+            self.cond.wait_for(lambda: self.at > after, timeout)
+            return self.jpeg, self.at
+
+    def online(self):
+        return self.port is not None and time.time() - self.at < CAMERA_STALE_S
+
+    def state(self):
+        t = list(self.times)
+        fps = (len(t) - 1) / (t[-1] - t[0]) if len(t) > 1 and t[-1] > t[0] else 0
+        return {"port": self.port, "online": self.online(), "fps": round(fps, 1),
+                "kb": round(len(self.jpeg) / 1024, 1) if self.jpeg else None, "error": self.error}
+
+
 class Radio:
     def __init__(self, args):
         self.args = args
-        self.proximity = Proximity(args.sensor, args.stop_cm)
+        self.proximity = Proximity(args.sensor, args.stop_cm, args.camera)
+        self.camera = Camera(args.camera)
         self.guard_stops = 0                       # how often the safety stop has kicked in
         self.lock = threading.Lock()
         self.channel = CHANNELS[0]
@@ -514,6 +626,7 @@ class Radio:
                 "error": self.error,
                 "transmitting": dict(zip(("vehicle", "name"), self.tx_label)) if self.tx_label else None,
                 "proximity": self.proximity.state(),
+                "camera": self.camera.state(),
                 "guard_stops": self.guard_stops,
                 "vehicles": VEHICLES,
                 "source": "file" if self.args.file else "hackrf",
@@ -553,8 +666,21 @@ class Handler(BaseHTTPRequestHandler):
         self.wfile.write(body)
 
     def do_GET(self):
-        if self.path == "/api/state":
+        path = self.path.split("?")[0]
+        if path == "/api/state":
             return self.send_json(self.radio.state())
+        if path == "/api/camera.jpg":            # latest frame (for person detection)
+            jpeg = self.radio.camera.jpeg
+            if not jpeg:
+                return self.send_error(503, "no camera frame yet")
+            self.send_response(200)
+            self.send_header("Content-Type", "image/jpeg")
+            self.send_header("Cache-Control", "no-store")
+            self.send_header("Content-Length", str(len(jpeg)))
+            self.end_headers()
+            return self.wfile.write(jpeg)
+        if path == "/api/camera.mjpg":           # live view for the dashboard
+            return self.stream_camera()
         if self.path in ("/", "/index.html"):
             with open(os.path.join(HERE, "index.html"), "rb") as f:
                 body = f.read()
@@ -565,6 +691,24 @@ class Handler(BaseHTTPRequestHandler):
             self.end_headers()
             return self.wfile.write(body)
         self.send_error(404)
+
+    def stream_camera(self):
+        cam = self.radio.camera
+        self.send_response(200)
+        self.send_header("Content-Type", "multipart/x-mixed-replace; boundary=frame")
+        self.send_header("Cache-Control", "no-store")
+        self.end_headers()
+        last = 0.0
+        try:
+            while True:
+                jpeg, at = cam.wait_frame(last)
+                if at <= last:
+                    continue
+                last = at
+                self.wfile.write(b"--frame\r\nContent-Type: image/jpeg\r\nContent-Length: %d\r\n\r\n" % len(jpeg))
+                self.wfile.write(jpeg + b"\r\n")
+        except (BrokenPipeError, ConnectionResetError):
+            pass                                  # page closed
 
     def do_POST(self):
         n = int(self.headers.get("Content-Length") or 0)
@@ -617,6 +761,7 @@ def main():
     ap.add_argument("--fs", type=float, default=8e6, help="sample rate (default 8e6)")
     ap.add_argument("--offset", type=float, default=0, help="with --file: channel offset from centre, Hz")
     ap.add_argument("--sensor", help="serial port of the HC-SR04 board (default: first USB serial port found)")
+    ap.add_argument("--camera", help="serial port of the ESP32-CAM (default: the CH340 USB port)")
     ap.add_argument("--stop-cm", type=int, default=STOP_CM, help=f"safety-stop distance in cm (default {STOP_CM} = 5 ft)")
     args = ap.parse_args()
 
