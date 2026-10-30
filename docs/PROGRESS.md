@@ -80,16 +80,32 @@ Run the dashboard: `python3 server.py` then open http://localhost:8642
 - C920 recordings and photos are kept in `docs/recordings/` (local only, git-ignored
   via `.git/info/exclude`; decide later whether to commit them). Video only, no audio.
 
+## 2026-10-30: camera safety stop, first real stop test PASSED
+- **Person detection verified:** person found at 80-94% confidence, steady, with brief
+  (<1 s) dropouts while moving or partly in frame. A cup (Owala tumbler) was found as
+  "cup" up to 90% / "bottle" 87%, with the person boxed separately. Chairs, phones etc.
+  also show up as objects (grey) and never trigger the stop.
+- **Camera stop:** `Detector.blocked()` is true while a person/animal was seen in the last
+  `CAMERA_HOLD_S` (1 s, rides out the dropouts). `Radio.blocked()` = distance sensor OR
+  camera, used by `Radio.guarded()`. Dashboard "Camera stop" checkbox (POST /api/guard
+  {"camera": bool}); the status line says which one is holding. Like the sensor, a frozen
+  or unplugged camera clears the stop (fails open).
+- **First real safety-stop test PASSED:** driving the truck from the dashboard via the
+  HackRF, it drives with nobody in frame and does not move when a person is detected
+  (guard_stops reached 106). The distance-sensor stop was tested with the truck on 2026-10-28.
+- The physical remote bypasses the safety stop completely; drive from the dashboard.
+- The Wave Rover found in the lab is a separate project: ~/Desktop/Wave Rover.
+
 ## Open issues / next steps
 1. **Mac networking:** the Mac is on the lab WiFi (Ethernet inactive). Joining TruckCam
    would cut its internet. Options: plug Ethernet back in (preferred), put the camera on
    the lab WiFi (needs credentials from the professor), or add a USB WiFi adapter.
    Meanwhile, view the stream from a phone.
-2. Verify detection on a whole person 1-2 m away, then make "living in view" hold the
-   truck like the distance sensor does. Switch the camera to WiFi once networking is sorted.
+2. ~~Verify detection on a whole person, make "living in view" hold the truck~~ (done
+   2026-10-30). Switch the camera to WiFi once networking is sorted.
 3. Wire the TFmini-S to the ESP32-CAM and send its distance to `/api/proximity`.
 4. **Radio interference:** the truck remote uses 2415/2435/2470 MHz, which overlaps every
    WiFi channel. Test driving with the stream running; lower the resolution or move the
    channel if commands drop.
-5. First real safety-stop test: transmit a drive command with someone inside 5 ft.
+5. ~~First real safety-stop test~~ (done 2026-10-30, camera stop with the HackRF).
 6. Excavator and tractor: no controls captured yet.

@@ -123,6 +123,7 @@ td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
     <div class="row" id="guardRow" style="margin-top:8px;align-items:center;gap:10px">
       <label style="display:flex;align-items:center;gap:6px"><input type="checkbox" id="guardOn" checked> Safety stop</label>
       <label style="display:flex;align-items:center;gap:6px">within <input type="range" id="guardFt" min="1" max="8" step="0.5" value="5" style="width:120px"> <span id="guardFtV">5 ft</span></label>
+      <label style="display:flex;align-items:center;gap:6px"><input type="checkbox" id="camGuardOn" checked> Camera stop</label>
       <span class="sub" id="guardMsg" style="margin:0"></span>
     </div>
   </section>
@@ -283,6 +284,7 @@ let camLive = false;   // is the <img> currently attached to the MJPEG stream?
 $('camImg').onerror = () => { camLive = false; };
 let guardTouched = 0;   // don't let polling overwrite the slider while it's being dragged
 $('guardOn').onchange = e => { guardTouched = Date.now(); post('/api/guard', { enabled: e.target.checked }); };
+$('camGuardOn').onchange = e => { guardTouched = Date.now(); post('/api/guard', { camera: e.target.checked }); };
 $('guardFt').oninput = e => { guardTouched = Date.now(); $('guardFtV').textContent = `${e.target.value} ft`; };
 $('guardFt').onchange = e => { guardTouched = Date.now(); post('/api/guard', { stop_cm: Math.round(e.target.value * 30.48) }); };
 
@@ -320,8 +322,6 @@ function render(s) {
     $('guardOn').checked = !!px.enabled;
     const v = Math.round(px.stop_cm / 30.48 * 2) / 2; $('guardFt').value = v; $('guardFtV').textContent = `${v} ft`;
   }
-  $('guardMsg').textContent = !px.enabled ? 'Off: the truck will not stop for people.' : !px.online ? 'Armed, waiting for the sensor.'
-    : px.blocked ? `Holding ${tx ? `“${tx.name}”` : 'drive'}: someone is ${ft.toFixed(1)} ft away.` : s.guard_stops ? `Clear. Stopped ${s.guard_stops} time${s.guard_stops === 1 ? '' : 's'} so far.` : 'Clear.';
 
   const cam = s.camera || {};
   $('camSub').textContent = cam.error ? cam.error : !cam.port ? 'No camera (plug the ESP32-CAM board into USB)'
@@ -340,6 +340,18 @@ function render(s) {
     : (seen ? `Living in view: ${alive}` : 'No people or animals in view') + (things ? ` · Objects: ${things}` : '');
   $('camPeople').style.color = seen ? '#e5484d' : '';
   $('camCard').style.borderColor = seen ? '#e5484d' : '';
+
+  // Safety stop: either the distance sensor or the camera can hold the truck.
+  if (Date.now() - guardTouched > 1500) $('camGuardOn').checked = det.enabled !== false;
+  $('camGuardOn').disabled = !det.ready;
+  const why = [];
+  if (px.blocked) why.push(`someone is ${ft.toFixed(1)} ft away`);
+  if (det.blocked) why.push(`camera sees ${alive || 'a person or animal'}`);
+  const waiting = [px.enabled && !px.online && 'sensor', det.enabled !== false && !(cam.online && det.ready) && 'camera'].filter(Boolean);
+  $('guardMsg').textContent = why.length ? `Holding ${tx ? `“${tx.name}”` : 'drive'}: ${why.join(' and ')}.`
+    : !px.enabled && (det.enabled === false || !det.ready) ? 'Off: the truck will not stop for people.'
+    : (waiting.length ? `Armed, waiting for the ${waiting.join(' and ')}. ` : '')
+      + (s.guard_stops ? `Clear. Stopped ${s.guard_stops} time${s.guard_stops === 1 ? '' : 's'} so far.` : 'Clear.');
 
   lineChart($('cRate'), { label: 'Packet rate', xs: s.rate_history.map(p => p[0]), ys: s.rate_history.map(p => p[1]),
     xDomain: [-15, 0], yDomain: [0, 250], yTicks: [0, 50, 100, 150, 200, 250], xTicks: [-15, -10, -5, 0],

@@ -54,6 +54,7 @@ CAMERA_VIDS = (0x1a86,)  # CH340 USB chip on the ESP32-CAM-MB
 CAMERA_STALE_S = 2.0
 DETECT_MODEL = os.path.join(HERE, "models", "yolo11n.pt")   # downloaded on first run if missing
 DETECT_CONF = 0.4        # minimum YOLO confidence to count a detection
+CAMERA_HOLD_S = 1.0      # camera stop stays on this long after the last living detection (rides out flicker)
 LIVING = {"person", "bird", "cat", "dog", "horse", "sheep", "cow", "elephant", "bear", "zebra", "giraffe"}
 DETECT_IMGSZ = 320       # matches the camera's 320x240 frames
 STARTED = time.time()
@@ -411,6 +412,8 @@ class Detector:
         self.ms = None
         self.ready = False
         self.error = None
+        self.enabled = True                        # camera safety stop on/off
+        self.living_at = 0.0                       # last time a person or animal was in view
         self.cond = threading.Condition()
         threading.Thread(target=self.run, daemon=True).start()
 
@@ -453,12 +456,21 @@ class Detector:
                 continue
             with self.cond:
                 self.jpeg, self.at, self.found, self.ms = buf.tobytes(), at, found, ms
+                if any(f["living"] for f in found):
+                    self.living_at = time.time()
                 self.cond.notify_all()
 
     def wait_frame(self, after, timeout=5):
         with self.cond:
             self.cond.wait_for(lambda: self.at > after, timeout)
             return self.jpeg, self.at
+
+    def blocked(self):
+        """True while a person or animal was seen in the last CAMERA_HOLD_S.
+
+        Like the distance sensor, a camera that stops sending frames clears the stop.
+        """
+        return self.enabled and self.ready and time.time() - self.living_at < CAMERA_HOLD_S
 
     def state(self):
         fresh = time.time() - self.at < CAMERA_STALE_S
@@ -467,7 +479,8 @@ class Detector:
         return {"ready": self.ready, "error": self.error, "fresh": fresh,
                 "living": len(living), "persons": sum(f["name"] == "person" for f in found),
                 "best_conf": max((f["conf"] for f in living), default=None),
-                "found": found, "ms": round(self.ms, 1) if self.ms is not None else None}
+                "found": found, "ms": round(self.ms, 1) if self.ms is not None else None,
+                "enabled": self.enabled, "blocked": self.blocked(), "hold_s": CAMERA_HOLD_S}
 
 
 class Radio:
@@ -552,9 +565,13 @@ class Radio:
         vehicle, name = key
         return self.labels.get(vehicle, {}).get(name)
 
+    def blocked(self):
+        """Someone is too close (distance sensor) or in view (camera)."""
+        return self.proximity.blocked() or bool(self.detector and self.detector.blocked())
+
     def guarded(self, key):
-        """The control actually sent: idle (or None = stop) while someone is too close."""
-        if key is None or key[1] == "idle" or not self.proximity.blocked():
+        """The control actually sent: idle (or None = stop) while someone is too close or in view."""
+        if key is None or key[1] == "idle" or not self.blocked():
             return key
         idle = (key[0], "idle")
         return idle if self.label(idle) else None
@@ -831,6 +848,8 @@ class Handler(BaseHTTPRequestHandler):
                     prox.stop_cm = max(10, min(400, int(data["stop_cm"])))
                 except (TypeError, ValueError):
                     return self.send_json({"ok": False}, 400)
+            if "camera" in data and self.radio.detector:
+                self.radio.detector.enabled = bool(data["camera"])
             return self.send_json({"ok": True})
         if self.path == "/api/channel":
             mhz = data.get("mhz")
