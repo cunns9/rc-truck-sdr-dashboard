@@ -3,7 +3,7 @@
 Where we stopped (2026-10-30): the camera safety stop works on the real truck. Driving from
 the dashboard through the HackRF, the truck drives with nobody in view and holds (sends
 idle) while a person is in view. The distance-sensor stop was tested on 2026-10-28.
-Full history: [PROGRESS.md](PROGRESS.md).
+Full history: [PROGRESS.md](PROGRESS.md). Planned experiment (draft): [TRIAL_PLAN.md](TRIAL_PLAN.md).
 
 ## 1. Setup (5 min)
 1. Plug into the USB hub: **HackRF**, **Elegoo Mega** (HC-SR04 on Trig D9 / Echo D10,
