@@ -96,6 +96,20 @@ Run the dashboard: `python3 server.py` then open http://localhost:8642
 - The physical remote bypasses the safety stop completely; drive from the dashboard.
 - The Wave Rover found in the lab is a separate project: ~/Desktop/Wave Rover.
 
+## 2026-11-06: TFmini-S LiDAR on the ESP32-CAM (in progress)
+- Decided: LiDAR instead of the HC-SR04 on the truck. It connects to the ESP32-CAM with
+  4 wires (3.3 V signals, no resistors or breadboard), so the Mega isn't needed. Trade-off:
+  narrow beam (~2 deg) vs the ultrasonic's wide cone; the camera covers the wide view.
+- `truckcam.ino` now reads the TFmini-S on UART2 (green TX -> IO13, white RX -> IO14,
+  red -> 5V, black -> GND), 9-byte 0x59 0x59 frames, readings with strength < 100 dropped.
+  New USB commands: `d` -> "DST" + uint16 cm (0xFFFF = no valid reading, or none in 0.5 s);
+  `l` -> text line "LIDAR bytes=.. frames=.. cm=.. strength=.." (wiring check).
+  Compiled and flashed; camera protocol unchanged.
+- First check: **no data from the LiDAR** (bytes=1 in 5 s; expect ~900/s). Wiring not yet
+  confirmed (may not have been finished). Next: confirm 5V/GND/IO13/IO14 with a close-up
+  photo, re-run `l`, then make server.py's Camera ask `d` and feed Proximity.
+- server.py is NOT changed yet; the dashboard still expects the Mega for distance.
+
 ## Open issues / next steps
 1. **Mac networking:** the Mac is on the lab WiFi (Ethernet inactive). Joining TruckCam
    would cut its internet. Options: plug Ethernet back in (preferred), put the camera on
@@ -103,7 +117,8 @@ Run the dashboard: `python3 server.py` then open http://localhost:8642
    Meanwhile, view the stream from a phone.
 2. ~~Verify detection on a whole person, make "living in view" hold the truck~~ (done
    2026-10-30). Switch the camera to WiFi once networking is sorted.
-3. Wire the TFmini-S to the ESP32-CAM and send its distance to `/api/proximity`.
+3. Wire the TFmini-S to the ESP32-CAM (sketch side done 2026-11-06, no data yet) and
+   feed its distance to `Proximity` from the Camera class.
 4. **Radio interference:** the truck remote uses 2415/2435/2470 MHz, which overlaps every
    WiFi channel. Test driving with the stream running; lower the resolution or move the
    channel if commands drop.

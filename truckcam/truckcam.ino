@@ -10,7 +10,12 @@
 // USB mode (no WiFi needed, bench only): the Mac sends "f" and gets back
 // "JPG" + 4-byte little-endian length + the JPEG. "q" switches to 320x240, "v" to
 // 640x480, "b" + 4-byte little-endian baud changes the serial speed (boots at 115200).
+// "d" returns "DST" + 2-byte little-endian distance in cm (0xFFFF = no valid reading).
+// "l" prints a text line with LiDAR byte/frame counts (wiring check).
 // server.py uses this (Camera class).
+//
+// TFmini-S LiDAR: green (TX) -> GPIO 13, white (RX) -> GPIO 14, red -> 5V, black -> GND.
+// It streams 9-byte frames at 115200: 0x59 0x59, dist L/H (cm), strength L/H, temp L/H, checksum.
 //
 // Flash: arduino-cli compile/upload --fqbn esp32:esp32:esp32cam
 // The MB enters upload mode by itself; no buttons needed.
@@ -42,6 +47,17 @@ const unsigned long USB_BAUD = 115200;
 #define HREF_GPIO_NUM  23
 #define PCLK_GPIO_NUM  22
 #define FLASH_LED       4
+
+// TFmini-S on UART2 (GPIO 13/14 are free because the SD card isn't used)
+#define LIDAR_RX       13
+#define LIDAR_TX       14
+const unsigned long LIDAR_STALE_MS = 500;
+const uint16_t LIDAR_MIN_STRENGTH = 100;   // weaker returns are unreliable (datasheet)
+
+uint16_t lidarCm = 0xFFFF;
+unsigned long lidarAt = 0;
+uint32_t lidarBytes = 0, lidarFrames = 0;   // wiring check: "l" prints these
+uint16_t lidarRawCm = 0, lidarStrength = 0;
 
 static const char *BOUNDARY = "frame";
 
@@ -99,8 +115,38 @@ void startServers() {
   if (httpd_start(&stream, &cfg) == ESP_OK) httpd_register_uri_handler(stream, &streamUri);
 }
 
+// Reads whatever the LiDAR has sent so far; keeps the newest valid distance.
+void pollLidar() {
+  static uint8_t f[9];
+  static int n = 0;
+  while (Serial2.available()) {
+    uint8_t b = Serial2.read();
+    lidarBytes++;
+    if (n < 2 && b != 0x59) { n = 0; continue; }
+    f[n++] = b;
+    if (n < 9) continue;
+    n = 0;
+    uint8_t sum = 0;
+    for (int i = 0; i < 8; i++) sum += f[i];
+    if (sum != f[8]) continue;
+    uint16_t cm = f[2] | (f[3] << 8), strength = f[4] | (f[5] << 8);
+    lidarFrames++;
+    lidarRawCm = cm;
+    lidarStrength = strength;
+    lidarCm = (strength < LIDAR_MIN_STRENGTH || strength == 0xFFFF || cm == 0) ? 0xFFFF : cm;
+    lidarAt = millis();
+  }
+}
+
+void sendDistanceUsb() {
+  uint16_t cm = millis() - lidarAt < LIDAR_STALE_MS ? lidarCm : 0xFFFF;
+  Serial.write((const uint8_t *)"DST", 3);
+  Serial.write((const uint8_t *)&cm, 2);
+}
+
 void setup() {
   Serial.begin(USB_BAUD);
+  Serial2.begin(115200, SERIAL_8N1, LIDAR_RX, LIDAR_TX);
   pinMode(FLASH_LED, OUTPUT);
   digitalWrite(FLASH_LED, LOW);
 
@@ -150,10 +196,14 @@ void sendFrameUsb() {
 }
 
 void loop() {
+  pollLidar();
   while (Serial.available()) {
     char c = Serial.read();
     sensor_t *s = esp_camera_sensor_get();
     if (c == 'f') sendFrameUsb();
+    else if (c == 'd') { pollLidar(); sendDistanceUsb(); }
+    else if (c == 'l') Serial.printf("LIDAR bytes=%u frames=%u cm=%u strength=%u\n",
+                                     lidarBytes, lidarFrames, lidarRawCm, lidarStrength);
     else if (c == 'q' && s) s->set_framesize(s, FRAMESIZE_QVGA);
     else if (c == 'v' && s) s->set_framesize(s, FRAMESIZE_VGA);
     else if (c == 'b') {

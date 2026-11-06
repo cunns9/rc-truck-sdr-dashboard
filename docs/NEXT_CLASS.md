@@ -36,9 +36,13 @@ Wiring (check the colours against the TFmini-S label; its signals are 3.3 V, no 
 GPIO 13 / 14 are free because the SD card isn't used. Avoid GPIO 0, 2, 12, 15 (boot pins)
 and GPIO 4 (flash LED).
 
+**Status 2026-11-06:** step 1 is done and flashed, but the board got no data from the
+LiDAR (wiring not confirmed). Check: stop the dashboard, open the CAM port at 115200, send
+`l`; `bytes` should climb by ~900 a second. If not, recheck red 5V / black GND / green IO13.
+
 Steps:
-1. `truckcam.ino`: read the TFmini-S (115200 baud, 9-byte frames starting 0x59 0x59,
-   distance in cm) on GPIO 13 and send it to the Mac along with the camera frames.
+1. ~~`truckcam.ino`: read the TFmini-S (115200 baud, 9-byte frames starting 0x59 0x59,
+   distance in cm) on GPIO 13 and send it to the Mac along with the camera frames.~~
 2. `server.py`: feed that distance into the Person distance tile and the safety stop
    (`Proximity`), so the Mega isn't needed.
 3. Check the reading against a tape measure at about 1, 2 and 3 ft, then do one hold test
