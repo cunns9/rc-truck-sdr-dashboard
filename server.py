@@ -45,9 +45,10 @@ DEVIATION_HZ = 340e3     # measured on the real remote
 FRAME_SECONDS = 0.02     # one packet group every 20 ms
 COPY_SPACING = 0.0022    # three copies 2.2 ms apart
 TX_GAIN = 20
-STOP_CM = 152            # safety stop when someone is closer than this (5 ft)
+STOP_CM = 183            # safety stop when someone is closer than this (6 ft; TRIAL_PLAN.md tests 1/3/5 ft inside it)
 RELEASE_CM = 15          # hysteresis: resume only once this much farther away
 SENSOR_STALE_S = 1.0     # no reading for this long -> treat as "sensor offline"
+SENSOR_HOLD_S = 0.5      # keep holding this long after the last close reading (rides out 'no echo' gaps)
 SENSOR_BAUD = 115200
 CAMERA_BAUD = 460800     # fastest the Mac's CH340 driver handles reliably (921600 garbles)
 CAMERA_VIDS = (0x1a86,)  # CH340 USB chip on the ESP32-CAM-MB
@@ -57,8 +58,49 @@ DETECT_CONF = 0.4        # minimum YOLO confidence to count a detection
 CAMERA_HOLD_S = 1.0      # camera stop stays on this long after the last living detection (rides out flicker)
 LIVING = {"person", "bird", "cat", "dog", "horse", "sheep", "cow", "elephant", "bear", "zebra", "giraffe"}
 DETECT_IMGSZ = 320       # matches the camera's 320x240 frames
+CAMERA_CAL_PATH = os.path.join(HERE, "camera_cal.json")   # camera range calibration (box height at the stop distance)
+CAMERA_CAL_SLACK = 0.95  # hold for boxes a little smaller than the calibrated one (errs toward stopping)
 STARTED = time.time()
 TX_FRAME_PATH = os.path.join(HERE, "tx_frame.iq")
+EVENTS = collections.deque(maxlen=500)   # stop-test timeline, GET /api/events
+EVENTS_LOG = os.path.join(HERE, "docs", "stop_events.jsonl")
+
+
+def log_event(name, **info):
+    """Timestamp a safety-stop event (trigger seen, transmitter switched) for stop-time tests.
+
+    Only records; never changes what is transmitted.
+    """
+    t = time.time()
+    e = {"t": round(t, 3), "event": name, **info}
+    EVENTS.append(e)
+    print(f"[event] {time.strftime('%H:%M:%S', time.localtime(t))}.{int(t % 1 * 1000):03d} {name} {info}", flush=True)
+    try:
+        with open(EVENTS_LOG, "a") as f:
+            f.write(json.dumps(e) + "\n")
+    except OSError:
+        pass
+
+
+def event_summary():
+    """Pair each tx_idle with the trigger just before it: how long the Mac took to switch to idle."""
+    out, last = [], {}
+    for e in EVENTS:
+        if e["event"] in ("sensor_near", "camera_person"):
+            last[e["event"]] = e
+        elif e["event"] == "tx_idle":
+            trig = [x for x in last.values() if x["t"] <= e["t"] and e["t"] - x["t"] < 5]
+            if trig:
+                first = min(trig, key=lambda x: x["t"])
+                row = {"at": e["t"], "trigger": first["event"], "trigger_to_idle_ms": round((e["t"] - first["t"]) * 1e3)}
+                if first["event"] == "camera_person":
+                    row["frame_to_idle_ms"] = round((e["t"] - first["frame_at"]) * 1e3)
+                    row["infer_ms"] = first.get("infer_ms")
+                if first["event"] == "sensor_near":
+                    row["cm"] = first.get("cm")
+                out.append(row)
+            last = {}
+    return out
 
 
 def packet_bits(header, payload, sync=SYNC):
@@ -223,6 +265,8 @@ class Proximity:
         self.stop_cm = stop_cm
         self.history = collections.deque(maxlen=RATE_HISTORY)
         self._blocked = False
+        self._near = False                         # last reading under stop_cm (for the event log only)
+        self._close_at = 0.0                       # time of the last close reading (for SENSOR_HOLD_S)
         self.error = None
         if serial:
             threading.Thread(target=self.run, daemon=True).start()
@@ -263,10 +307,22 @@ class Proximity:
                         self.cm = None if cm < 0 else cm
                         self.at = now
                         self.history.append((now, self.cm))
+                        self.note(self.cm)
             except (serial.SerialException, OSError) as ex:
                 self.error = f"sensor on {port}: {ex}"
                 self.port = None
                 time.sleep(2)
+
+    def note(self, cm):
+        """Log when a reading first drops under / climbs back over the stop distance."""
+        near = cm is not None and cm < self.stop_cm
+        if near and not self._near:
+            log_event("sensor_near", cm=cm, stop_cm=self.stop_cm)
+        elif not near and self._near and (cm is None or cm >= self.stop_cm + RELEASE_CM):
+            log_event("sensor_clear", cm=cm)
+        else:
+            return
+        self._near = near
 
     def report(self, cm, source="wifi"):
         """A reading pushed over the network by the sensor board."""
@@ -280,12 +336,18 @@ class Proximity:
         return self.port is not None and time.time() - self.at < SENSOR_STALE_S
 
     def blocked(self):
-        if not (self.enabled and self.online()) or self.cm is None:
+        """Close reading (with RELEASE_CM hysteresis), or one within the last SENSOR_HOLD_S.
+
+        The hold rides out the HC-SR04's 'no echo' gaps on a person; an offline sensor
+        still clears the stop at once.
+        """
+        if not (self.enabled and self.online()):
             self._blocked = False
-        elif self._blocked:
-            self._blocked = self.cm < self.stop_cm + RELEASE_CM
-        else:
-            self._blocked = self.cm < self.stop_cm
+            return False
+        limit = self.stop_cm + RELEASE_CM if self._blocked else self.stop_cm
+        if self.cm is not None and self.cm < limit:
+            self._close_at = self.at
+        self._blocked = self.at - self._close_at < SENSOR_HOLD_S   # latest reading close, or one 0.5 s before it
         return self._blocked
 
     def state(self):
@@ -413,7 +475,14 @@ class Detector:
         self.ready = False
         self.error = None
         self.enabled = True                        # camera safety stop on/off
-        self.living_at = 0.0                       # last time a person or animal was in view
+        self.living_at = 0.0                       # last time a person or animal was in view (any distance)
+        self.near_at = 0.0                         # last time one was in range (box tall enough): this holds the truck
+        self.min_box_h = None                      # calibrated box height (0-1 of the frame); None = any distance
+        try:
+            with open(CAMERA_CAL_PATH) as f:
+                self.min_box_h = json.load(f).get("min_box_h")
+        except (OSError, ValueError):
+            pass
         self.cond = threading.Condition()
         threading.Thread(target=self.run, daemon=True).start()
 
@@ -456,8 +525,16 @@ class Detector:
                 continue
             with self.cond:
                 self.jpeg, self.at, self.found, self.ms = buf.tobytes(), at, found, ms
+                for f in found:
+                    f["near"] = f["living"] and self.in_range(f)
                 if any(f["living"] for f in found):
                     self.living_at = time.time()
+                near = [f for f in found if f["near"]]
+                if near:
+                    if time.time() - self.near_at >= CAMERA_HOLD_S:
+                        log_event("camera_person", frame_at=round(at, 3), infer_ms=round(ms),
+                                  conf=max(f["conf"] for f in near), box_h=max(self.box_h(f) for f in near))
+                    self.near_at = time.time()
                 self.cond.notify_all()
 
     def wait_frame(self, after, timeout=5):
@@ -470,7 +547,33 @@ class Detector:
 
         Like the distance sensor, a camera that stops sending frames clears the stop.
         """
-        return self.enabled and self.ready and time.time() - self.living_at < CAMERA_HOLD_S
+        return self.enabled and self.ready and time.time() - self.near_at < CAMERA_HOLD_S
+
+    @staticmethod
+    def box_h(f):
+        return round(f["box"][3] - f["box"][1], 3)
+
+    def in_range(self, f):
+        return self.min_box_h is None or self.box_h(f) >= self.min_box_h * CAMERA_CAL_SLACK
+
+    def calibrate(self, clear=False):
+        """Set the range from the tallest person in view now (standing on the stop-distance mark)."""
+        if clear:
+            self.min_box_h = None
+        else:
+            if time.time() - self.at > CAMERA_STALE_S:
+                return "No fresh camera frame."
+            people = [f for f in self.found if f["name"] == "person"]
+            if not people:
+                return "No person in view: stand on the 6 ft mark, facing the camera, and try again."
+            self.min_box_h = max(self.box_h(f) for f in people)
+        try:
+            with open(CAMERA_CAL_PATH, "w") as f:
+                json.dump({"min_box_h": self.min_box_h, "at": time.time()}, f)
+        except OSError:
+            pass
+        log_event("camera_calibrated", min_box_h=self.min_box_h)
+        return None
 
     def state(self):
         fresh = time.time() - self.at < CAMERA_STALE_S
@@ -480,7 +583,173 @@ class Detector:
                 "living": len(living), "persons": sum(f["name"] == "person" for f in found),
                 "best_conf": max((f["conf"] for f in living), default=None),
                 "found": found, "ms": round(self.ms, 1) if self.ms is not None else None,
-                "enabled": self.enabled, "blocked": self.blocked(), "hold_s": CAMERA_HOLD_S}
+                "enabled": self.enabled, "blocked": self.blocked(), "hold_s": CAMERA_HOLD_S,
+                "min_box_h": self.min_box_h, "near": sum(bool(f.get("near")) for f in found)}
+
+
+TRIAL_S = 8.0            # each trial records this long after Start
+TRIAL_ORDER = os.path.join(HERE, "data", "trial_order.csv")    # made by make_trials.py
+TRIALS_CSV = os.path.join(HERE, "data", "trials.csv")
+TRIAL_COLS = ["trial", "date", "time", "distance_ft", "lighting", "target",
+              "camera_detected", "camera_first_s", "camera_conf", "camera_box_h", "camera_seen_any_distance",
+              "ultrasonic_detected", "ultrasonic_first_s", "ultrasonic_cm", "ultrasonic_min_cm",
+              "blocked_at_start", "truck_driving", "truck_stopped", "stopped_by", "stop_at_s",
+              "mac_reaction_ms", "time_to_stop_s", "stop_cm", "safety_stop_on", "camera_stop_on", "notes"]
+
+
+class Trials:
+    """Records one TRIAL_PLAN.md trial at a time into data/trials.csv.
+
+    Start a trial, bring the target in during the TRIAL_S window, and the row is saved
+    automatically: what the camera and the ultrasonic sensor saw, whether the transmitter
+    switched to idle, and when (seconds after Start). Detection is recorded even when that
+    sensor's stop is switched off. time_to_stop_s (from slow-motion video) and notes are
+    filled in afterwards. Re-running a trial number replaces its row.
+    """
+
+    def __init__(self, radio):
+        self.radio = radio
+        self.running = None                        # the trial dict while recording
+        self.t0 = 0.0
+        self.last = None                           # last saved row
+        self.error = None
+        self.lock = threading.Lock()
+
+    def order(self):
+        try:
+            import csv
+            with open(TRIAL_ORDER, newline="") as f:
+                return {int(r["trial"]): r for r in csv.DictReader(f)}
+        except (OSError, ValueError, KeyError):
+            return {}
+
+    def rows(self):
+        try:
+            import csv
+            with open(TRIALS_CSV, newline="") as f:
+                return {int(r["trial"]): r for r in csv.DictReader(f)}
+        except (OSError, ValueError, KeyError):
+            return {}
+
+    def write(self, rows):
+        import csv
+        os.makedirs(os.path.dirname(TRIALS_CSV), exist_ok=True)
+        tmp = TRIALS_CSV + ".tmp"
+        with open(tmp, "w", newline="") as f:
+            w = csv.DictWriter(f, fieldnames=TRIAL_COLS, extrasaction="ignore")
+            w.writeheader()
+            for k in sorted(rows):
+                w.writerow(rows[k])
+        os.replace(tmp, TRIALS_CSV)
+
+    def start(self, trial, notes=""):
+        with self.lock:
+            if self.running:
+                return "A trial is already recording."
+            spec = self.order().get(trial)
+            if not spec:
+                return f"Trial {trial} is not in data/trial_order.csv (run make_trials.py)."
+            self.running = dict(spec, notes=notes)
+            self.t0 = time.time()
+        threading.Thread(target=self.record, daemon=True).start()
+        log_event("trial_start", trial=trial)
+        return None
+
+    def record(self):
+        r, prox, det, t0 = self.radio, self.radio.proximity, self.radio.detector, self.t0
+        stop_cm = prox.stop_cm
+        readings, cam_first, cam_conf, driving, held, drive_first = [], None, 0.0, False, False, None
+        last_at, near0, living0 = prox.at, det.near_at if det else 0.0, det.living_at if det else 0.0
+        seen_any, box_h = False, 0.0
+        blocked0 = r.blocked()
+        while time.time() - t0 < TRIAL_S:
+            if prox.at != last_at:
+                last_at = prox.at
+                readings.append((last_at - t0, prox.cm))
+            if det and det.living_at > max(t0, living0):
+                seen_any = True
+            if det and det.near_at > max(t0, near0):
+                if cam_first is None:
+                    cam_first = det.near_at - t0
+                near = [f for f in det.found if f.get("near")]
+                cam_conf = max([cam_conf] + [f["conf"] for f in near])
+                box_h = max([box_h] + [det.box_h(f) for f in near])
+            tx = r.tx_label
+            moving = bool(tx and tx[1] != "idle")
+            if moving and drive_first is None:
+                drive_first = time.time() - t0
+            driving = driving or moving
+            held = held or (moving and r.guarded(tx) != tx)   # covers a target already there at Start
+            time.sleep(0.03)
+        near = [(t, cm) for t, cm in readings if cm is not None and cm < stop_cm]
+        idle = [e for e in EVENTS if e["event"] == "tx_idle" and t0 <= e["t"] <= t0 + TRIAL_S]
+        firsts = [x for x in (cam_first, near[0][0] if near else None) if x is not None]
+        stop_at = idle[0]["t"] - t0 if idle else None
+        by = []
+        if idle:
+            by = [k for k in ("sensor", "camera") if idle[0].get(k)]
+        cms = sorted(cm for _, cm in near)
+        row = dict(self.running,
+                   date=time.strftime("%Y-%m-%d", time.localtime(t0)), time=time.strftime("%H:%M:%S", time.localtime(t0)),
+                   camera_detected="yes" if cam_first is not None else "no",
+                   camera_first_s=None if cam_first is None else round(cam_first, 2),
+                   camera_conf=round(cam_conf, 2) if cam_first is not None else None,
+                   camera_box_h=round(box_h, 3) if cam_first is not None else None,
+                   camera_seen_any_distance="yes" if seen_any or cam_first is not None else "no",
+                   ultrasonic_detected="yes" if near else "no",
+                   ultrasonic_first_s=round(near[0][0], 2) if near else None,
+                   ultrasonic_cm=cms[len(cms) // 2] if cms else None,
+                   ultrasonic_min_cm=cms[0] if cms else None,
+                   blocked_at_start="yes" if blocked0 else "no",
+                   truck_driving="yes" if driving else "no",
+                   truck_stopped="yes" if idle or held else "no",
+                   stopped_by="+".join(by) or None,
+                   stop_at_s=None if stop_at is None else round(stop_at, 2),
+                   mac_reaction_ms=self.reaction(stop_at, firsts, drive_first),
+                   time_to_stop_s=None, stop_cm=stop_cm,
+                   safety_stop_on="yes" if prox.enabled else "no",
+                   camera_stop_on="yes" if det and det.enabled else "no")
+        try:
+            rows = self.rows()
+            rows[int(row["trial"])] = row
+            self.write(rows)
+            self.error = None
+        except OSError as ex:
+            self.error = f"could not save data/trials.csv: {ex}"
+        log_event("trial_saved", trial=int(row["trial"]), truck_stopped=row["truck_stopped"])
+        with self.lock:
+            self.last, self.running = row, None
+
+    @staticmethod
+    def reaction(stop_at, firsts, drive_first):
+        """ms from 'target seen while driving' to the switch to idle; None if it can't be measured."""
+        if stop_at is None or not firsts or drive_first is None:
+            return None
+        start = max(min(firsts), drive_first)     # target already there before ↑ was pressed: count from ↑
+        return round((stop_at - start) * 1e3) if stop_at >= start else None
+
+    def annotate(self, trial, fields):
+        """Fill in notes / time_to_stop_s on a saved row."""
+        with self.lock:
+            rows = self.rows()
+            if trial not in rows:
+                return f"Trial {trial} has not been recorded yet."
+            for k in ("notes", "time_to_stop_s"):
+                if k in fields:
+                    rows[trial][k] = fields[k]
+            self.write(rows)
+            if self.last and int(self.last["trial"]) == trial:
+                self.last = rows[trial]
+        return None
+
+    def state(self):
+        order, rows = self.order(), self.rows()
+        nxt = next((n for n in sorted(order) if n not in rows), None)
+        run = self.running
+        return {"total": len(order), "done": len(rows), "next": order.get(nxt) if nxt else None,
+                "order": order, "recorded": sorted(rows),
+                "running": run, "remaining_s": round(max(0.0, TRIAL_S - (time.time() - self.t0)), 1) if run else None,
+                "window_s": TRIAL_S, "last": self.last, "error": self.error}
 
 
 class Radio:
@@ -596,6 +865,10 @@ class Radio:
                 want = self.guarded(self.tx_label)
                 if want != self.tx_label and not guarding:
                     self.guard_stops += 1
+                    log_event("tx_idle", control=self.tx_label[1],
+                              sensor=self.proximity.blocked(), camera=bool(self.detector and self.detector.blocked()))
+                elif want == self.tx_label and guarding:
+                    log_event("tx_resume" if self.tx_label[1] != "idle" else "tx_released", control=self.tx_label[1])
                 guarding = want != self.tx_label
                 if want is None:               # too close and no idle packet saved: stop
                     break
@@ -771,6 +1044,10 @@ class Handler(BaseHTTPRequestHandler):
         path = self.path.split("?")[0]
         if path == "/api/state":
             return self.send_json(self.radio.state())
+        if path == "/api/trials":
+            return self.send_json(self.radio.trials.state())
+        if path == "/api/events":                # stop-time test timeline
+            return self.send_json({"events": list(EVENTS), "stops": event_summary()})
         if path == "/api/camera.jpg":            # latest frame (for person detection)
             jpeg = self.radio.camera.jpeg
             if not jpeg:
@@ -851,6 +1128,22 @@ class Handler(BaseHTTPRequestHandler):
             if "camera" in data and self.radio.detector:
                 self.radio.detector.enabled = bool(data["camera"])
             return self.send_json({"ok": True})
+        if self.path == "/api/camera/calibrate":
+            if not self.radio.detector:
+                return self.send_json({"ok": False, "error": "detection is off"}, 409)
+            err = self.radio.detector.calibrate(clear=bool(data.get("clear")))
+            return self.send_json({"ok": not err, "error": err}, 409 if err else 200)
+        if self.path in ("/api/trial/start", "/api/trial/note"):
+            try:
+                trial = int(data["trial"])
+            except (KeyError, TypeError, ValueError):
+                return self.send_json({"ok": False, "error": "trial number missing"}, 400)
+            if self.path == "/api/trial/start":
+                err = self.radio.trials.start(trial, str(data.get("notes", ""))[:200])
+            else:
+                fields = {k: str(data[k])[:200] for k in ("notes", "time_to_stop_s") if k in data}
+                err = self.radio.trials.annotate(trial, fields)
+            return self.send_json({"ok": not err, "error": err}, 409 if err else 200)
         if self.path == "/api/channel":
             mhz = data.get("mhz")
             if mhz not in CHANNELS:
@@ -868,10 +1161,11 @@ def main():
     ap.add_argument("--sensor", help="serial port of the HC-SR04 board (default: first USB serial port found)")
     ap.add_argument("--camera", help="serial port of the ESP32-CAM (default: the CH340 USB port)")
     ap.add_argument("--no-detect", action="store_true", help="don't run YOLO person detection on the camera")
-    ap.add_argument("--stop-cm", type=int, default=STOP_CM, help=f"safety-stop distance in cm (default {STOP_CM} = 5 ft)")
+    ap.add_argument("--stop-cm", type=int, default=STOP_CM, help=f"safety-stop distance in cm (default {STOP_CM} = 6 ft)")
     args = ap.parse_args()
 
     radio = Radio(args)
+    radio.trials = Trials(radio)
     Handler.radio = radio
     threading.Thread(target=radio.reader, daemon=True).start()
     threading.Thread(target=radio.worker, daemon=True).start()

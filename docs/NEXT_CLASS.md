@@ -1,5 +1,10 @@
 # Next class: start here
 
+> **Update 2026-11-13:** the LiDAR was dropped (the HC-SR04 on the Mega is the distance
+> sensor). The project now finishes with the approved experiment in
+> [TRIAL_PLAN.md](TRIAL_PLAN.md): run `python3 server.py` (stop distance defaults to 6 ft)
+> and use the **Trials** card. Section 2 below is out of date.
+
 Where we stopped (2026-10-30): the camera safety stop works on the real truck. Driving from
 the dashboard through the HackRF, the truck drives with nobody in view and holds (sends
 idle) while a person is in view. The distance-sensor stop was tested on 2026-10-28.

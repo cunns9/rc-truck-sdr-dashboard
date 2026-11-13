@@ -1,0 +1,5 @@
+trial,date,time,distance_ft,lighting,target,camera_detected,camera_first_s,camera_conf,ultrasonic_detected,ultrasonic_first_s,ultrasonic_cm,ultrasonic_min_cm,blocked_at_start,truck_driving,truck_stopped,stopped_by,stop_at_s,mac_reaction_ms,time_to_stop_s,stop_cm,safety_stop_on,camera_stop_on,notes
+1,2026-11-13,10:10:36,5,dim,person_standing,no,,,no,,,,no,yes,no,,,,,183,yes,yes,
+2,2026-11-13,10:11:27,1,dim,person_standing,yes,4.41,0.86,no,,,,no,no,no,,,,,183,yes,yes,
+3,2026-11-13,10:13:51,5,dim,person_standing,yes,6.74,0.82,no,,,,no,yes,yes,camera,6.75,12,,183,yes,yes,
+4,2026-11-13,10:14:14,3,bright,person_standing,yes,0.02,0.9,yes,3.45,82,60,yes,yes,yes,camera,0.68,655,,183,yes,yes,

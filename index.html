@@ -126,6 +126,26 @@ td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
       <label style="display:flex;align-items:center;gap:6px"><input type="checkbox" id="camGuardOn" checked> Camera stop</label>
       <span class="sub" id="guardMsg" style="margin:0"></span>
     </div>
+    <div class="row" style="margin-top:6px;gap:10px">
+      <span class="sub" style="margin:0">Camera range:</span>
+      <b id="calState">any distance</b>
+      <button class="act" id="calBtn" title="Stand on the stop-distance mark facing the camera, then click">Calibrate: I'm on the 6 ft mark</button>
+      <button class="link" id="calClear">reset to any distance</button>
+      <span class="sub" id="calMsg" style="margin:0"></span>
+    </div>
+  </section>
+
+  <section class="card" style="margin-bottom:12px" id="trialCard">
+    <h2>Trials</h2>
+    <div class="sub">Hold <b>↑</b> so the truck is driving, press <b>Start</b> (or <b>T</b>), then bring the target in. Each trial records for <span id="trWin">8</span> s and saves to <span class="mono">data/trials.csv</span>. Re-running a number replaces it.</div>
+    <div class="row" style="margin-top:4px;gap:10px">
+      <label>Trial <input type="text" inputmode="numeric" id="trNum" style="width:70px;font:inherit;padding:6px 8px;border-radius:8px;border:1px solid var(--axis);background:var(--page);color:var(--ink)"></label>
+      <span id="trSpec" style="font-size:16px;font-weight:600"></span>
+      <button class="act primary" id="trStart">Start</button>
+      <span class="sub" id="trProg" style="margin:0"></span>
+    </div>
+    <div class="msg" id="trMsg"></div>
+    <div id="trLast" style="margin-top:8px"></div>
   </section>
 
   <section class="charts">
@@ -269,6 +289,7 @@ function keyCombo() {   // combine held arrows into a saved label, e.g. forward-
   return v || h;
 }
 window.addEventListener('keydown', e => { if (e.target.tagName === 'INPUT') return;
+  if (e.code === 'KeyT' && !e.repeat && !e.metaKey && !e.ctrlKey) { e.preventDefault(); startTrial(); return; }
   const k = keyOf(e);
   if (k) { e.preventDefault(); held.add(k); drive(keyCombo()); }
   else if (e.key === 'Escape' || e.key === ' ') { e.preventDefault(); held.clear(); drive(null); } });
@@ -282,11 +303,77 @@ $('vehicles').onclick = e => { const b = e.target.closest('button'); if (!b || b
 $('channels').onclick = e => { if (e.target.dataset.mhz) post('/api/channel', { mhz: +e.target.dataset.mhz }); };
 let camLive = false;   // is the <img> currently attached to the MJPEG stream?
 $('camImg').onerror = () => { camLive = false; };
+const unfocus = () => { const a = document.activeElement; if (a && a !== document.body) a.blur(); };
 let guardTouched = 0;   // don't let polling overwrite the slider while it's being dragged
-$('guardOn').onchange = e => { guardTouched = Date.now(); post('/api/guard', { enabled: e.target.checked }); };
-$('camGuardOn').onchange = e => { guardTouched = Date.now(); post('/api/guard', { camera: e.target.checked }); };
+$('guardOn').onchange = e => { guardTouched = Date.now(); post('/api/guard', { enabled: e.target.checked }); unfocus(); };
+$('camGuardOn').onchange = e => { guardTouched = Date.now(); post('/api/guard', { camera: e.target.checked }); unfocus(); };
+async function calibrate(clear) {
+  const r = await fetch('/api/camera/calibrate', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ clear }) });
+  const res = await r.json().catch(() => ({}));
+  $('calMsg').textContent = r.ok ? (clear ? 'Camera holds for people at any distance again.' : 'Calibrated: the camera now holds only for people about this close or closer.') : (res.error || 'Could not calibrate.');
+  unfocus();
+}
+$('calBtn').onclick = () => calibrate(false);
+$('calClear').onclick = () => calibrate(true);
 $('guardFt').oninput = e => { guardTouched = Date.now(); $('guardFtV').textContent = `${e.target.value} ft`; };
-$('guardFt').onchange = e => { guardTouched = Date.now(); post('/api/guard', { stop_cm: Math.round(e.target.value * 30.48) }); };
+$('guardFt').onchange = e => { guardTouched = Date.now(); post('/api/guard', { stop_cm: Math.round(e.target.value * 30.48) }); unfocus(); };
+
+// --- Trials (docs/TRIAL_PLAN.md) ---
+let trials = null, trNumTouched = 0, trShown = null;
+const pretty = t => String(t || '').replace('_', ' ');
+const spec = r => r ? `${r.distance_ft} ft · ${r.lighting} · ${pretty(r.target)}` : '';
+$('trNum').oninput = () => { trNumTouched = Date.now(); renderTrials(); };
+$('trNum').onkeydown = e => { if (e.key === 'Enter') unfocus(); };
+async function startTrial() {
+  const n = +$('trNum').value;
+  if (!n) { $('trMsg').textContent = 'Type a trial number.'; return; }
+  const r = await fetch('/api/trial/start', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ trial: n }) });
+  const res = await r.json().catch(() => ({}));
+  if (!r.ok) $('trMsg').textContent = res.error || 'Could not start.';
+  trNumTouched = 0; unfocus();
+}
+$('trStart').onclick = startTrial;
+async function saveNote() {
+  const n = trials && trials.last && +trials.last.trial; if (!n) return;
+  const ok = await post('/api/trial/note', { trial: n, time_to_stop_s: $('trTts').value.trim(), notes: $('trNotes').value.trim() });
+  $('trNoteMsg').textContent = ok ? `Saved to trial ${n}.` : 'Could not save.'; unfocus();
+}
+function renderTrials() {
+  const t = trials; if (!t) return;
+  $('trWin').textContent = t.window_s;
+  if (!t.total) { $('trSpec').textContent = ''; $('trMsg').textContent = 'No trial list: run python3 make_trials.py'; return; }
+  if (!t.running && Date.now() - trNumTouched > 15000 && t.next) $('trNum').value = t.next.trial;
+  const n = +$('trNum').value, sp = t.order[n];
+  const redo = t.recorded.includes(n);
+  $('trSpec').textContent = sp ? spec(sp) + (redo ? ' (already recorded: will replace)' : '') : 'not in the list';
+  $('trProg').textContent = `${t.done} of ${t.total} recorded`;
+  $('trStart').disabled = !!t.running || !sp;
+  $('trialCard').style.borderColor = t.running ? 'var(--series-2)' : '';
+  $('trMsg').textContent = t.error ? t.error : t.running ? `Recording trial ${t.running.trial} (${spec(t.running)}): ${t.remaining_s.toFixed(1)} s left. Bring the target in now.`
+    : t.next ? '' : 'All trials recorded.';
+  const L = t.last;
+  if (!L) { setHTML($('trLast'), ''); trShown = null; return; }
+  const yn = v => v === 'yes' ? '<b style="color:var(--good)">yes</b>' : '<b>no</b>';
+  const sec = v => v == null || v === '' ? '–' : `${v} s`;
+  const key = JSON.stringify(L);
+  if (trShown === key) return;
+  trShown = key;
+  setHTML($('trLast'), `<div class="sub" style="margin:0 0 4px">Last saved: <b>trial ${esc(L.trial)}</b> · ${esc(spec(L))} · ${esc(L.time)}</div>
+    <table><tr><th>Camera saw it</th><th>Ultrasonic saw it</th><th class="num">Ultrasonic</th><th>Truck stopped</th><th>By</th><th class="num">Mac reaction</th></tr>
+    <tr><td>${yn(L.camera_detected)} ${L.camera_first_s != null && L.camera_first_s !== '' ? `at ${esc(L.camera_first_s)} s (${Math.round(L.camera_conf * 100)}%)` : ''}</td>
+    <td>${yn(L.ultrasonic_detected)} ${L.ultrasonic_first_s != null && L.ultrasonic_first_s !== '' ? `at ${esc(L.ultrasonic_first_s)} s` : ''}</td>
+    <td class="num">${L.ultrasonic_cm != null && L.ultrasonic_cm !== '' ? `${esc(L.ultrasonic_cm)} cm` : '–'}</td>
+    <td>${yn(L.truck_stopped)}${L.truck_driving === 'no' ? ' <span class="sub">(truck wasn\'t driving: hold ↑)</span>' : ''}${L.blocked_at_start === 'yes' ? ' <span class="sub">(already held at Start)</span>' : ''}</td>
+    <td>${esc(L.stopped_by || '–')}</td><td class="num">${L.mac_reaction_ms != null && L.mac_reaction_ms !== '' ? `${esc(L.mac_reaction_ms)} ms` : '–'}</td></tr></table>
+    <div class="row">
+      <label>Time to stop (video) <input type="text" id="trTts" placeholder="e.g. 0.6" style="width:80px"> s</label>
+      <input type="text" id="trNotes" placeholder="Notes" style="width:260px">
+      <button class="act" id="trSave">Save to trial ${esc(L.trial)}</button>
+      <span class="sub" id="trNoteMsg" style="margin:0"></span>
+    </div>`);
+  $('trTts').value = L.time_to_stop_s || ''; $('trNotes').value = L.notes || '';
+  $('trSave').onclick = saveNote;
+}
 
 function render(s) {
   if (!s.vehicles.includes(vehicle)) vehicle = s.vehicles[0];
@@ -331,13 +418,14 @@ function render(s) {
   const camWant = `${s.started}:${det.ready ? 'boxes' : 'raw'}`;
   if (cam.online && camLive !== camWant) { $('camImg').src = `/api/camera.mjpg?t=${Date.now()}`; camLive = camWant; }
   if (!cam.online) camLive = false;
-  const seen = cam.online && det.ready && det.fresh && det.living > 0;
+  const seen = cam.online && det.ready && det.fresh && det.near > 0;
+  $('calState').textContent = det.min_box_h == null ? 'any distance (not calibrated)' : `calibrated (person box ≥ ${Math.round(det.min_box_h * 95)}% of picture height)`;
   const tally = list => Object.entries(list.reduce((m, f) => (m[f.name] = (m[f.name] || 0) + 1, m), {}))
     .map(([n, c]) => c > 1 ? `${c} ${n}s` : n).join(', ');
   const found = det.found || [];
-  const alive = tally(found.filter(f => f.living)), things = tally(found.filter(f => !f.living));
+  const alive = tally(found.filter(f => f.near)), far = tally(found.filter(f => f.living && !f.near)), things = tally(found.filter(f => !f.living));
   $('camPeople').textContent = !cam.online ? '' : det.error ? det.error : !det.ready ? 'Detection starting…'
-    : (seen ? `Living in view: ${alive}` : 'No people or animals in view') + (things ? ` · Objects: ${things}` : '');
+    : (seen ? `In range: ${alive}` : 'No people or animals in range') + (far ? ` · Farther away (ignored): ${far}` : '') + (things ? ` · Objects: ${things}` : '');
   $('camPeople').style.color = seen ? '#e5484d' : '';
   $('camCard').style.borderColor = seen ? '#e5484d' : '';
 
@@ -394,7 +482,8 @@ function render(s) {
 }
 
 async function poll() {
-  try { state = await (await fetch('/api/state')).json(); render(state); }
+  try { state = await (await fetch('/api/state')).json(); render(state);
+    trials = await (await fetch('/api/trials')).json(); renderTrials(); }
   catch (e) { $('status').className = 'pill bad'; $('statusText').textContent = 'Dashboard server not running'; }
   setTimeout(poll, 400);
 }
