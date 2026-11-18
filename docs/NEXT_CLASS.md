@@ -1,5 +1,17 @@
 # Next class: start here
 
+> **Friday 2026-11-20 plan** (from 2026-11-18, details in [PROGRESS.md](PROGRESS.md)):
+> 1. Plug in HackRF, Mega (sensor), ESP32-CAM; `python3 server.py`; open http://localhost:8642
+>    (reload with the browser's ↻ button; the keyboard is a PC keyboard).
+> 2. Level the camera + sensor (straight ahead, ideally waist height; insulate between boards).
+> 3. Sensor range test on a person: stand at 3, 5, 6 ft and read the Person distance tile.
+>    If it can't see a person at 6 ft, decide a shorter stop distance for BOTH stops.
+> 4. Calibrate: click "Calibrate on the 6 ft mark (10 s countdown)", walk to the mark,
+>    hold still at the beep. Then check: 5 ft both hold, 7 ft both clear.
+> 5. Move trials 1-18 to data/practice_trials.csv, then run the real trials from 1 with
+>    Auto-drive (T = start, 10 s walk-out, beep, 8 s drive, two beeps).
+> 6. End of class: commit, push as cunns9, log out of gh.
+
 > **Update 2026-11-13:** the LiDAR was dropped (the HC-SR04 on the Mega is the distance
 > sensor). The project now finishes with the approved experiment in
 > [TRIAL_PLAN.md](TRIAL_PLAN.md): run `python3 server.py` (stop distance defaults to 6 ft)

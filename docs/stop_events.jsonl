@@ -970,3 +970,1807 @@
 {"t": 1794583703.86, "event": "camera_person", "frame_at": 1794583703.842, "infer_ms": 15, "conf": 0.59, "box_h": 0.279}
 {"t": 1794583704.533, "event": "sensor_near", "cm": 64, "stop_cm": 183}
 {"t": 1794583704.717, "event": "sensor_clear", "cm": null}
+{"t": 1794583834.28, "event": "sensor_near", "cm": 51, "stop_cm": 183}
+{"t": 1794583834.464, "event": "sensor_clear", "cm": null}
+{"t": 1794583834.64, "event": "sensor_near", "cm": 50, "stop_cm": 183}
+{"t": 1794583834.743, "event": "sensor_clear", "cm": null}
+{"t": 1794583839.547, "event": "sensor_near", "cm": 59, "stop_cm": 183}
+{"t": 1794583839.834, "event": "sensor_clear", "cm": null}
+{"t": 1794583839.887, "event": "sensor_near", "cm": 60, "stop_cm": 183}
+{"t": 1794583840.084, "event": "camera_person", "frame_at": 1794583840.073, "infer_ms": 10, "conf": 0.76, "box_h": 0.686}
+{"t": 1794583840.125, "event": "sensor_clear", "cm": null}
+{"t": 1794583840.207, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1794583840.469, "event": "sensor_clear", "cm": null}
+{"t": 1794583842.324, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1794583842.48, "event": "sensor_clear", "cm": null}
+{"t": 1794583842.656, "event": "sensor_near", "cm": 62, "stop_cm": 183}
+{"t": 1794583842.735, "event": "camera_person", "frame_at": 1794583842.723, "infer_ms": 11, "conf": 0.53, "box_h": 0.629}
+{"t": 1794583843.844, "event": "sensor_clear", "cm": null}
+{"t": 1794583844.192, "event": "sensor_near", "cm": 58, "stop_cm": 183}
+{"t": 1794583845.253, "event": "sensor_clear", "cm": null}
+{"t": 1794583845.421, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1794583845.632, "event": "camera_person", "frame_at": 1794583845.619, "infer_ms": 12, "conf": 0.55, "box_h": 0.707}
+{"t": 1794583845.683, "event": "sensor_clear", "cm": null}
+{"t": 1794583845.744, "event": "sensor_near", "cm": 58, "stop_cm": 183}
+{"t": 1794583846.387, "event": "sensor_clear", "cm": null}
+{"t": 1794583846.568, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1794583846.887, "event": "sensor_clear", "cm": null}
+{"t": 1794583846.953, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1794583847.567, "event": "sensor_clear", "cm": null}
+{"t": 1794583847.649, "event": "sensor_near", "cm": 58, "stop_cm": 183}
+{"t": 1794583847.747, "event": "sensor_clear", "cm": null}
+{"t": 1794583847.829, "event": "sensor_near", "cm": 58, "stop_cm": 183}
+{"t": 1794583848.345, "event": "sensor_clear", "cm": null}
+{"t": 1794583848.595, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1794583849.906, "event": "sensor_clear", "cm": null}
+{"t": 1794583849.992, "event": "sensor_near", "cm": 58, "stop_cm": 183}
+{"t": 1794583850.086, "event": "sensor_clear", "cm": null}
+{"t": 1794583850.254, "event": "sensor_near", "cm": 59, "stop_cm": 183}
+{"t": 1794583850.569, "event": "sensor_clear", "cm": null}
+{"t": 1794583850.831, "event": "sensor_near", "cm": 63, "stop_cm": 183}
+{"t": 1794583852.871, "event": "camera_person", "frame_at": 1794583852.86, "infer_ms": 10, "conf": 0.4, "box_h": 0.704}
+{"t": 1794583854.137, "event": "camera_person", "frame_at": 1794583854.127, "infer_ms": 9, "conf": 0.52, "box_h": 0.706}
+{"t": 1794583857.463, "event": "sensor_clear", "cm": null}
+{"t": 1794583857.545, "event": "sensor_near", "cm": 61, "stop_cm": 183}
+{"t": 1794583858.121, "event": "camera_person", "frame_at": 1794583858.109, "infer_ms": 11, "conf": 0.62, "box_h": 0.708}
+{"t": 1794583858.188, "event": "sensor_clear", "cm": null}
+{"t": 1794583858.356, "event": "sensor_near", "cm": 62, "stop_cm": 183}
+{"t": 1794583858.45, "event": "sensor_clear", "cm": null}
+{"t": 1794583858.634, "event": "sensor_near", "cm": 62, "stop_cm": 183}
+{"t": 1794583858.728, "event": "sensor_clear", "cm": null}
+{"t": 1794583858.802, "event": "sensor_near", "cm": 61, "stop_cm": 183}
+{"t": 1794583858.896, "event": "sensor_clear", "cm": null}
+{"t": 1794583858.97, "event": "sensor_near", "cm": 62, "stop_cm": 183}
+{"t": 1794583859.064, "event": "sensor_clear", "cm": null}
+{"t": 1794583859.146, "event": "sensor_near", "cm": 62, "stop_cm": 183}
+{"t": 1794583859.47, "event": "sensor_clear", "cm": null}
+{"t": 1794583859.535, "event": "sensor_near", "cm": 61, "stop_cm": 183}
+{"t": 1794583859.797, "event": "sensor_clear", "cm": null}
+{"t": 1794583859.863, "event": "sensor_near", "cm": 62, "stop_cm": 183}
+{"t": 1794583859.965, "event": "sensor_clear", "cm": null}
+{"t": 1794583860.117, "event": "sensor_near", "cm": 61, "stop_cm": 183}
+{"t": 1794583860.817, "event": "sensor_clear", "cm": null}
+{"t": 1794583860.993, "event": "sensor_near", "cm": 63, "stop_cm": 183}
+{"t": 1794583861.329, "event": "sensor_clear", "cm": null}
+{"t": 1794583861.38, "event": "camera_person", "frame_at": 1794583861.367, "infer_ms": 12, "conf": 0.6, "box_h": 0.708}
+{"t": 1794583861.382, "event": "sensor_near", "cm": 58, "stop_cm": 183}
+{"t": 1794583861.763, "event": "sensor_clear", "cm": null}
+{"t": 1794583861.845, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1794583862.095, "event": "sensor_clear", "cm": null}
+{"t": 1794583868.38, "event": "camera_person", "frame_at": 1794583868.369, "infer_ms": 10, "conf": 0.59, "box_h": 0.121}
+{"t": 1794583921.395, "event": "sensor_near", "cm": 50, "stop_cm": 183}
+{"t": 1794583921.584, "event": "sensor_clear", "cm": null}
+{"t": 1794583929.26, "event": "camera_person", "frame_at": 1794583929.248, "infer_ms": 10, "conf": 0.68, "box_h": 0.122}
+{"t": 1794583935.334, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1794583935.436, "event": "sensor_clear", "cm": null}
+{"t": 1794583968.654, "event": "sensor_near", "cm": 50, "stop_cm": 183}
+{"t": 1794583969.092, "event": "sensor_clear", "cm": null}
+{"t": 1794583969.276, "event": "sensor_near", "cm": 47, "stop_cm": 183}
+{"t": 1794583969.371, "event": "sensor_clear", "cm": null}
+{"t": 1794584002.609, "event": "sensor_near", "cm": 50, "stop_cm": 183}
+{"t": 1794584002.703, "event": "sensor_clear", "cm": null}
+{"t": 1794584010.26, "event": "sensor_near", "cm": 33, "stop_cm": 183}
+{"t": 1794584012.676, "event": "sensor_clear", "cm": null}
+{"t": 1794584013.053, "event": "sensor_near", "cm": 59, "stop_cm": 183}
+{"t": 1794584013.483, "event": "sensor_clear", "cm": null}
+{"t": 1794584013.714, "event": "camera_person", "frame_at": 1794584013.702, "infer_ms": 10, "conf": 0.41, "box_h": 0.605}
+{"t": 1794584014.642, "event": "sensor_near", "cm": 60, "stop_cm": 183}
+{"t": 1794584014.745, "event": "sensor_clear", "cm": null}
+{"t": 1794584015.306, "event": "sensor_near", "cm": 60, "stop_cm": 183}
+{"t": 1794584015.4, "event": "sensor_clear", "cm": null}
+{"t": 1794584015.847, "event": "sensor_near", "cm": 56, "stop_cm": 183}
+{"t": 1794584015.949, "event": "sensor_clear", "cm": null}
+{"t": 1794584016.097, "event": "sensor_near", "cm": 51, "stop_cm": 183}
+{"t": 1794584016.367, "event": "sensor_clear", "cm": null}
+{"t": 1794584016.842, "event": "sensor_near", "cm": 60, "stop_cm": 183}
+{"t": 1794584016.944, "event": "sensor_clear", "cm": null}
+{"t": 1794584017.01, "event": "sensor_near", "cm": 56, "stop_cm": 183}
+{"t": 1794584017.919, "event": "sensor_clear", "cm": null}
+{"t": 1794584018.099, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1794584019.369, "event": "sensor_clear", "cm": null}
+{"t": 1794584019.427, "event": "sensor_near", "cm": 61, "stop_cm": 183}
+{"t": 1794584019.906, "event": "sensor_clear", "cm": null}
+{"t": 1794584020.086, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1794584020.512, "event": "sensor_clear", "cm": null}
+{"t": 1794584020.594, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1794584020.692, "event": "sensor_clear", "cm": null}
+{"t": 1794584020.745, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1794584020.995, "event": "sensor_clear", "cm": null}
+{"t": 1794584021.159, "event": "sensor_near", "cm": 55, "stop_cm": 183}
+{"t": 1794584021.315, "event": "sensor_clear", "cm": null}
+{"t": 1794584039.677, "event": "sensor_near", "cm": 50, "stop_cm": 183}
+{"t": 1794584040.017, "event": "sensor_clear", "cm": null}
+{"t": 1794584082.987, "event": "sensor_near", "cm": 50, "stop_cm": 183}
+{"t": 1794584083.085, "event": "sensor_clear", "cm": null}
+{"t": 1794584083.167, "event": "sensor_near", "cm": 50, "stop_cm": 183}
+{"t": 1794584083.269, "event": "sensor_clear", "cm": null}
+{"t": 1794584103.314, "event": "sensor_near", "cm": 50, "stop_cm": 183}
+{"t": 1794584103.618, "event": "sensor_clear", "cm": null}
+{"t": 1794584103.687, "event": "sensor_near", "cm": 50, "stop_cm": 183}
+{"t": 1794584103.917, "event": "sensor_clear", "cm": null}
+{"t": 1794584104.478, "event": "sensor_near", "cm": 50, "stop_cm": 183}
+{"t": 1794584104.826, "event": "sensor_clear", "cm": null}
+{"t": 1794584104.891, "event": "sensor_near", "cm": 50, "stop_cm": 183}
+{"t": 1794584105.129, "event": "sensor_clear", "cm": null}
+{"t": 1794584110.503, "event": "sensor_near", "cm": 50, "stop_cm": 183}
+{"t": 1794584110.712, "event": "sensor_clear", "cm": null}
+{"t": 1794584119.903, "event": "sensor_near", "cm": 30, "stop_cm": 183}
+{"t": 1794584120.648, "event": "sensor_clear", "cm": null}
+{"t": 1794584124.564, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1794584125.355, "event": "sensor_clear", "cm": null}
+{"t": 1794584125.928, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1794584126.092, "event": "sensor_clear", "cm": null}
+{"t": 1794584126.145, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1794584126.473, "event": "sensor_clear", "cm": null}
+{"t": 1794584126.948, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1794584127.103, "event": "sensor_clear", "cm": null}
+{"t": 1794584127.284, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1794584127.628, "event": "sensor_clear", "cm": null}
+{"t": 1794584128.394, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1794584128.852, "event": "sensor_clear", "cm": null}
+{"t": 1794584129.0, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1794584129.188, "event": "sensor_clear", "cm": null}
+{"t": 1794584129.446, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1794584129.823, "event": "sensor_clear", "cm": null}
+{"t": 1794584130.102, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1794584130.196, "event": "sensor_clear", "cm": null}
+{"t": 1794584139.104, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1794584139.256, "event": "sensor_clear", "cm": null}
+{"t": 1794584169.733, "event": "sensor_near", "cm": 50, "stop_cm": 183}
+{"t": 1794584169.836, "event": "sensor_clear", "cm": null}
+{"t": 1794584170.098, "event": "sensor_near", "cm": 50, "stop_cm": 183}
+{"t": 1794584170.417, "event": "sensor_clear", "cm": null}
+{"t": 1794584201.452, "event": "sensor_near", "cm": 50, "stop_cm": 183}
+{"t": 1794584201.69, "event": "sensor_clear", "cm": null}
+{"t": 1794584237.643, "event": "sensor_near", "cm": 50, "stop_cm": 183}
+{"t": 1794584237.93, "event": "sensor_clear", "cm": null}
+{"t": 1794584239.257, "event": "sensor_near", "cm": 50, "stop_cm": 183}
+{"t": 1794584239.548, "event": "sensor_clear", "cm": null}
+{"t": 1794584244.84, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1794584244.942, "event": "sensor_clear", "cm": null}
+{"t": 1794584245.118, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1794584245.303, "event": "sensor_clear", "cm": null}
+{"t": 1794584245.454, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1794584245.638, "event": "sensor_clear", "cm": null}
+{"t": 1794584246.601, "event": "sensor_near", "cm": 43, "stop_cm": 183}
+{"t": 1794584246.703, "event": "sensor_clear", "cm": null}
+{"t": 1794584247.555, "event": "sensor_near", "cm": 53, "stop_cm": 183}
+{"t": 1794584247.899, "event": "sensor_clear", "cm": null}
+{"t": 1794584248.555, "event": "sensor_near", "cm": 53, "stop_cm": 183}
+{"t": 1794584248.706, "event": "sensor_clear", "cm": null}
+{"t": 1794584249.87, "event": "sensor_near", "cm": 58, "stop_cm": 183}
+{"t": 1794584250.054, "event": "sensor_clear", "cm": null}
+{"t": 1794584250.906, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1794584251.074, "event": "sensor_clear", "cm": null}
+{"t": 1794584251.127, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1794584251.553, "event": "sensor_clear", "cm": null}
+{"t": 1794584255.075, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1794584255.481, "event": "sensor_clear", "cm": null}
+{"t": 1794584281.121, "event": "sensor_near", "cm": 49, "stop_cm": 183}
+{"t": 1794584281.305, "event": "sensor_clear", "cm": null}
+{"t": 1794584281.961, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1794584282.231, "event": "sensor_clear", "cm": null}
+{"t": 1794584282.407, "event": "sensor_near", "cm": 59, "stop_cm": 183}
+{"t": 1794584282.645, "event": "sensor_clear", "cm": null}
+{"t": 1794584284.595, "event": "sensor_near", "cm": 66, "stop_cm": 183}
+{"t": 1794584284.697, "event": "sensor_clear", "cm": null}
+{"t": 1794584284.783, "event": "sensor_near", "cm": 68, "stop_cm": 183}
+{"t": 1794584284.877, "event": "sensor_clear", "cm": null}
+{"t": 1794584284.959, "event": "sensor_near", "cm": 72, "stop_cm": 183}
+{"t": 1794584285.283, "event": "camera_person", "frame_at": 1794584285.271, "infer_ms": 10, "conf": 0.52, "box_h": 0.592}
+{"t": 1794584285.373, "event": "sensor_clear", "cm": null}
+{"t": 1794584285.438, "event": "sensor_near", "cm": 75, "stop_cm": 183}
+{"t": 1794584285.93, "event": "sensor_clear", "cm": null}
+{"t": 1794584286.106, "event": "sensor_near", "cm": 63, "stop_cm": 183}
+{"t": 1794584286.348, "event": "sensor_clear", "cm": null}
+{"t": 1794584286.413, "event": "sensor_near", "cm": 70, "stop_cm": 183}
+{"t": 1794584286.655, "event": "sensor_clear", "cm": null}
+{"t": 1794584286.917, "event": "sensor_near", "cm": 61, "stop_cm": 183}
+{"t": 1794584287.019, "event": "sensor_clear", "cm": null}
+{"t": 1794584289.362, "event": "sensor_near", "cm": 79, "stop_cm": 183}
+{"t": 1794584290.423, "event": "sensor_clear", "cm": null}
+{"t": 1794584290.902, "event": "sensor_near", "cm": 80, "stop_cm": 183}
+{"t": 1794584290.996, "event": "sensor_clear", "cm": null}
+{"t": 1794584291.082, "event": "sensor_near", "cm": 79, "stop_cm": 183}
+{"t": 1794584291.181, "event": "sensor_clear", "cm": null}
+{"t": 1794584291.25, "event": "sensor_near", "cm": 78, "stop_cm": 183}
+{"t": 1794584291.41, "event": "sensor_clear", "cm": null}
+{"t": 1794584291.971, "event": "sensor_near", "cm": 81, "stop_cm": 183}
+{"t": 1794584292.066, "event": "sensor_clear", "cm": null}
+{"t": 1794584293.04, "event": "sensor_near", "cm": 80, "stop_cm": 183}
+{"t": 1794584293.134, "event": "sensor_clear", "cm": null}
+{"t": 1794584293.22, "event": "sensor_near", "cm": 81, "stop_cm": 183}
+{"t": 1794584294.159, "event": "sensor_clear", "cm": null}
+{"t": 1794584294.24, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1794584294.752, "event": "sensor_clear", "cm": null}
+{"t": 1794584294.933, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1794584295.035, "event": "sensor_clear", "cm": null}
+{"t": 1794584295.408, "event": "sensor_near", "cm": 80, "stop_cm": 183}
+{"t": 1794584295.58, "event": "sensor_clear", "cm": null}
+{"t": 1794584295.764, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1794584295.858, "event": "sensor_clear", "cm": null}
+{"t": 1794584296.927, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1794584297.407, "event": "sensor_clear", "cm": null}
+{"t": 1794584298.373, "event": "sensor_near", "cm": 79, "stop_cm": 183}
+{"t": 1794584299.045, "event": "sensor_clear", "cm": null}
+{"t": 1794584299.618, "event": "sensor_near", "cm": 78, "stop_cm": 183}
+{"t": 1794584299.786, "event": "sensor_clear", "cm": null}
+{"t": 1794584299.872, "event": "sensor_near", "cm": 78, "stop_cm": 183}
+{"t": 1794584300.339, "event": "sensor_clear", "cm": null}
+{"t": 1794584300.519, "event": "sensor_near", "cm": 78, "stop_cm": 183}
+{"t": 1794584300.622, "event": "sensor_clear", "cm": null}
+{"t": 1794584300.802, "event": "sensor_near", "cm": 80, "stop_cm": 183}
+{"t": 1794584300.904, "event": "sensor_clear", "cm": null}
+{"t": 1794584301.478, "event": "sensor_near", "cm": 80, "stop_cm": 183}
+{"t": 1794584301.732, "event": "sensor_clear", "cm": null}
+{"t": 1794584301.805, "event": "sensor_near", "cm": 80, "stop_cm": 183}
+{"t": 1794584303.391, "event": "sensor_clear", "cm": null}
+{"t": 1794584303.456, "event": "sensor_near", "cm": 79, "stop_cm": 183}
+{"t": 1794584304.464, "event": "sensor_clear", "cm": null}
+{"t": 1794584304.533, "event": "sensor_near", "cm": 78, "stop_cm": 183}
+{"t": 1794584304.693, "event": "sensor_clear", "cm": null}
+{"t": 1794584305.463, "event": "sensor_near", "cm": 79, "stop_cm": 183}
+{"t": 1794584306.471, "event": "sensor_clear", "cm": null}
+{"t": 1794584306.54, "event": "sensor_near", "cm": 80, "stop_cm": 183}
+{"t": 1794584306.811, "event": "sensor_clear", "cm": null}
+{"t": 1794584306.88, "event": "sensor_near", "cm": 79, "stop_cm": 183}
+{"t": 1794584307.405, "event": "sensor_clear", "cm": null}
+{"t": 1794584307.474, "event": "sensor_near", "cm": 79, "stop_cm": 183}
+{"t": 1794584307.577, "event": "sensor_clear", "cm": null}
+{"t": 1794584307.642, "event": "sensor_near", "cm": 78, "stop_cm": 183}
+{"t": 1794584307.744, "event": "sensor_clear", "cm": null}
+{"t": 1794584307.81, "event": "sensor_near", "cm": 78, "stop_cm": 183}
+{"t": 1794584308.064, "event": "sensor_clear", "cm": null}
+{"t": 1794584308.15, "event": "sensor_near", "cm": 78, "stop_cm": 183}
+{"t": 1794584308.334, "event": "sensor_clear", "cm": null}
+{"t": 1794584308.42, "event": "sensor_near", "cm": 80, "stop_cm": 183}
+{"t": 1794584309.186, "event": "sensor_clear", "cm": null}
+{"t": 1794584309.252, "event": "sensor_near", "cm": 78, "stop_cm": 183}
+{"t": 1794584309.678, "event": "sensor_clear", "cm": null}
+{"t": 1794584309.96, "event": "sensor_near", "cm": 79, "stop_cm": 183}
+{"t": 1794584310.145, "event": "sensor_clear", "cm": null}
+{"t": 1794584310.82, "event": "sensor_near", "cm": 79, "stop_cm": 183}
+{"t": 1794584310.915, "event": "sensor_clear", "cm": null}
+{"t": 1794584310.972, "event": "sensor_near", "cm": 79, "stop_cm": 183}
+{"t": 1794584311.132, "event": "sensor_clear", "cm": null}
+{"t": 1794584311.41, "event": "sensor_near", "cm": 79, "stop_cm": 183}
+{"t": 1794584311.509, "event": "sensor_clear", "cm": null}
+{"t": 1794584311.582, "event": "sensor_near", "cm": 79, "stop_cm": 183}
+{"t": 1794584311.677, "event": "sensor_clear", "cm": null}
+{"t": 1794584312.041, "event": "sensor_near", "cm": 80, "stop_cm": 183}
+{"t": 1794584312.77, "event": "sensor_clear", "cm": null}
+{"t": 1794584312.852, "event": "sensor_near", "cm": 79, "stop_cm": 183}
+{"t": 1794584312.946, "event": "sensor_clear", "cm": null}
+{"t": 1794584313.229, "event": "sensor_near", "cm": 79, "stop_cm": 183}
+{"t": 1794584313.475, "event": "sensor_clear", "cm": null}
+{"t": 1794584313.54, "event": "sensor_near", "cm": 78, "stop_cm": 183}
+{"t": 1794584313.815, "event": "sensor_clear", "cm": null}
+{"t": 1794584317.919, "event": "sensor_near", "cm": 79, "stop_cm": 183}
+{"t": 1794584318.013, "event": "sensor_clear", "cm": null}
+{"t": 1794584325.283, "event": "sensor_near", "cm": 80, "stop_cm": 183}
+{"t": 1794584325.377, "event": "sensor_clear", "cm": null}
+{"t": 1794584330.067, "event": "sensor_near", "cm": 47, "stop_cm": 183}
+{"t": 1794584330.219, "event": "sensor_clear", "cm": null}
+{"t": 1794584331.939, "event": "sensor_near", "cm": 47, "stop_cm": 183}
+{"t": 1794584332.23, "event": "sensor_clear", "cm": null}
+{"t": 1794584338.112, "event": "sensor_near", "cm": 79, "stop_cm": 183}
+{"t": 1794584338.214, "event": "sensor_clear", "cm": null}
+{"t": 1794584338.582, "event": "sensor_near", "cm": 80, "stop_cm": 183}
+{"t": 1794584338.759, "event": "sensor_clear", "cm": null}
+{"t": 1794584338.947, "event": "sensor_near", "cm": 80, "stop_cm": 183}
+{"t": 1794584339.041, "event": "sensor_clear", "cm": null}
+{"t": 1794584339.426, "event": "sensor_near", "cm": 80, "stop_cm": 183}
+{"t": 1794584339.521, "event": "sensor_clear", "cm": null}
+{"t": 1794584340.0, "event": "sensor_near", "cm": 80, "stop_cm": 183}
+{"t": 1794584340.098, "event": "sensor_clear", "cm": null}
+{"t": 1794584340.577, "event": "sensor_near", "cm": 80, "stop_cm": 183}
+{"t": 1794584340.672, "event": "sensor_clear", "cm": null}
+{"t": 1794584340.729, "event": "sensor_near", "cm": 80, "stop_cm": 183}
+{"t": 1794584340.999, "event": "sensor_clear", "cm": null}
+{"t": 1794584341.085, "event": "sensor_near", "cm": 80, "stop_cm": 183}
+{"t": 1794584341.253, "event": "sensor_clear", "cm": null}
+{"t": 1794584341.433, "event": "sensor_near", "cm": 80, "stop_cm": 183}
+{"t": 1794584341.622, "event": "sensor_clear", "cm": null}
+{"t": 1794584342.195, "event": "sensor_near", "cm": 79, "stop_cm": 183}
+{"t": 1794584342.58, "event": "sensor_clear", "cm": null}
+{"t": 1794584342.646, "event": "sensor_near", "cm": 80, "stop_cm": 183}
+{"t": 1794584342.818, "event": "sensor_clear", "cm": null}
+{"t": 1794584343.067, "event": "sensor_near", "cm": 80, "stop_cm": 183}
+{"t": 1794584343.17, "event": "sensor_clear", "cm": null}
+{"t": 1794584343.239, "event": "sensor_near", "cm": 79, "stop_cm": 183}
+{"t": 1794584344.448, "event": "sensor_clear", "cm": null}
+{"t": 1794584345.124, "event": "sensor_near", "cm": 79, "stop_cm": 183}
+{"t": 1794584345.218, "event": "sensor_clear", "cm": null}
+{"t": 1794584345.668, "event": "sensor_near", "cm": 80, "stop_cm": 183}
+{"t": 1794584346.111, "event": "sensor_clear", "cm": null}
+{"t": 1794584346.291, "event": "sensor_near", "cm": 80, "stop_cm": 183}
+{"t": 1794584346.787, "event": "sensor_clear", "cm": null}
+{"t": 1794584346.967, "event": "sensor_near", "cm": 79, "stop_cm": 183}
+{"t": 1794584347.069, "event": "sensor_clear", "cm": null}
+{"t": 1794584356.772, "event": "sensor_near", "cm": 45, "stop_cm": 183}
+{"t": 1794584357.059, "event": "sensor_clear", "cm": null}
+{"t": 1794584357.518, "event": "sensor_near", "cm": 45, "stop_cm": 183}
+{"t": 1794584357.784, "event": "sensor_clear", "cm": null}
+{"t": 1794584359.639, "event": "sensor_near", "cm": 47, "stop_cm": 183}
+{"t": 1794584359.947, "event": "sensor_clear", "cm": null}
+{"t": 1794584360.287, "event": "sensor_near", "cm": 45, "stop_cm": 183}
+{"t": 1794584360.913, "event": "sensor_clear", "cm": null}
+{"t": 1794584361.847, "event": "sensor_near", "cm": 50, "stop_cm": 183}
+{"t": 1794584361.95, "event": "sensor_clear", "cm": null}
+{"t": 1794584362.126, "event": "sensor_near", "cm": 48, "stop_cm": 183}
+{"t": 1794584362.228, "event": "sensor_clear", "cm": null}
+{"t": 1794584362.408, "event": "sensor_near", "cm": 80, "stop_cm": 183}
+{"t": 1794584362.597, "event": "sensor_clear", "cm": null}
+{"t": 1794584364.251, "event": "sensor_near", "cm": 51, "stop_cm": 183}
+{"t": 1794584364.346, "event": "sensor_clear", "cm": null}
+{"t": 1794584364.432, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1794584364.596, "event": "sensor_clear", "cm": null}
+{"t": 1794584366.264, "event": "camera_person", "frame_at": 1794584366.25, "infer_ms": 12, "conf": 0.41, "box_h": 0.184}
+{"t": 1794584371.141, "event": "sensor_near", "cm": 55, "stop_cm": 183}
+{"t": 1794584371.411, "event": "sensor_clear", "cm": null}
+{"t": 1794584372.365, "event": "sensor_near", "cm": 73, "stop_cm": 183}
+{"t": 1794584372.46, "event": "sensor_clear", "cm": null}
+{"t": 1794584374.024, "event": "sensor_near", "cm": 74, "stop_cm": 183}
+{"t": 1794584374.118, "event": "sensor_clear", "cm": null}
+{"t": 1794584385.222, "event": "sensor_near", "cm": 74, "stop_cm": 183}
+{"t": 1794584385.321, "event": "sensor_clear", "cm": null}
+{"t": 1794584401.536, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1794584401.635, "event": "sensor_clear", "cm": null}
+{"t": 1794584401.688, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1794584409.896, "event": "sensor_clear", "cm": null}
+{"t": 1794584409.978, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795013693.69, "event": "sensor_near", "cm": 64, "stop_cm": 183}
+{"t": 1795013693.841, "event": "sensor_clear", "cm": 296}
+{"t": 1795013694.165, "event": "sensor_near", "cm": 45, "stop_cm": 183}
+{"t": 1795013694.345, "event": "sensor_clear", "cm": 296}
+{"t": 1795013694.411, "event": "sensor_near", "cm": 46, "stop_cm": 183}
+{"t": 1795013694.505, "event": "sensor_clear", "cm": 295}
+{"t": 1795013694.812, "event": "sensor_near", "cm": 45, "stop_cm": 183}
+{"t": 1795013695.128, "event": "sensor_clear", "cm": 295}
+{"t": 1795013695.291, "event": "sensor_near", "cm": 64, "stop_cm": 183}
+{"t": 1795013695.992, "event": "sensor_clear", "cm": 296}
+{"t": 1795013696.041, "event": "sensor_near", "cm": 43, "stop_cm": 183}
+{"t": 1795013696.188, "event": "sensor_clear", "cm": 295}
+{"t": 1795013696.319, "event": "sensor_near", "cm": 43, "stop_cm": 183}
+{"t": 1795013696.831, "event": "sensor_clear", "cm": 296}
+{"t": 1795013696.995, "event": "sensor_near", "cm": 44, "stop_cm": 183}
+{"t": 1795013697.155, "event": "sensor_clear", "cm": 297}
+{"t": 1795013697.847, "event": "sensor_near", "cm": 46, "stop_cm": 183}
+{"t": 1795013697.925, "event": "sensor_clear", "cm": 296}
+{"t": 1795013697.978, "event": "sensor_near", "cm": 43, "stop_cm": 183}
+{"t": 1795013698.122, "event": "sensor_clear", "cm": 297}
+{"t": 1795013698.756, "event": "sensor_near", "cm": 40, "stop_cm": 183}
+{"t": 1795013698.953, "event": "sensor_clear", "cm": 297}
+{"t": 1795013699.432, "event": "sensor_near", "cm": 43, "stop_cm": 183}
+{"t": 1795013699.531, "event": "sensor_clear", "cm": null}
+{"t": 1795013699.694, "event": "sensor_near", "cm": 45, "stop_cm": 183}
+{"t": 1795013699.789, "event": "sensor_clear", "cm": 296}
+{"t": 1795013700.047, "event": "sensor_near", "cm": 43, "stop_cm": 183}
+{"t": 1795013700.243, "event": "sensor_clear", "cm": 297}
+{"t": 1795013700.292, "event": "sensor_near", "cm": 43, "stop_cm": 183}
+{"t": 1795013700.772, "event": "sensor_clear", "cm": 297}
+{"t": 1795013700.825, "event": "sensor_near", "cm": 50, "stop_cm": 183}
+{"t": 1795013701.386, "event": "sensor_clear", "cm": null}
+{"t": 1795013709.262, "event": "sensor_near", "cm": 6, "stop_cm": 183}
+{"t": 1795013747.222, "event": "sensor_clear", "cm": null}
+{"t": 1795013747.3, "event": "sensor_near", "cm": 6, "stop_cm": 183}
+{"t": 1795013747.398, "event": "sensor_clear", "cm": null}
+{"t": 1795013747.439, "event": "sensor_near", "cm": 6, "stop_cm": 183}
+{"t": 1795013748.59, "event": "sensor_clear", "cm": null}
+{"t": 1795013748.635, "event": "sensor_near", "cm": 9, "stop_cm": 183}
+{"t": 1795013749.241, "event": "sensor_clear", "cm": null}
+{"t": 1795013749.286, "event": "sensor_near", "cm": 9, "stop_cm": 183}
+{"t": 1795013754.451, "event": "sensor_clear", "cm": null}
+{"t": 1795013754.508, "event": "sensor_near", "cm": 9, "stop_cm": 183}
+{"t": 1795013760.857, "event": "sensor_clear", "cm": null}
+{"t": 1795013760.939, "event": "sensor_near", "cm": 66, "stop_cm": 183}
+{"t": 1795013774.217, "event": "sensor_clear", "cm": null}
+{"t": 1795013780.099, "event": "sensor_near", "cm": 63, "stop_cm": 183}
+{"t": 1795013780.201, "event": "sensor_clear", "cm": null}
+{"t": 1795013780.381, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795013780.537, "event": "sensor_clear", "cm": null}
+{"t": 1795013783.863, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795013783.965, "event": "sensor_clear", "cm": null}
+{"t": 1795013784.027, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795013799.345, "event": "camera_person", "frame_at": 1795013799.321, "infer_ms": 22, "conf": 0.44, "box_h": 0.957, "sensor_cm": null}
+{"t": 1795013808.844, "event": "camera_person", "frame_at": 1795013808.822, "infer_ms": 21, "conf": 0.69, "box_h": 0.727, "sensor_cm": null}
+{"t": 1795013810.089, "event": "camera_person", "frame_at": 1795013810.078, "infer_ms": 10, "conf": 0.65, "box_h": 0.713, "sensor_cm": null}
+{"t": 1795013813.363, "event": "camera_person", "frame_at": 1795013813.347, "infer_ms": 13, "conf": 0.61, "box_h": 0.776, "sensor_cm": null}
+{"t": 1795013815.818, "event": "camera_person", "frame_at": 1795013815.803, "infer_ms": 13, "conf": 0.52, "box_h": 0.792, "sensor_cm": null}
+{"t": 1795013821.102, "event": "camera_person", "frame_at": 1795013821.09, "infer_ms": 11, "conf": 0.52, "box_h": 0.828, "sensor_cm": null}
+{"t": 1795013833.567, "event": "camera_person", "frame_at": 1795013833.556, "infer_ms": 10, "conf": 0.86, "box_h": 0.973, "sensor_cm": null}
+{"t": 1795013838.467, "event": "camera_person", "frame_at": 1795013838.456, "infer_ms": 10, "conf": 0.53, "box_h": 0.977, "sensor_cm": null}
+{"t": 1795013863.007, "event": "camera_person", "frame_at": 1795013862.993, "infer_ms": 12, "conf": 0.66, "box_h": 0.747, "sensor_cm": null}
+{"t": 1795013867.947, "event": "camera_person", "frame_at": 1795013867.936, "infer_ms": 9, "conf": 0.43, "box_h": 0.852, "sensor_cm": null}
+{"t": 1795013872.675, "event": "camera_person", "frame_at": 1795013872.661, "infer_ms": 13, "conf": 0.58, "box_h": 0.916, "sensor_cm": null}
+{"t": 1795013879.796, "event": "camera_person", "frame_at": 1795013879.784, "infer_ms": 10, "conf": 0.64, "box_h": 0.841, "sensor_cm": null}
+{"t": 1795013881.296, "event": "camera_person", "frame_at": 1795013881.282, "infer_ms": 13, "conf": 0.64, "box_h": 0.826, "sensor_cm": null}
+{"t": 1795013886.107, "event": "camera_person", "frame_at": 1795013886.095, "infer_ms": 10, "conf": 0.4, "box_h": 0.759, "sensor_cm": null}
+{"t": 1795013929.46, "event": "camera_person", "frame_at": 1795013929.449, "infer_ms": 10, "conf": 0.5, "box_h": 0.81, "sensor_cm": null}
+{"t": 1795013930.577, "event": "camera_person", "frame_at": 1795013930.566, "infer_ms": 10, "conf": 0.61, "box_h": 0.851, "sensor_cm": null}
+{"t": 1795013934.617, "event": "camera_person", "frame_at": 1795013934.605, "infer_ms": 10, "conf": 0.51, "box_h": 0.789, "sensor_cm": null}
+{"t": 1795013937.325, "event": "camera_person", "frame_at": 1795013937.315, "infer_ms": 9, "conf": 0.55, "box_h": 0.82, "sensor_cm": null}
+{"t": 1795013939.798, "event": "camera_person", "frame_at": 1795013939.786, "infer_ms": 10, "conf": 0.46, "box_h": 0.783, "sensor_cm": null}
+{"t": 1795013943.614, "event": "camera_person", "frame_at": 1795013943.602, "infer_ms": 11, "conf": 0.45, "box_h": 0.79, "sensor_cm": null}
+{"t": 1795013947.676, "event": "camera_person", "frame_at": 1795013947.665, "infer_ms": 10, "conf": 0.45, "box_h": 0.758, "sensor_cm": null}
+{"t": 1795013952.193, "event": "camera_person", "frame_at": 1795013952.182, "infer_ms": 10, "conf": 0.41, "box_h": 0.765, "sensor_cm": null}
+{"t": 1795013954.673, "event": "camera_person", "frame_at": 1795013954.658, "infer_ms": 12, "conf": 0.58, "box_h": 0.76, "sensor_cm": null}
+{"t": 1795013963.388, "event": "camera_person", "frame_at": 1795013963.374, "infer_ms": 12, "conf": 0.43, "box_h": 0.77, "sensor_cm": null}
+{"t": 1795013969.875, "event": "camera_person", "frame_at": 1795013969.864, "infer_ms": 10, "conf": 0.58, "box_h": 0.826, "sensor_cm": null}
+{"t": 1795014044.097, "event": "camera_person", "frame_at": 1795014044.086, "infer_ms": 10, "conf": 0.56, "box_h": 0.801, "sensor_cm": null}
+{"t": 1795014063.121, "event": "camera_person", "frame_at": 1795014063.108, "infer_ms": 11, "conf": 0.72, "box_h": 0.829, "sensor_cm": null}
+{"t": 1795014071.322, "event": "camera_person", "frame_at": 1795014071.309, "infer_ms": 11, "conf": 0.5, "box_h": 0.807, "sensor_cm": null}
+{"t": 1795014096.082, "event": "sensor_near", "cm": 58, "stop_cm": 183}
+{"t": 1795014096.246, "event": "sensor_clear", "cm": null}
+{"t": 1795014097.483, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795014097.581, "event": "sensor_clear", "cm": null}
+{"t": 1795014098.633, "event": "camera_person", "frame_at": 1795014098.62, "infer_ms": 11, "conf": 0.41, "box_h": 0.73, "sensor_cm": null}
+{"t": 1795014101.542, "event": "camera_person", "frame_at": 1795014101.529, "infer_ms": 11, "conf": 0.42, "box_h": 0.771, "sensor_cm": null}
+{"t": 1795014103.962, "event": "sensor_near", "cm": 60, "stop_cm": 183}
+{"t": 1795014104.056, "event": "sensor_clear", "cm": null}
+{"t": 1795014104.138, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795014104.24, "event": "sensor_clear", "cm": null}
+{"t": 1795014106.653, "event": "camera_person", "frame_at": 1795014106.639, "infer_ms": 11, "conf": 0.42, "box_h": 0.798, "sensor_cm": null}
+{"t": 1795014106.866, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795014107.05, "event": "sensor_clear", "cm": null}
+{"t": 1795014107.116, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795014107.214, "event": "sensor_clear", "cm": null}
+{"t": 1795014107.476, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795014107.8, "event": "sensor_clear", "cm": null}
+{"t": 1795014111.068, "event": "camera_person", "frame_at": 1795014111.056, "infer_ms": 11, "conf": 0.44, "box_h": 0.813, "sensor_cm": null}
+{"t": 1795014111.621, "event": "sensor_near", "cm": 59, "stop_cm": 183}
+{"t": 1795014111.715, "event": "sensor_clear", "cm": null}
+{"t": 1795014115.93, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795014116.032, "event": "sensor_clear", "cm": null}
+{"t": 1795014119.555, "event": "sensor_near", "cm": 60, "stop_cm": 183}
+{"t": 1795014119.657, "event": "sensor_clear", "cm": null}
+{"t": 1795014119.936, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795014120.034, "event": "sensor_clear", "cm": null}
+{"t": 1795014120.3, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795014120.394, "event": "sensor_clear", "cm": null}
+{"t": 1795014120.677, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795014120.841, "event": "sensor_clear", "cm": null}
+{"t": 1795014120.927, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795014121.055, "event": "camera_person", "frame_at": 1795014121.042, "infer_ms": 11, "conf": 0.48, "box_h": 0.781, "sensor_cm": 57}
+{"t": 1795014121.193, "event": "sensor_clear", "cm": null}
+{"t": 1795014121.34, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795014121.443, "event": "sensor_clear", "cm": null}
+{"t": 1795014121.59, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795014121.758, "event": "sensor_clear", "cm": null}
+{"t": 1795014121.926, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795014122.082, "event": "sensor_clear", "cm": null}
+{"t": 1795014122.819, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795014123.028, "event": "sensor_clear", "cm": null}
+{"t": 1795014123.683, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795014123.986, "event": "sensor_clear", "cm": null}
+{"t": 1795014124.461, "event": "sensor_near", "cm": 58, "stop_cm": 183}
+{"t": 1795014124.564, "event": "sensor_clear", "cm": null}
+{"t": 1795014124.74, "event": "sensor_near", "cm": 58, "stop_cm": 183}
+{"t": 1795014124.982, "event": "sensor_clear", "cm": null}
+{"t": 1795014125.522, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795014125.69, "event": "sensor_clear", "cm": null}
+{"t": 1795014126.603, "event": "camera_person", "frame_at": 1795014126.591, "infer_ms": 10, "conf": 0.48, "box_h": 0.758, "sensor_cm": null}
+{"t": 1795014126.952, "event": "sensor_near", "cm": 58, "stop_cm": 183}
+{"t": 1795014127.054, "event": "sensor_clear", "cm": null}
+{"t": 1795014127.906, "event": "sensor_near", "cm": 59, "stop_cm": 183}
+{"t": 1795014128.115, "event": "sensor_clear", "cm": null}
+{"t": 1795014128.377, "event": "sensor_near", "cm": 59, "stop_cm": 183}
+{"t": 1795014128.545, "event": "sensor_clear", "cm": null}
+{"t": 1795014128.729, "event": "sensor_near", "cm": 59, "stop_cm": 183}
+{"t": 1795014128.824, "event": "sensor_clear", "cm": null}
+{"t": 1795014128.824, "event": "camera_person", "frame_at": 1795014128.811, "infer_ms": 12, "conf": 0.44, "box_h": 0.783, "sensor_cm": null}
+{"t": 1795014128.877, "event": "sensor_near", "cm": 59, "stop_cm": 183}
+{"t": 1795014129.335, "event": "sensor_clear", "cm": null}
+{"t": 1795014129.516, "event": "sensor_near", "cm": 59, "stop_cm": 183}
+{"t": 1795014129.753, "event": "sensor_clear", "cm": null}
+{"t": 1795014129.933, "event": "sensor_near", "cm": 61, "stop_cm": 183}
+{"t": 1795014130.118, "event": "sensor_clear", "cm": null}
+{"t": 1795014130.16, "event": "camera_person", "frame_at": 1795014130.15, "infer_ms": 9, "conf": 0.43, "box_h": 0.794, "sensor_cm": null}
+{"t": 1795014130.462, "event": "sensor_near", "cm": 60, "stop_cm": 183}
+{"t": 1795014130.839, "event": "sensor_clear", "cm": null}
+{"t": 1795014131.497, "event": "camera_person", "frame_at": 1795014131.485, "infer_ms": 10, "conf": 0.41, "box_h": 0.781, "sensor_cm": null}
+{"t": 1795014133.035, "event": "camera_person", "frame_at": 1795014133.023, "infer_ms": 10, "conf": 0.49, "box_h": 0.767, "sensor_cm": null}
+{"t": 1795014134.149, "event": "camera_person", "frame_at": 1795014134.134, "infer_ms": 14, "conf": 0.43, "box_h": 0.769, "sensor_cm": null}
+{"t": 1795014135.229, "event": "sensor_near", "cm": 58, "stop_cm": 183}
+{"t": 1795014135.5, "event": "sensor_clear", "cm": null}
+{"t": 1795014137.814, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795014138.252, "event": "sensor_clear", "cm": null}
+{"t": 1795014138.334, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795014138.502, "event": "sensor_clear", "cm": null}
+{"t": 1795014138.555, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795014138.711, "event": "sensor_clear", "cm": null}
+{"t": 1795014138.858, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795014138.961, "event": "sensor_clear", "cm": null}
+{"t": 1795014142.014, "event": "camera_person", "frame_at": 1795014142.002, "infer_ms": 10, "conf": 0.43, "box_h": 0.763, "sensor_cm": null}
+{"t": 1795014143.339, "event": "camera_person", "frame_at": 1795014143.328, "infer_ms": 9, "conf": 0.55, "box_h": 0.808, "sensor_cm": null}
+{"t": 1795014143.765, "event": "sensor_near", "cm": 60, "stop_cm": 183}
+{"t": 1795014143.859, "event": "sensor_clear", "cm": null}
+{"t": 1795014145.6, "event": "sensor_near", "cm": 59, "stop_cm": 183}
+{"t": 1795014145.768, "event": "sensor_clear", "cm": null}
+{"t": 1795014146.526, "event": "sensor_near", "cm": 60, "stop_cm": 183}
+{"t": 1795014146.775, "event": "sensor_clear", "cm": null}
+{"t": 1795014147.533, "event": "sensor_near", "cm": 58, "stop_cm": 183}
+{"t": 1795014147.697, "event": "sensor_clear", "cm": null}
+{"t": 1795014148.186, "event": "camera_person", "frame_at": 1795014148.171, "infer_ms": 13, "conf": 0.44, "box_h": 0.765, "sensor_cm": null}
+{"t": 1795014148.766, "event": "sensor_near", "cm": 59, "stop_cm": 183}
+{"t": 1795014148.868, "event": "sensor_clear", "cm": null}
+{"t": 1795014148.934, "event": "sensor_near", "cm": 59, "stop_cm": 183}
+{"t": 1795014151.097, "event": "camera_person", "frame_at": 1795014151.086, "infer_ms": 10, "conf": 0.43, "box_h": 0.787, "sensor_cm": 57}
+{"t": 1795014153.999, "event": "camera_person", "frame_at": 1795014153.988, "infer_ms": 10, "conf": 0.51, "box_h": 0.804, "sensor_cm": 57}
+{"t": 1795014154.222, "event": "sensor_clear", "cm": null}
+{"t": 1795014154.287, "event": "sensor_near", "cm": 59, "stop_cm": 183}
+{"t": 1795014154.611, "event": "sensor_clear", "cm": null}
+{"t": 1795014154.672, "event": "sensor_near", "cm": 58, "stop_cm": 183}
+{"t": 1795014155.11, "event": "sensor_clear", "cm": null}
+{"t": 1795014155.193, "event": "sensor_near", "cm": 60, "stop_cm": 183}
+{"t": 1795014155.538, "event": "camera_person", "frame_at": 1795014155.525, "infer_ms": 11, "conf": 0.63, "box_h": 0.822, "sensor_cm": 57}
+{"t": 1795014164.723, "event": "sensor_clear", "cm": null}
+{"t": 1795014164.789, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795014165.092, "event": "sensor_clear", "cm": null}
+{"t": 1795014165.174, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795014165.592, "event": "sensor_clear", "cm": null}
+{"t": 1795014165.755, "event": "sensor_near", "cm": 50, "stop_cm": 183}
+{"t": 1795014166.018, "event": "camera_person", "frame_at": 1795014166.003, "infer_ms": 13, "conf": 0.53, "box_h": 0.824, "sensor_cm": 51}
+{"t": 1795014166.349, "event": "sensor_clear", "cm": null}
+{"t": 1795014167.021, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795014167.115, "event": "sensor_clear", "cm": null}
+{"t": 1795014167.283, "event": "sensor_near", "cm": 51, "stop_cm": 183}
+{"t": 1795014168.507, "event": "camera_person", "frame_at": 1795014168.494, "infer_ms": 12, "conf": 0.58, "box_h": 0.821, "sensor_cm": 52}
+{"t": 1795014168.762, "event": "sensor_clear", "cm": null}
+{"t": 1795014169.696, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795014170.728, "event": "sensor_clear", "cm": null}
+{"t": 1795014171.268, "event": "sensor_near", "cm": 51, "stop_cm": 183}
+{"t": 1795014171.797, "event": "sensor_clear", "cm": null}
+{"t": 1795014171.85, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795014172.489, "event": "sensor_clear", "cm": null}
+{"t": 1795014172.571, "event": "sensor_near", "cm": 51, "stop_cm": 183}
+{"t": 1795014172.726, "event": "sensor_clear", "cm": null}
+{"t": 1795014172.792, "event": "sensor_near", "cm": 50, "stop_cm": 183}
+{"t": 1795014172.956, "event": "sensor_clear", "cm": null}
+{"t": 1795014173.038, "event": "sensor_near", "cm": 50, "stop_cm": 183}
+{"t": 1795014173.402, "event": "sensor_clear", "cm": null}
+{"t": 1795014173.464, "event": "sensor_near", "cm": 53, "stop_cm": 183}
+{"t": 1795014175.106, "event": "sensor_clear", "cm": null}
+{"t": 1795014175.159, "event": "sensor_near", "cm": 51, "stop_cm": 183}
+{"t": 1795014175.479, "event": "sensor_clear", "cm": null}
+{"t": 1795014175.856, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795014176.355, "event": "sensor_clear", "cm": null}
+{"t": 1795014177.125, "event": "sensor_near", "cm": 55, "stop_cm": 183}
+{"t": 1795014177.523, "event": "sensor_clear", "cm": null}
+{"t": 1795014177.588, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795014179.227, "event": "sensor_clear", "cm": null}
+{"t": 1795014179.292, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795014181.135, "event": "sensor_clear", "cm": null}
+{"t": 1795014181.201, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795014181.672, "event": "sensor_clear", "cm": null}
+{"t": 1795014181.737, "event": "sensor_near", "cm": 55, "stop_cm": 183}
+{"t": 1795014182.63, "event": "sensor_clear", "cm": null}
+{"t": 1795014182.978, "event": "sensor_near", "cm": 53, "stop_cm": 183}
+{"t": 1795014183.56, "event": "sensor_clear", "cm": null}
+{"t": 1795014183.646, "event": "sensor_near", "cm": 52, "stop_cm": 183}
+{"t": 1795014183.744, "event": "sensor_clear", "cm": null}
+{"t": 1795014183.81, "event": "sensor_near", "cm": 51, "stop_cm": 183}
+{"t": 1795014184.015, "event": "sensor_clear", "cm": null}
+{"t": 1795014184.08, "event": "sensor_near", "cm": 50, "stop_cm": 183}
+{"t": 1795014184.957, "event": "sensor_clear", "cm": null}
+{"t": 1795014185.023, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795014185.12, "event": "sensor_clear", "cm": null}
+{"t": 1795014185.207, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795014185.301, "event": "sensor_clear", "cm": null}
+{"t": 1795014185.579, "event": "sensor_near", "cm": 52, "stop_cm": 183}
+{"t": 1795014185.747, "event": "sensor_clear", "cm": null}
+{"t": 1795014185.8, "event": "sensor_near", "cm": 53, "stop_cm": 183}
+{"t": 1795014185.952, "event": "sensor_clear", "cm": null}
+{"t": 1795014186.099, "event": "sensor_near", "cm": 52, "stop_cm": 183}
+{"t": 1795014186.546, "event": "sensor_clear", "cm": null}
+{"t": 1795014187.283, "event": "sensor_near", "cm": 50, "stop_cm": 183}
+{"t": 1795014190.314, "event": "sensor_clear", "cm": null}
+{"t": 1795014190.384, "event": "sensor_near", "cm": 99, "stop_cm": 183}
+{"t": 1795014191.354, "event": "sensor_clear", "cm": null}
+{"t": 1795014191.838, "event": "sensor_near", "cm": 114, "stop_cm": 183}
+{"t": 1795014192.153, "event": "sensor_clear", "cm": null}
+{"t": 1795014206.677, "event": "sensor_near", "cm": 136, "stop_cm": 183}
+{"t": 1795014206.853, "event": "sensor_clear", "cm": null}
+{"t": 1795014206.939, "event": "sensor_near", "cm": 135, "stop_cm": 183}
+{"t": 1795014207.131, "event": "sensor_clear", "cm": null}
+{"t": 1795014207.598, "event": "sensor_near", "cm": 129, "stop_cm": 183}
+{"t": 1795014216.441, "event": "sensor_clear", "cm": null}
+{"t": 1795014216.589, "event": "sensor_near", "cm": 67, "stop_cm": 183}
+{"t": 1795014216.691, "event": "sensor_clear", "cm": null}
+{"t": 1795014216.756, "event": "sensor_near", "cm": 69, "stop_cm": 183}
+{"t": 1795014216.928, "event": "sensor_clear", "cm": null}
+{"t": 1795014217.404, "event": "sensor_near", "cm": 75, "stop_cm": 183}
+{"t": 1795014217.768, "event": "sensor_clear", "cm": null}
+{"t": 1795014217.85, "event": "sensor_near", "cm": 67, "stop_cm": 183}
+{"t": 1795014218.288, "event": "sensor_clear", "cm": null}
+{"t": 1795014333.428, "event": "camera_person", "frame_at": 1795014333.39, "infer_ms": 35, "conf": 0.59, "box_h": 0.218, "sensor_cm": null}
+{"t": 1795014337.831, "event": "camera_person", "frame_at": 1795014337.82, "infer_ms": 10, "conf": 0.68, "box_h": 0.367, "sensor_cm": null}
+{"t": 1795014474.451, "event": "camera_person", "frame_at": 1795014474.436, "infer_ms": 13, "conf": 0.44, "box_h": 0.24, "sensor_cm": null}
+{"t": 1795014492.298, "event": "camera_person", "frame_at": 1795014492.287, "infer_ms": 10, "conf": 0.66, "box_h": 0.814, "sensor_cm": null}
+{"t": 1795014494.508, "event": "camera_person", "frame_at": 1795014494.492, "infer_ms": 13, "conf": 0.81, "box_h": 0.748, "sensor_cm": null}
+{"t": 1795014543.221, "event": "sensor_near", "cm": 66, "stop_cm": 183}
+{"t": 1795014543.545, "event": "sensor_clear", "cm": null}
+{"t": 1795014543.692, "event": "sensor_near", "cm": 61, "stop_cm": 183}
+{"t": 1795014544.052, "event": "camera_person", "frame_at": 1795014544.023, "infer_ms": 27, "conf": 0.67, "box_h": 0.74, "sensor_cm": 71}
+{"t": 1795014544.237, "event": "sensor_clear", "cm": null}
+{"t": 1795014544.302, "event": "sensor_near", "cm": 69, "stop_cm": 183}
+{"t": 1795014544.405, "event": "sensor_clear", "cm": null}
+{"t": 1795014544.978, "event": "sensor_near", "cm": 73, "stop_cm": 183}
+{"t": 1795014545.203, "event": "sensor_clear", "cm": null}
+{"t": 1795014545.289, "event": "sensor_near", "cm": 75, "stop_cm": 183}
+{"t": 1795014545.388, "event": "sensor_clear", "cm": null}
+{"t": 1795014545.932, "event": "sensor_near", "cm": 76, "stop_cm": 183}
+{"t": 1795014546.035, "event": "sensor_clear", "cm": null}
+{"t": 1795014546.498, "event": "sensor_near", "cm": 74, "stop_cm": 183}
+{"t": 1795014546.834, "event": "sensor_clear", "cm": null}
+{"t": 1795014546.915, "event": "sensor_near", "cm": 70, "stop_cm": 183}
+{"t": 1795014547.018, "event": "sensor_clear", "cm": null}
+{"t": 1795014547.198, "event": "sensor_near", "cm": 71, "stop_cm": 183}
+{"t": 1795014547.366, "event": "sensor_clear", "cm": null}
+{"t": 1795014547.452, "event": "sensor_near", "cm": 66, "stop_cm": 183}
+{"t": 1795014548.005, "event": "sensor_clear", "cm": null}
+{"t": 1795014548.062, "event": "sensor_near", "cm": 70, "stop_cm": 183}
+{"t": 1795014550.163, "event": "sensor_clear", "cm": null}
+{"t": 1795014550.249, "event": "sensor_near", "cm": 77, "stop_cm": 183}
+{"t": 1795014550.544, "event": "sensor_clear", "cm": null}
+{"t": 1795014558.789, "event": "sensor_near", "cm": 72, "stop_cm": 183}
+{"t": 1795014558.892, "event": "sensor_clear", "cm": null}
+{"t": 1795014559.043, "event": "sensor_near", "cm": 72, "stop_cm": 183}
+{"t": 1795014559.285, "event": "sensor_clear", "cm": null}
+{"t": 1795014559.744, "event": "sensor_near", "cm": 71, "stop_cm": 183}
+{"t": 1795014559.957, "event": "sensor_clear", "cm": null}
+{"t": 1795014564.073, "event": "sensor_near", "cm": 77, "stop_cm": 183}
+{"t": 1795014564.175, "event": "sensor_clear", "cm": null}
+{"t": 1795014564.437, "event": "sensor_near", "cm": 75, "stop_cm": 183}
+{"t": 1795014564.708, "event": "sensor_clear", "cm": null}
+{"t": 1795014565.674, "event": "sensor_near", "cm": 77, "stop_cm": 183}
+{"t": 1795014565.863, "event": "sensor_clear", "cm": null}
+{"t": 1795014570.061, "event": "sensor_near", "cm": 72, "stop_cm": 183}
+{"t": 1795014572.049, "event": "camera_person", "frame_at": 1795014572.038, "infer_ms": 10, "conf": 0.47, "box_h": 0.731, "sensor_cm": 65}
+{"t": 1795014572.326, "event": "sensor_clear", "cm": null}
+{"t": 1795014572.58, "event": "sensor_near", "cm": 70, "stop_cm": 183}
+{"t": 1795014587.906, "event": "sensor_clear", "cm": null}
+{"t": 1795014588.091, "event": "sensor_near", "cm": 74, "stop_cm": 183}
+{"t": 1795014588.185, "event": "sensor_clear", "cm": null}
+{"t": 1795014588.242, "event": "sensor_near", "cm": 71, "stop_cm": 183}
+{"t": 1795014589.713, "event": "sensor_clear", "cm": null}
+{"t": 1795014589.893, "event": "sensor_near", "cm": 71, "stop_cm": 183}
+{"t": 1795014590.249, "event": "sensor_clear", "cm": null}
+{"t": 1795014590.533, "event": "camera_person", "frame_at": 1795014590.509, "infer_ms": 22, "conf": 0.77, "box_h": 0.782, "sensor_cm": null}
+{"t": 1795014591.015, "event": "sensor_near", "cm": 70, "stop_cm": 183}
+{"t": 1795014591.572, "event": "sensor_clear", "cm": null}
+{"t": 1795014591.658, "event": "sensor_near", "cm": 67, "stop_cm": 183}
+{"t": 1795014592.383, "event": "sensor_clear", "cm": null}
+{"t": 1795014592.469, "event": "sensor_near", "cm": 72, "stop_cm": 183}
+{"t": 1795014592.764, "event": "sensor_clear", "cm": null}
+{"t": 1795014592.944, "event": "sensor_near", "cm": 66, "stop_cm": 183}
+{"t": 1795014593.194, "event": "sensor_clear", "cm": null}
+{"t": 1795014593.362, "event": "sensor_near", "cm": 62, "stop_cm": 183}
+{"t": 1795014593.657, "event": "sensor_clear", "cm": null}
+{"t": 1795014593.722, "event": "sensor_near", "cm": 64, "stop_cm": 183}
+{"t": 1795014593.907, "event": "sensor_clear", "cm": null}
+{"t": 1795014593.972, "event": "sensor_near", "cm": 63, "stop_cm": 183}
+{"t": 1795014594.398, "event": "sensor_clear", "cm": null}
+{"t": 1795014594.578, "event": "sensor_near", "cm": 63, "stop_cm": 183}
+{"t": 1795014595.619, "event": "sensor_clear", "cm": null}
+{"t": 1795014595.684, "event": "sensor_near", "cm": 69, "stop_cm": 183}
+{"t": 1795014595.992, "event": "sensor_clear", "cm": null}
+{"t": 1795014596.946, "event": "sensor_near", "cm": 66, "stop_cm": 183}
+{"t": 1795014597.134, "event": "sensor_clear", "cm": null}
+{"t": 1795014597.507, "event": "sensor_near", "cm": 65, "stop_cm": 183}
+{"t": 1795014597.609, "event": "sensor_clear", "cm": null}
+{"t": 1795014597.695, "event": "sensor_near", "cm": 65, "stop_cm": 183}
+{"t": 1795014597.79, "event": "sensor_clear", "cm": null}
+{"t": 1795014598.351, "event": "sensor_near", "cm": 65, "stop_cm": 183}
+{"t": 1795014605.674, "event": "sensor_clear", "cm": null}
+{"t": 1795014605.854, "event": "sensor_near", "cm": 65, "stop_cm": 183}
+{"t": 1795014606.039, "event": "sensor_clear", "cm": null}
+{"t": 1795014606.104, "event": "sensor_near", "cm": 65, "stop_cm": 183}
+{"t": 1795014609.307, "event": "sensor_clear", "cm": null}
+{"t": 1795014609.36, "event": "sensor_near", "cm": 65, "stop_cm": 183}
+{"t": 1795014609.545, "event": "sensor_clear", "cm": null}
+{"t": 1795014609.61, "event": "sensor_near", "cm": 65, "stop_cm": 183}
+{"t": 1795014609.798, "event": "sensor_clear", "cm": null}
+{"t": 1795014610.061, "event": "sensor_near", "cm": 65, "stop_cm": 183}
+{"t": 1795014612.453, "event": "sensor_clear", "cm": null}
+{"t": 1795014612.518, "event": "sensor_near", "cm": 66, "stop_cm": 183}
+{"t": 1795014613.194, "event": "sensor_clear", "cm": null}
+{"t": 1795014613.345, "event": "sensor_near", "cm": 65, "stop_cm": 183}
+{"t": 1795014616.061, "event": "sensor_clear", "cm": null}
+{"t": 1795014616.126, "event": "sensor_near", "cm": 75, "stop_cm": 183}
+{"t": 1795014616.315, "event": "sensor_clear", "cm": null}
+{"t": 1795014616.97, "event": "sensor_near", "cm": 71, "stop_cm": 183}
+{"t": 1795014617.691, "event": "sensor_clear", "cm": null}
+{"t": 1795014617.941, "event": "sensor_near", "cm": 64, "stop_cm": 183}
+{"t": 1795014620.493, "event": "sensor_clear", "cm": null}
+{"t": 1795014620.579, "event": "sensor_near", "cm": 64, "stop_cm": 183}
+{"t": 1795014621.185, "event": "sensor_clear", "cm": null}
+{"t": 1795014621.25, "event": "sensor_near", "cm": 64, "stop_cm": 183}
+{"t": 1795014621.893, "event": "sensor_clear", "cm": null}
+{"t": 1795014621.959, "event": "sensor_near", "cm": 63, "stop_cm": 183}
+{"t": 1795014622.119, "event": "sensor_clear", "cm": null}
+{"t": 1795014622.184, "event": "sensor_near", "cm": 63, "stop_cm": 183}
+{"t": 1795014622.717, "event": "sensor_clear", "cm": null}
+{"t": 1795014622.897, "event": "sensor_near", "cm": 63, "stop_cm": 183}
+{"t": 1795014626.878, "event": "sensor_clear", "cm": null}
+{"t": 1795014626.943, "event": "sensor_near", "cm": 64, "stop_cm": 183}
+{"t": 1795014627.578, "event": "sensor_clear", "cm": null}
+{"t": 1795014627.66, "event": "sensor_near", "cm": 66, "stop_cm": 183}
+{"t": 1795014628.09, "event": "sensor_clear", "cm": null}
+{"t": 1795014628.156, "event": "sensor_near", "cm": 64, "stop_cm": 183}
+{"t": 1795014630.998, "event": "sensor_clear", "cm": null}
+{"t": 1795014631.248, "event": "sensor_near", "cm": 63, "stop_cm": 183}
+{"t": 1795014634.877, "event": "sensor_clear", "cm": null}
+{"t": 1795014635.225, "event": "sensor_near", "cm": 65, "stop_cm": 183}
+{"t": 1795014635.409, "event": "sensor_clear", "cm": null}
+{"t": 1795014635.475, "event": "sensor_near", "cm": 65, "stop_cm": 183}
+{"t": 1795014635.856, "event": "sensor_clear", "cm": null}
+{"t": 1795014635.921, "event": "sensor_near", "cm": 64, "stop_cm": 183}
+{"t": 1795014637.675, "event": "sensor_clear", "cm": null}
+{"t": 1795014637.756, "event": "sensor_near", "cm": 65, "stop_cm": 183}
+{"t": 1795014638.133, "event": "sensor_clear", "cm": null}
+{"t": 1795014638.592, "event": "sensor_near", "cm": 64, "stop_cm": 183}
+{"t": 1795014639.731, "event": "sensor_clear", "cm": null}
+{"t": 1795014639.911, "event": "sensor_near", "cm": 64, "stop_cm": 183}
+{"t": 1795014642.315, "event": "sensor_clear", "cm": null}
+{"t": 1795014642.368, "event": "sensor_near", "cm": 64, "stop_cm": 183}
+{"t": 1795014642.635, "event": "sensor_clear", "cm": null}
+{"t": 1795014642.7, "event": "sensor_near", "cm": 64, "stop_cm": 183}
+{"t": 1795014652.342, "event": "sensor_clear", "cm": null}
+{"t": 1795014652.399, "event": "sensor_near", "cm": 64, "stop_cm": 183}
+{"t": 1795014683.806, "event": "sensor_clear", "cm": null}
+{"t": 1795014683.871, "event": "sensor_near", "cm": 63, "stop_cm": 183}
+{"t": 1795014683.969, "event": "sensor_clear", "cm": null}
+{"t": 1795014684.15, "event": "sensor_near", "cm": 64, "stop_cm": 183}
+{"t": 1795014684.252, "event": "sensor_clear", "cm": null}
+{"t": 1795014684.535, "event": "sensor_near", "cm": 75, "stop_cm": 183}
+{"t": 1795014684.629, "event": "sensor_clear", "cm": null}
+{"t": 1795014684.711, "event": "sensor_near", "cm": 66, "stop_cm": 183}
+{"t": 1795014684.932, "event": "sensor_clear", "cm": null}
+{"t": 1795014685.018, "event": "sensor_near", "cm": 67, "stop_cm": 183}
+{"t": 1795014685.12, "event": "sensor_clear", "cm": null}
+{"t": 1795014685.694, "event": "sensor_near", "cm": 83, "stop_cm": 183}
+{"t": 1795014685.796, "event": "sensor_clear", "cm": null}
+{"t": 1795014686.366, "event": "sensor_near", "cm": 68, "stop_cm": 183}
+{"t": 1795014686.804, "event": "sensor_clear", "cm": null}
+{"t": 1795014687.086, "event": "sensor_near", "cm": 70, "stop_cm": 183}
+{"t": 1795014687.181, "event": "sensor_clear", "cm": null}
+{"t": 1795014687.348, "event": "sensor_near", "cm": 68, "stop_cm": 183}
+{"t": 1795014687.615, "event": "sensor_clear", "cm": null}
+{"t": 1795014694.287, "event": "sensor_near", "cm": 74, "stop_cm": 183}
+{"t": 1795014694.447, "event": "sensor_clear", "cm": null}
+{"t": 1795014695.909, "event": "sensor_near", "cm": 78, "stop_cm": 183}
+{"t": 1795014696.089, "event": "sensor_clear", "cm": null}
+{"t": 1795014706.701, "event": "sensor_near", "cm": 81, "stop_cm": 183}
+{"t": 1795014706.795, "event": "sensor_clear", "cm": null}
+{"t": 1795014707.574, "event": "sensor_near", "cm": 70, "stop_cm": 183}
+{"t": 1795014707.909, "event": "sensor_clear", "cm": null}
+{"t": 1795014707.991, "event": "sensor_near", "cm": 71, "stop_cm": 183}
+{"t": 1795014708.086, "event": "sensor_clear", "cm": null}
+{"t": 1795014708.368, "event": "sensor_near", "cm": 71, "stop_cm": 183}
+{"t": 1795014708.622, "event": "sensor_clear", "cm": null}
+{"t": 1795014708.696, "event": "sensor_near", "cm": 75, "stop_cm": 183}
+{"t": 1795014710.006, "event": "sensor_clear", "cm": null}
+{"t": 1795014710.06, "event": "sensor_near", "cm": 75, "stop_cm": 183}
+{"t": 1795014710.641, "event": "sensor_clear", "cm": null}
+{"t": 1795014710.822, "event": "sensor_near", "cm": 78, "stop_cm": 183}
+{"t": 1795014711.055, "event": "camera_person", "frame_at": 1795014711.037, "infer_ms": 15, "conf": 0.41, "box_h": 0.71, "sensor_cm": 77}
+{"t": 1795014711.288, "event": "sensor_clear", "cm": null}
+{"t": 1795014711.375, "event": "sensor_near", "cm": 75, "stop_cm": 183}
+{"t": 1795014711.469, "event": "sensor_clear", "cm": null}
+{"t": 1795014711.526, "event": "sensor_near", "cm": 75, "stop_cm": 183}
+{"t": 1795014711.796, "event": "sensor_clear", "cm": null}
+{"t": 1795014711.977, "event": "sensor_near", "cm": 75, "stop_cm": 183}
+{"t": 1795014712.423, "event": "sensor_clear", "cm": null}
+{"t": 1795014712.48, "event": "sensor_near", "cm": 74, "stop_cm": 183}
+{"t": 1795014714.377, "event": "sensor_clear", "cm": null}
+{"t": 1795014715.036, "event": "sensor_near", "cm": 74, "stop_cm": 183}
+{"t": 1795014716.101, "event": "sensor_clear", "cm": null}
+{"t": 1795014716.183, "event": "sensor_near", "cm": 74, "stop_cm": 183}
+{"t": 1795014716.437, "event": "sensor_clear", "cm": null}
+{"t": 1795014716.801, "event": "sensor_near", "cm": 74, "stop_cm": 183}
+{"t": 1795014717.072, "event": "sensor_clear", "cm": null}
+{"t": 1795014717.42, "event": "sensor_near", "cm": 73, "stop_cm": 183}
+{"t": 1795014717.662, "event": "sensor_clear", "cm": null}
+{"t": 1795014717.731, "event": "sensor_near", "cm": 76, "stop_cm": 183}
+{"t": 1795014717.887, "event": "sensor_clear", "cm": null}
+{"t": 1795014718.153, "event": "sensor_near", "cm": 70, "stop_cm": 183}
+{"t": 1795014719.197, "event": "sensor_clear", "cm": null}
+{"t": 1795014719.263, "event": "sensor_near", "cm": 70, "stop_cm": 183}
+{"t": 1795014722.253, "event": "sensor_clear", "cm": null}
+{"t": 1795014722.994, "event": "sensor_near", "cm": 75, "stop_cm": 183}
+{"t": 1795014723.301, "event": "sensor_clear", "cm": null}
+{"t": 1795014723.388, "event": "sensor_near", "cm": 66, "stop_cm": 183}
+{"t": 1795014724.289, "event": "sensor_clear", "cm": null}
+{"t": 1795014724.457, "event": "sensor_near", "cm": 60, "stop_cm": 183}
+{"t": 1795014724.551, "event": "sensor_clear", "cm": null}
+{"t": 1795014724.801, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795014725.378, "event": "sensor_clear", "cm": null}
+{"t": 1795014725.562, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795014725.657, "event": "sensor_clear", "cm": null}
+{"t": 1795014726.529, "event": "sensor_near", "cm": 46, "stop_cm": 183}
+{"t": 1795014727.047, "event": "camera_person", "frame_at": 1795014727.031, "infer_ms": 13, "conf": 0.48, "box_h": 0.844, "sensor_cm": 36}
+{"t": 1795014729.142, "event": "sensor_clear", "cm": null}
+{"t": 1795014729.29, "event": "sensor_near", "cm": 59, "stop_cm": 183}
+{"t": 1795014729.392, "event": "sensor_clear", "cm": null}
+{"t": 1795014731.294, "event": "camera_person", "frame_at": 1795014731.277, "infer_ms": 14, "conf": 0.81, "box_h": 0.836, "sensor_cm": null}
+{"t": 1795014731.637, "event": "sensor_near", "cm": 41, "stop_cm": 183}
+{"t": 1795014731.735, "event": "sensor_clear", "cm": null}
+{"t": 1795014731.805, "event": "sensor_near", "cm": 53, "stop_cm": 183}
+{"t": 1795014732.271, "event": "sensor_clear", "cm": null}
+{"t": 1795014732.32, "event": "sensor_near", "cm": 43, "stop_cm": 183}
+{"t": 1795014737.227, "event": "sensor_clear", "cm": null}
+{"t": 1795014737.293, "event": "sensor_near", "cm": 46, "stop_cm": 183}
+{"t": 1795014738.325, "event": "sensor_clear", "cm": null}
+{"t": 1795014738.702, "event": "sensor_near", "cm": 80, "stop_cm": 183}
+{"t": 1795014738.861, "event": "sensor_clear", "cm": null}
+{"t": 1795014738.927, "event": "sensor_near", "cm": 80, "stop_cm": 183}
+{"t": 1795014739.03, "event": "sensor_clear", "cm": null}
+{"t": 1795014739.115, "event": "sensor_near", "cm": 82, "stop_cm": 183}
+{"t": 1795014739.21, "event": "sensor_clear", "cm": null}
+{"t": 1795014739.398, "event": "sensor_near", "cm": 80, "stop_cm": 183}
+{"t": 1795014739.492, "event": "sensor_clear", "cm": null}
+{"t": 1795014742.748, "event": "trial_start", "trial": 5, "auto_drive": false, "lead_s": 0}
+{"t": 1795014743.707, "event": "sensor_near", "cm": 83, "stop_cm": 183}
+{"t": 1795014743.809, "event": "sensor_clear", "cm": null}
+{"t": 1795014745.028, "event": "camera_person", "frame_at": 1795014745.016, "infer_ms": 10, "conf": 0.7, "box_h": 0.786, "sensor_cm": null}
+{"t": 1795014749.601, "event": "sensor_near", "cm": 125, "stop_cm": 183}
+{"t": 1795014749.699, "event": "sensor_clear", "cm": null}
+{"t": 1795014749.785, "event": "sensor_near", "cm": 121, "stop_cm": 183}
+{"t": 1795014749.887, "event": "sensor_clear", "cm": null}
+{"t": 1795014749.957, "event": "sensor_near", "cm": 124, "stop_cm": 183}
+{"t": 1795014750.06, "event": "sensor_clear", "cm": null}
+{"t": 1795014750.219, "event": "sensor_near", "cm": 109, "stop_cm": 183}
+{"t": 1795014750.707, "event": "sensor_clear", "cm": null}
+{"t": 1795014750.784, "event": "trial_saved", "trial": 5, "truck_stopped": "no"}
+{"t": 1795014750.793, "event": "sensor_near", "cm": 128, "stop_cm": 183}
+{"t": 1795014751.096, "event": "sensor_clear", "cm": null}
+{"t": 1795014774.991, "event": "sensor_near", "cm": 144, "stop_cm": 183}
+{"t": 1795014775.093, "event": "sensor_clear", "cm": null}
+{"t": 1795014775.47, "event": "sensor_near", "cm": 130, "stop_cm": 183}
+{"t": 1795014775.572, "event": "sensor_clear", "cm": null}
+{"t": 1795014775.756, "event": "sensor_near", "cm": 133, "stop_cm": 183}
+{"t": 1795014775.859, "event": "sensor_clear", "cm": null}
+{"t": 1795014775.933, "event": "sensor_near", "cm": 128, "stop_cm": 183}
+{"t": 1795014779.299, "event": "sensor_clear", "cm": null}
+{"t": 1795014779.381, "event": "sensor_near", "cm": 62, "stop_cm": 183}
+{"t": 1795014779.688, "event": "sensor_clear", "cm": null}
+{"t": 1795014779.754, "event": "sensor_near", "cm": 56, "stop_cm": 183}
+{"t": 1795014780.622, "event": "sensor_clear", "cm": null}
+{"t": 1795014780.774, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795014781.118, "event": "sensor_clear", "cm": null}
+{"t": 1795014781.183, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795014782.719, "event": "sensor_clear", "cm": null}
+{"t": 1795014782.895, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795014783.559, "event": "sensor_clear", "cm": null}
+{"t": 1795014783.723, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795014783.956, "event": "sensor_clear", "cm": null}
+{"t": 1795014784.01, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795014784.112, "event": "sensor_clear", "cm": null}
+{"t": 1795014784.37, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795014784.558, "event": "sensor_clear", "cm": null}
+{"t": 1795014784.931, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795014785.034, "event": "sensor_clear", "cm": null}
+{"t": 1795014785.178, "event": "camera_person", "frame_at": 1795014785.162, "infer_ms": 14, "conf": 0.48, "box_h": 0.759, "sensor_cm": null}
+{"t": 1795014785.214, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795014785.672, "event": "sensor_clear", "cm": null}
+{"t": 1795014786.037, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795014786.987, "event": "sensor_clear", "cm": null}
+{"t": 1795014787.644, "event": "camera_person", "frame_at": 1795014787.632, "infer_ms": 11, "conf": 0.47, "box_h": 0.65, "sensor_cm": null}
+{"t": 1795014788.728, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795014788.884, "event": "camera_person", "frame_at": 1795014788.87, "infer_ms": 12, "conf": 0.41, "box_h": 0.634, "sensor_cm": 55}
+{"t": 1795014788.957, "event": "sensor_clear", "cm": null}
+{"t": 1795014789.043, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795014789.334, "event": "sensor_clear", "cm": null}
+{"t": 1795014789.482, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795014789.859, "event": "sensor_clear", "cm": null}
+{"t": 1795014789.92, "event": "sensor_near", "cm": 50, "stop_cm": 183}
+{"t": 1795014790.895, "event": "sensor_clear", "cm": null}
+{"t": 1795014790.96, "event": "sensor_near", "cm": 62, "stop_cm": 183}
+{"t": 1795014792.177, "event": "sensor_clear", "cm": null}
+{"t": 1795014792.259, "event": "sensor_near", "cm": 60, "stop_cm": 183}
+{"t": 1795014792.439, "event": "sensor_clear", "cm": null}
+{"t": 1795014793.213, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795014793.307, "event": "sensor_clear", "cm": null}
+{"t": 1795014793.586, "event": "sensor_near", "cm": 61, "stop_cm": 183}
+{"t": 1795014795.182, "event": "trial_start", "trial": 6, "auto_drive": false, "lead_s": 0}
+{"t": 1795014795.81, "event": "sensor_clear", "cm": null}
+{"t": 1795014795.863, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795014796.477, "event": "sensor_clear", "cm": null}
+{"t": 1795014796.543, "event": "sensor_near", "cm": 58, "stop_cm": 183}
+{"t": 1795014796.641, "event": "sensor_clear", "cm": null}
+{"t": 1795014797.214, "event": "sensor_near", "cm": 64, "stop_cm": 183}
+{"t": 1795014797.399, "event": "sensor_clear", "cm": null}
+{"t": 1795014797.972, "event": "sensor_near", "cm": 50, "stop_cm": 183}
+{"t": 1795014798.219, "event": "camera_person", "frame_at": 1795014798.208, "infer_ms": 10, "conf": 0.83, "box_h": 0.489, "sensor_cm": 58}
+{"t": 1795014798.349, "event": "sensor_clear", "cm": null}
+{"t": 1795014798.414, "event": "sensor_near", "cm": 69, "stop_cm": 183}
+{"t": 1795014798.738, "event": "sensor_clear", "cm": null}
+{"t": 1795014799.877, "event": "sensor_near", "cm": 77, "stop_cm": 183}
+{"t": 1795014800.684, "event": "sensor_clear", "cm": null}
+{"t": 1795014803.196, "event": "trial_saved", "trial": 6, "truck_stopped": "no"}
+{"t": 1795014828.661, "event": "camera_person", "frame_at": 1795014828.616, "infer_ms": 42, "conf": 0.63, "box_h": 0.694, "sensor_cm": null}
+{"t": 1795014828.687, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795014829.092, "event": "sensor_clear", "cm": null}
+{"t": 1795014829.453, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795014829.551, "event": "sensor_clear", "cm": null}
+{"t": 1795014829.801, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795014829.899, "event": "sensor_clear", "cm": null}
+{"t": 1795014830.047, "event": "sensor_near", "cm": 53, "stop_cm": 183}
+{"t": 1795014830.939, "event": "sensor_clear", "cm": null}
+{"t": 1795014831.415, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795014831.513, "event": "sensor_clear", "cm": null}
+{"t": 1795014831.987, "event": "camera_person", "frame_at": 1795014831.951, "infer_ms": 33, "conf": 0.8, "box_h": 0.598, "sensor_cm": null}
+{"t": 1795014843.039, "event": "camera_person", "frame_at": 1795014843.004, "infer_ms": 32, "conf": 0.42, "box_h": 0.505, "sensor_cm": null}
+{"t": 1795014845.69, "event": "camera_person", "frame_at": 1795014845.659, "infer_ms": 28, "conf": 0.5, "box_h": 0.689, "sensor_cm": null}
+{"t": 1795014846.057, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795014846.155, "event": "sensor_clear", "cm": null}
+{"t": 1795014846.536, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795014846.807, "event": "sensor_clear", "cm": null}
+{"t": 1795014846.893, "event": "sensor_near", "cm": 56, "stop_cm": 183}
+{"t": 1795014847.288, "event": "camera_person", "frame_at": 1795014847.249, "infer_ms": 36, "conf": 0.79, "box_h": 0.944, "sensor_cm": 54}
+{"t": 1795014848.49, "event": "sensor_clear", "cm": null}
+{"t": 1795014849.346, "event": "sensor_near", "cm": 68, "stop_cm": 183}
+{"t": 1795014849.731, "event": "sensor_clear", "cm": null}
+{"t": 1795014850.997, "event": "sensor_near", "cm": 66, "stop_cm": 183}
+{"t": 1795014851.099, "event": "sensor_clear", "cm": null}
+{"t": 1795014862.866, "event": "sensor_near", "cm": 111, "stop_cm": 183}
+{"t": 1795014863.055, "event": "sensor_clear", "cm": null}
+{"t": 1795014865.283, "event": "sensor_near", "cm": 69, "stop_cm": 183}
+{"t": 1795014865.803, "event": "sensor_clear", "cm": null}
+{"t": 1795014866.77, "event": "sensor_near", "cm": 73, "stop_cm": 183}
+{"t": 1795014866.868, "event": "sensor_clear", "cm": null}
+{"t": 1795014867.028, "event": "sensor_near", "cm": 122, "stop_cm": 183}
+{"t": 1795014867.22, "event": "sensor_clear", "cm": null}
+{"t": 1795014867.858, "event": "camera_person", "frame_at": 1795014867.819, "infer_ms": 36, "conf": 0.48, "box_h": 0.556, "sensor_cm": null}
+{"t": 1795014868.383, "event": "sensor_near", "cm": 71, "stop_cm": 183}
+{"t": 1795014868.482, "event": "sensor_clear", "cm": null}
+{"t": 1795014881.577, "event": "trial_start", "trial": 7, "auto_drive": false, "lead_s": 0}
+{"t": 1795014885.778, "event": "sensor_near", "cm": 43, "stop_cm": 183}
+{"t": 1795014885.942, "event": "sensor_clear", "cm": null}
+{"t": 1795014885.995, "event": "sensor_near", "cm": 52, "stop_cm": 183}
+{"t": 1795014886.765, "event": "sensor_clear", "cm": null}
+{"t": 1795014886.847, "event": "sensor_near", "cm": 60, "stop_cm": 183}
+{"t": 1795014888.572, "event": "sensor_clear", "cm": null}
+{"t": 1795014889.595, "event": "trial_saved", "trial": 7, "truck_stopped": "no"}
+{"t": 1795014891.701, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795014891.943, "event": "sensor_clear", "cm": null}
+{"t": 1795014892.094, "event": "sensor_near", "cm": 87, "stop_cm": 183}
+{"t": 1795014892.368, "event": "sensor_clear", "cm": null}
+{"t": 1795014892.434, "event": "sensor_near", "cm": 80, "stop_cm": 183}
+{"t": 1795014892.856, "event": "sensor_clear", "cm": null}
+{"t": 1795014892.942, "event": "sensor_near", "cm": 78, "stop_cm": 183}
+{"t": 1795014893.044, "event": "sensor_clear", "cm": null}
+{"t": 1795014893.224, "event": "sensor_near", "cm": 74, "stop_cm": 183}
+{"t": 1795014893.409, "event": "sensor_clear", "cm": null}
+{"t": 1795014893.589, "event": "sensor_near", "cm": 86, "stop_cm": 183}
+{"t": 1795014893.691, "event": "sensor_clear", "cm": null}
+{"t": 1795014895.223, "event": "sensor_near", "cm": 88, "stop_cm": 183}
+{"t": 1795014895.723, "event": "sensor_clear", "cm": null}
+{"t": 1795014896.692, "event": "camera_person", "frame_at": 1795014896.655, "infer_ms": 34, "conf": 0.57, "box_h": 0.279, "sensor_cm": null}
+{"t": 1795014896.861, "event": "sensor_near", "cm": 86, "stop_cm": 183}
+{"t": 1795014897.595, "event": "sensor_clear", "cm": null}
+{"t": 1795014897.763, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795014898.012, "event": "sensor_clear", "cm": null}
+{"t": 1795014898.098, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795014898.487, "event": "camera_person", "frame_at": 1795014898.446, "infer_ms": 36, "conf": 0.42, "box_h": 0.972, "sensor_cm": 59}
+{"t": 1795014899.299, "event": "sensor_clear", "cm": null}
+{"t": 1795014899.368, "event": "sensor_near", "cm": 92, "stop_cm": 183}
+{"t": 1795014901.117, "event": "sensor_clear", "cm": null}
+{"t": 1795014901.301, "event": "sensor_near", "cm": 126, "stop_cm": 183}
+{"t": 1795014901.539, "event": "sensor_clear", "cm": null}
+{"t": 1795014902.596, "event": "sensor_near", "cm": 163, "stop_cm": 183}
+{"t": 1795014902.919, "event": "sensor_clear", "cm": null}
+{"t": 1795014903.099, "event": "sensor_near", "cm": 175, "stop_cm": 183}
+{"t": 1795014903.456, "event": "sensor_clear", "cm": null}
+{"t": 1795014903.734, "event": "sensor_near", "cm": 176, "stop_cm": 183}
+{"t": 1795014903.837, "event": "sensor_clear", "cm": null}
+{"t": 1795014904.111, "event": "sensor_near", "cm": 166, "stop_cm": 183}
+{"t": 1795014904.209, "event": "sensor_clear", "cm": null}
+{"t": 1795014904.394, "event": "sensor_near", "cm": 154, "stop_cm": 183}
+{"t": 1795014904.496, "event": "sensor_clear", "cm": null}
+{"t": 1795014905.266, "event": "sensor_near", "cm": 93, "stop_cm": 183}
+{"t": 1795014906.974, "event": "sensor_clear", "cm": null}
+{"t": 1795014907.023, "event": "sensor_near", "cm": 51, "stop_cm": 183}
+{"t": 1795014907.806, "event": "sensor_clear", "cm": null}
+{"t": 1795014907.855, "event": "sensor_near", "cm": 36, "stop_cm": 183}
+{"t": 1795014908.055, "event": "sensor_clear", "cm": null}
+{"t": 1795014908.121, "event": "sensor_near", "cm": 36, "stop_cm": 183}
+{"t": 1795014908.367, "event": "sensor_clear", "cm": null}
+{"t": 1795014908.449, "event": "sensor_near", "cm": 38, "stop_cm": 183}
+{"t": 1795014911.594, "event": "trial_start", "trial": 8, "auto_drive": false, "lead_s": 0}
+{"t": 1795014913.548, "event": "sensor_clear", "cm": null}
+{"t": 1795014913.601, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795014914.621, "event": "sensor_clear", "cm": null}
+{"t": 1795014916.923, "event": "camera_person", "frame_at": 1795014916.908, "infer_ms": 13, "conf": 0.48, "box_h": 0.758, "sensor_cm": null}
+{"t": 1795014919.601, "event": "trial_saved", "trial": 8, "truck_stopped": "no"}
+{"t": 1795014922.436, "event": "sensor_near", "cm": 36, "stop_cm": 183}
+{"t": 1795014922.538, "event": "sensor_clear", "cm": null}
+{"t": 1795014922.604, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795014922.904, "event": "camera_person", "frame_at": 1795014922.893, "infer_ms": 10, "conf": 0.64, "box_h": 0.978, "sensor_cm": 36}
+{"t": 1795014923.427, "event": "sensor_clear", "cm": null}
+{"t": 1795014923.496, "event": "sensor_near", "cm": 61, "stop_cm": 183}
+{"t": 1795014923.595, "event": "sensor_clear", "cm": null}
+{"t": 1795014924.463, "event": "sensor_near", "cm": 65, "stop_cm": 183}
+{"t": 1795014924.934, "event": "sensor_clear", "cm": null}
+{"t": 1795014925.213, "event": "sensor_near", "cm": 50, "stop_cm": 183}
+{"t": 1795014925.43, "event": "sensor_clear", "cm": null}
+{"t": 1795014925.684, "event": "sensor_near", "cm": 71, "stop_cm": 183}
+{"t": 1795014926.138, "event": "sensor_clear", "cm": null}
+{"t": 1795014926.511, "event": "sensor_near", "cm": 52, "stop_cm": 183}
+{"t": 1795014926.613, "event": "sensor_clear", "cm": null}
+{"t": 1795014926.892, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795014926.99, "event": "sensor_clear", "cm": null}
+{"t": 1795014927.072, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795014927.293, "event": "sensor_clear", "cm": null}
+{"t": 1795014927.375, "event": "sensor_near", "cm": 65, "stop_cm": 183}
+{"t": 1795014927.857, "event": "camera_person", "frame_at": 1795014927.843, "infer_ms": 12, "conf": 0.49, "box_h": 0.487, "sensor_cm": 59}
+{"t": 1795014931.631, "event": "sensor_clear", "cm": null}
+{"t": 1795014931.696, "event": "sensor_near", "cm": 38, "stop_cm": 183}
+{"t": 1795014932.326, "event": "camera_person", "frame_at": 1795014932.311, "infer_ms": 13, "conf": 0.88, "box_h": 0.976, "sensor_cm": 40}
+{"t": 1795014940.901, "event": "camera_person", "frame_at": 1795014940.89, "infer_ms": 10, "conf": 0.82, "box_h": 0.974, "sensor_cm": 82}
+{"t": 1795014942.379, "event": "sensor_clear", "cm": null}
+{"t": 1795014944.434, "event": "camera_person", "frame_at": 1795014944.419, "infer_ms": 13, "conf": 0.49, "box_h": 0.875, "sensor_cm": null}
+{"t": 1795014946.675, "event": "sensor_near", "cm": 47, "stop_cm": 183}
+{"t": 1795014946.826, "event": "sensor_clear", "cm": null}
+{"t": 1795014946.892, "event": "sensor_near", "cm": 45, "stop_cm": 183}
+{"t": 1795014947.703, "event": "sensor_clear", "cm": null}
+{"t": 1795014947.768, "event": "sensor_near", "cm": 49, "stop_cm": 183}
+{"t": 1795014948.833, "event": "sensor_clear", "cm": null}
+{"t": 1795014948.915, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795014950.504, "event": "sensor_clear", "cm": null}
+{"t": 1795014950.586, "event": "sensor_near", "cm": 44, "stop_cm": 183}
+{"t": 1795014950.68, "event": "sensor_clear", "cm": null}
+{"t": 1795014951.454, "event": "sensor_near", "cm": 59, "stop_cm": 183}
+{"t": 1795014951.549, "event": "sensor_clear", "cm": null}
+{"t": 1795014951.635, "event": "sensor_near", "cm": 61, "stop_cm": 183}
+{"t": 1795014951.901, "event": "sensor_clear", "cm": null}
+{"t": 1795014952.265, "event": "sensor_near", "cm": 58, "stop_cm": 183}
+{"t": 1795014952.36, "event": "sensor_clear", "cm": null}
+{"t": 1795014952.642, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795014953.461, "event": "sensor_clear", "cm": null}
+{"t": 1795014969.871, "event": "trial_start", "trial": 9, "auto_drive": false, "lead_s": 0}
+{"t": 1795014974.887, "event": "sensor_near", "cm": 50, "stop_cm": 183}
+{"t": 1795014975.644, "event": "sensor_clear", "cm": null}
+{"t": 1795014977.893, "event": "trial_saved", "trial": 9, "truck_stopped": "no"}
+{"t": 1795015019.17, "event": "sensor_near", "cm": 23, "stop_cm": 183}
+{"t": 1795015020.121, "event": "sensor_clear", "cm": null}
+{"t": 1795015022.329, "event": "trial_start", "trial": 10, "auto_drive": false, "lead_s": 0}
+{"t": 1795015023.61, "event": "sensor_near", "cm": 37, "stop_cm": 183}
+{"t": 1795015024.511, "event": "sensor_clear", "cm": null}
+{"t": 1795015024.679, "event": "sensor_near", "cm": 81, "stop_cm": 183}
+{"t": 1795015024.774, "event": "sensor_clear", "cm": null}
+{"t": 1795015024.851, "event": "sensor_near", "cm": 82, "stop_cm": 183}
+{"t": 1795015025.163, "event": "sensor_clear", "cm": null}
+{"t": 1795015025.445, "event": "sensor_near", "cm": 103, "stop_cm": 183}
+{"t": 1795015025.539, "event": "sensor_clear", "cm": null}
+{"t": 1795015026.412, "event": "sensor_near", "cm": 93, "stop_cm": 183}
+{"t": 1795015026.895, "event": "sensor_clear", "cm": null}
+{"t": 1795015027.287, "event": "camera_person", "frame_at": 1795015027.249, "infer_ms": 34, "conf": 0.64, "box_h": 0.237, "sensor_cm": null}
+{"t": 1795015030.36, "event": "trial_saved", "trial": 10, "truck_stopped": "no"}
+{"t": 1795015031.888, "event": "sensor_near", "cm": 72, "stop_cm": 183}
+{"t": 1795015031.982, "event": "sensor_clear", "cm": null}
+{"t": 1795015032.056, "event": "sensor_near", "cm": 71, "stop_cm": 183}
+{"t": 1795015032.15, "event": "sensor_clear", "cm": null}
+{"t": 1795015039.908, "event": "sensor_near", "cm": 80, "stop_cm": 183}
+{"t": 1795015040.111, "event": "tx_idle", "control": "forward", "sensor": true, "camera": true}
+{"t": 1795015040.275, "event": "tx_released", "control": "idle"}
+{"t": 1795015040.373, "event": "tx_idle", "control": "forward", "sensor": true, "camera": true}
+{"t": 1795015040.465, "event": "sensor_clear", "cm": null}
+{"t": 1795015040.53, "event": "sensor_near", "cm": 75, "stop_cm": 183}
+{"t": 1795015040.554, "event": "tx_released", "control": "idle"}
+{"t": 1795015040.633, "event": "sensor_clear", "cm": null}
+{"t": 1795015040.635, "event": "tx_idle", "control": "forward", "sensor": true, "camera": true}
+{"t": 1795015041.045, "event": "tx_resume", "control": "forward"}
+{"t": 1795015041.108, "event": "sensor_near", "cm": 78, "stop_cm": 183}
+{"t": 1795015041.111, "event": "tx_idle", "control": "forward", "sensor": true, "camera": false}
+{"t": 1795015041.206, "event": "sensor_clear", "cm": null}
+{"t": 1795015041.259, "event": "camera_person", "frame_at": 1795015041.226, "infer_ms": 31, "conf": 0.78, "box_h": 0.328, "sensor_cm": null}
+{"t": 1795015042.929, "event": "tx_resume", "control": "forward"}
+{"t": 1795015047.19, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795015047.358, "event": "sensor_clear", "cm": null}
+{"t": 1795015047.636, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795015047.804, "event": "sensor_clear", "cm": null}
+{"t": 1795015047.886, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795015048.263, "event": "sensor_clear", "cm": null}
+{"t": 1795015048.345, "event": "sensor_near", "cm": 54, "stop_cm": 183}
+{"t": 1795015048.761, "event": "camera_person", "frame_at": 1795015048.725, "infer_ms": 34, "conf": 0.86, "box_h": 0.978, "sensor_cm": 61}
+{"t": 1795015049.852, "event": "camera_person", "frame_at": 1795015049.816, "infer_ms": 33, "conf": 0.42, "box_h": 0.978, "sensor_cm": 56}
+{"t": 1795015050.302, "event": "tx_idle", "control": "forward", "sensor": true, "camera": true}
+{"t": 1795015050.303, "event": "sensor_clear", "cm": null}
+{"t": 1795015050.376, "event": "sensor_near", "cm": 56, "stop_cm": 183}
+{"t": 1795015050.471, "event": "sensor_clear", "cm": null}
+{"t": 1795015050.639, "event": "sensor_near", "cm": 58, "stop_cm": 183}
+{"t": 1795015050.737, "event": "sensor_clear", "cm": null}
+{"t": 1795015051.515, "event": "tx_resume", "control": "forward"}
+{"t": 1795015052.871, "event": "sensor_near", "cm": 59, "stop_cm": 183}
+{"t": 1795015052.874, "event": "tx_idle", "control": "forward", "sensor": true, "camera": false}
+{"t": 1795015052.969, "event": "sensor_clear", "cm": null}
+{"t": 1795015053.039, "event": "sensor_near", "cm": 60, "stop_cm": 183}
+{"t": 1795015053.133, "event": "sensor_clear", "cm": null}
+{"t": 1795015053.186, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795015053.44, "event": "sensor_clear", "cm": null}
+{"t": 1795015053.522, "event": "sensor_near", "cm": 59, "stop_cm": 183}
+{"t": 1795015053.611, "event": "tx_released", "control": "idle"}
+{"t": 1795015053.624, "event": "sensor_clear", "cm": null}
+{"t": 1795015053.706, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795015053.71, "event": "tx_idle", "control": "forward", "sensor": true, "camera": false}
+{"t": 1795015053.801, "event": "sensor_clear", "cm": null}
+{"t": 1795015053.887, "event": "sensor_near", "cm": 60, "stop_cm": 183}
+{"t": 1795015054.231, "event": "sensor_clear", "cm": null}
+{"t": 1795015054.284, "event": "tx_released", "control": "idle"}
+{"t": 1795015054.317, "event": "sensor_near", "cm": 60, "stop_cm": 183}
+{"t": 1795015054.366, "event": "tx_idle", "control": "forward", "sensor": true, "camera": false}
+{"t": 1795015054.411, "event": "sensor_clear", "cm": null}
+{"t": 1795015054.775, "event": "tx_released", "control": "idle"}
+{"t": 1795015054.808, "event": "tx_idle", "control": "forward", "sensor": true, "camera": false}
+{"t": 1795015054.923, "event": "tx_resume", "control": "forward"}
+{"t": 1795015058.036, "event": "sensor_near", "cm": 60, "stop_cm": 183}
+{"t": 1795015058.052, "event": "tx_idle", "control": "forward", "sensor": true, "camera": false}
+{"t": 1795015058.138, "event": "sensor_clear", "cm": null}
+{"t": 1795015058.642, "event": "tx_resume", "control": "forward"}
+{"t": 1795015061.857, "event": "sensor_near", "cm": 58, "stop_cm": 183}
+{"t": 1795015061.869, "event": "tx_idle", "control": "forward", "sensor": true, "camera": false}
+{"t": 1795015061.96, "event": "sensor_clear", "cm": null}
+{"t": 1795015062.475, "event": "tx_resume", "control": "forward"}
+{"t": 1795015203.511, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795015203.526, "event": "tx_idle", "control": "forward", "sensor": true, "camera": false}
+{"t": 1795015205.523, "event": "camera_person", "frame_at": 1795015205.45, "infer_ms": 70, "conf": 0.67, "box_h": 0.915, "sensor_cm": 54}
+{"t": 1795015205.951, "event": "tx_released", "control": "idle"}
+{"t": 1795015206.025, "event": "sensor_clear", "cm": null}
+{"t": 1795015212.402, "event": "trial_start", "trial": 11, "auto_drive": false, "lead_s": 0}
+{"t": 1795015220.431, "event": "trial_saved", "trial": 11, "truck_stopped": "no"}
+{"t": 1795015225.545, "event": "trial_start", "trial": 12, "auto_drive": false, "lead_s": 0}
+{"t": 1795015229.384, "event": "sensor_near", "cm": 49, "stop_cm": 183}
+{"t": 1795015230.084, "event": "sensor_clear", "cm": null}
+{"t": 1795015232.046, "event": "sensor_near", "cm": 102, "stop_cm": 183}
+{"t": 1795015232.14, "event": "sensor_clear", "cm": null}
+{"t": 1795015232.549, "event": "camera_person", "frame_at": 1795015232.513, "infer_ms": 33, "conf": 0.44, "box_h": 0.274, "sensor_cm": null}
+{"t": 1795015233.504, "event": "sensor_near", "cm": 58, "stop_cm": 183}
+{"t": 1795015233.56, "event": "trial_saved", "trial": 12, "truck_stopped": "no"}
+{"t": 1795015233.598, "event": "sensor_clear", "cm": null}
+{"t": 1795015234.078, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795015234.262, "event": "sensor_clear", "cm": null}
+{"t": 1795015246.242, "event": "trial_start", "trial": 13, "auto_drive": false, "lead_s": 0}
+{"t": 1795015247.033, "event": "sensor_near", "cm": 56, "stop_cm": 183}
+{"t": 1795015247.042, "event": "tx_idle", "control": "forward", "sensor": true, "camera": false}
+{"t": 1795015247.241, "event": "sensor_clear", "cm": null}
+{"t": 1795015247.307, "event": "sensor_near", "cm": 72, "stop_cm": 183}
+{"t": 1795015247.872, "event": "sensor_clear", "cm": null}
+{"t": 1795015247.958, "event": "sensor_near", "cm": 88, "stop_cm": 183}
+{"t": 1795015248.143, "event": "sensor_clear", "cm": null}
+{"t": 1795015248.519, "event": "sensor_near", "cm": 80, "stop_cm": 183}
+{"t": 1795015249.235, "event": "camera_person", "frame_at": 1795015249.168, "infer_ms": 65, "conf": 0.45, "box_h": 0.506, "sensor_cm": 79}
+{"t": 1795015249.699, "event": "sensor_clear", "cm": null}
+{"t": 1795015253.071, "event": "tx_released", "control": "idle"}
+{"t": 1795015254.261, "event": "trial_saved", "trial": 13, "truck_stopped": "yes"}
+{"t": 1795015282.228, "event": "sensor_near", "cm": 69, "stop_cm": 183}
+{"t": 1795015282.235, "event": "tx_idle", "control": "forward", "sensor": true, "camera": false}
+{"t": 1795015282.718, "event": "camera_person", "frame_at": 1795015282.676, "infer_ms": 39, "conf": 0.9, "box_h": 0.756, "sensor_cm": 68}
+{"t": 1795015284.332, "event": "tx_released", "control": "idle"}
+{"t": 1795015285.177, "event": "sensor_clear", "cm": null}
+{"t": 1795015285.455, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795015287.188, "event": "sensor_clear", "cm": null}
+{"t": 1795015287.254, "event": "sensor_near", "cm": 56, "stop_cm": 183}
+{"t": 1795015287.732, "event": "camera_person", "frame_at": 1795015287.694, "infer_ms": 35, "conf": 0.46, "box_h": 0.972, "sensor_cm": 46}
+{"t": 1795015289.979, "event": "camera_person", "frame_at": 1795015289.941, "infer_ms": 35, "conf": 0.51, "box_h": 0.97, "sensor_cm": 45}
+{"t": 1795015291.786, "event": "camera_person", "frame_at": 1795015291.75, "infer_ms": 34, "conf": 0.45, "box_h": 0.97, "sensor_cm": 43}
+{"t": 1795015294.749, "event": "sensor_clear", "cm": null}
+{"t": 1795015294.913, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795015295.101, "event": "sensor_clear", "cm": null}
+{"t": 1795015300.298, "event": "trial_start", "trial": 14, "auto_drive": false, "lead_s": 0}
+{"t": 1795015303.346, "event": "sensor_near", "cm": 66, "stop_cm": 183}
+{"t": 1795015303.354, "event": "tx_idle", "control": "forward", "sensor": true, "camera": false}
+{"t": 1795015303.502, "event": "sensor_clear", "cm": null}
+{"t": 1795015303.567, "event": "sensor_near", "cm": 69, "stop_cm": 183}
+{"t": 1795015303.728, "event": "camera_person", "frame_at": 1795015303.691, "infer_ms": 35, "conf": 0.84, "box_h": 0.654, "sensor_cm": 69}
+{"t": 1795015303.78, "event": "sensor_clear", "cm": null}
+{"t": 1795015303.846, "event": "sensor_near", "cm": 70, "stop_cm": 183}
+{"t": 1795015304.124, "event": "sensor_clear", "cm": null}
+{"t": 1795015304.378, "event": "sensor_near", "cm": 71, "stop_cm": 183}
+{"t": 1795015305.201, "event": "sensor_clear", "cm": null}
+{"t": 1795015305.377, "event": "sensor_near", "cm": 67, "stop_cm": 183}
+{"t": 1795015305.48, "event": "sensor_clear", "cm": null}
+{"t": 1795015306.483, "event": "tx_resume", "control": "forward"}
+{"t": 1795015308.309, "event": "trial_saved", "trial": 14, "truck_stopped": "yes"}
+{"t": 1795015308.613, "event": "sensor_near", "cm": 73, "stop_cm": 183}
+{"t": 1795015308.629, "event": "tx_idle", "control": "forward", "sensor": true, "camera": false}
+{"t": 1795015309.087, "event": "camera_person", "frame_at": 1795015309.053, "infer_ms": 31, "conf": 0.42, "box_h": 0.555, "sensor_cm": 66}
+{"t": 1795015310.055, "event": "tx_released", "control": "idle"}
+{"t": 1795015310.464, "event": "sensor_clear", "cm": null}
+{"t": 1795015310.546, "event": "sensor_near", "cm": 82, "stop_cm": 183}
+{"t": 1795015310.705, "event": "sensor_clear", "cm": null}
+{"t": 1795015319.1, "event": "sensor_near", "cm": 20, "stop_cm": 183}
+{"t": 1795015319.898, "event": "sensor_clear", "cm": null}
+{"t": 1795015320.18, "event": "sensor_near", "cm": 66, "stop_cm": 183}
+{"t": 1795015320.274, "event": "sensor_clear", "cm": null}
+{"t": 1795015351.125, "event": "sensor_near", "cm": 91, "stop_cm": 183}
+{"t": 1795015351.227, "event": "sensor_clear", "cm": null}
+{"t": 1795015351.887, "event": "sensor_near", "cm": 105, "stop_cm": 183}
+{"t": 1795015351.989, "event": "sensor_clear", "cm": null}
+{"t": 1795015352.059, "event": "sensor_near", "cm": 98, "stop_cm": 183}
+{"t": 1795015352.161, "event": "sensor_clear", "cm": null}
+{"t": 1795015354.983, "event": "sensor_near", "cm": 74, "stop_cm": 183}
+{"t": 1795015355.109, "event": "camera_person", "frame_at": 1795015355.074, "infer_ms": 32, "conf": 0.55, "box_h": 0.828, "sensor_cm": 82}
+{"t": 1795015355.142, "event": "sensor_clear", "cm": null}
+{"t": 1795015355.208, "event": "sensor_near", "cm": 80, "stop_cm": 183}
+{"t": 1795015355.31, "event": "sensor_clear", "cm": null}
+{"t": 1795015355.396, "event": "sensor_near", "cm": 71, "stop_cm": 183}
+{"t": 1795015355.83, "event": "sensor_clear", "cm": null}
+{"t": 1795015356.899, "event": "sensor_near", "cm": 94, "stop_cm": 183}
+{"t": 1795015357.002, "event": "sensor_clear", "cm": null}
+{"t": 1795015357.129, "event": "camera_person", "frame_at": 1795015357.089, "infer_ms": 36, "conf": 0.56, "box_h": 0.973, "sensor_cm": null}
+{"t": 1795015366.402, "event": "camera_person", "frame_at": 1795015366.367, "infer_ms": 32, "conf": 0.76, "box_h": 0.41, "sensor_cm": null}
+{"t": 1795015366.407, "event": "tx_idle", "control": "forward", "sensor": false, "camera": true}
+{"t": 1795015369.045, "event": "tx_released", "control": "idle"}
+{"t": 1795015369.34, "event": "tx_idle", "control": "forward", "sensor": false, "camera": true}
+{"t": 1795015369.766, "event": "tx_released", "control": "idle"}
+{"t": 1795015369.946, "event": "tx_idle", "control": "forward", "sensor": false, "camera": true}
+{"t": 1795015370.127, "event": "tx_released", "control": "idle"}
+{"t": 1795015370.143, "event": "tx_idle", "control": "forward", "sensor": false, "camera": true}
+{"t": 1795015370.323, "event": "tx_released", "control": "idle"}
+{"t": 1795015370.405, "event": "tx_idle", "control": "forward", "sensor": false, "camera": true}
+{"t": 1795015370.504, "event": "tx_released", "control": "idle"}
+{"t": 1795015370.569, "event": "tx_idle", "control": "forward", "sensor": false, "camera": true}
+{"t": 1795015370.651, "event": "tx_released", "control": "idle"}
+{"t": 1795015370.716, "event": "tx_idle", "control": "forward", "sensor": false, "camera": true}
+{"t": 1795015370.847, "event": "tx_released", "control": "idle"}
+{"t": 1795015370.946, "event": "tx_idle", "control": "forward", "sensor": false, "camera": true}
+{"t": 1795015371.83, "event": "tx_released", "control": "idle"}
+{"t": 1795015372.01, "event": "tx_idle", "control": "forward", "sensor": false, "camera": true}
+{"t": 1795015372.109, "event": "tx_released", "control": "idle"}
+{"t": 1795015372.191, "event": "tx_idle", "control": "forward", "sensor": false, "camera": true}
+{"t": 1795015372.338, "event": "tx_released", "control": "idle"}
+{"t": 1795015372.42, "event": "tx_idle", "control": "forward", "sensor": false, "camera": true}
+{"t": 1795015372.518, "event": "tx_released", "control": "idle"}
+{"t": 1795015372.617, "event": "tx_idle", "control": "forward", "sensor": false, "camera": true}
+{"t": 1795015372.731, "event": "tx_released", "control": "idle"}
+{"t": 1795015372.797, "event": "tx_idle", "control": "forward", "sensor": false, "camera": true}
+{"t": 1795015372.895, "event": "tx_released", "control": "idle"}
+{"t": 1795015372.961, "event": "tx_idle", "control": "forward", "sensor": false, "camera": true}
+{"t": 1795015373.108, "event": "tx_released", "control": "idle"}
+{"t": 1795015373.19, "event": "tx_idle", "control": "forward", "sensor": false, "camera": true}
+{"t": 1795015373.37, "event": "tx_released", "control": "idle"}
+{"t": 1795015373.469, "event": "tx_idle", "control": "forward", "sensor": false, "camera": true}
+{"t": 1795015373.698, "event": "tx_released", "control": "idle"}
+{"t": 1795015373.764, "event": "tx_idle", "control": "forward", "sensor": false, "camera": true}
+{"t": 1795015374.009, "event": "tx_released", "control": "idle"}
+{"t": 1795015374.797, "event": "sensor_near", "cm": 163, "stop_cm": 183}
+{"t": 1795015374.981, "event": "sensor_clear", "cm": null}
+{"t": 1795015375.063, "event": "sensor_near", "cm": 155, "stop_cm": 183}
+{"t": 1795015375.157, "event": "sensor_clear", "cm": null}
+{"t": 1795015375.239, "event": "sensor_near", "cm": 146, "stop_cm": 183}
+{"t": 1795015375.337, "event": "sensor_clear", "cm": null}
+{"t": 1795015375.62, "event": "sensor_near", "cm": 127, "stop_cm": 183}
+{"t": 1795015376.03, "event": "sensor_clear", "cm": null}
+{"t": 1795015376.202, "event": "sensor_near", "cm": 119, "stop_cm": 183}
+{"t": 1795015376.3, "event": "sensor_clear", "cm": null}
+{"t": 1795015376.361, "event": "sensor_near", "cm": 116, "stop_cm": 183}
+{"t": 1795015376.599, "event": "sensor_clear", "cm": null}
+{"t": 1795015376.66, "event": "sensor_near", "cm": 100, "stop_cm": 183}
+{"t": 1795015378.899, "event": "camera_person", "frame_at": 1795015378.856, "infer_ms": 40, "conf": 0.44, "box_h": 0.975, "sensor_cm": 78}
+{"t": 1795015388.771, "event": "sensor_clear", "cm": null}
+{"t": 1795015389.246, "event": "sensor_near", "cm": 29, "stop_cm": 183}
+{"t": 1795015389.423, "event": "sensor_clear", "cm": null}
+{"t": 1795015389.586, "event": "sensor_near", "cm": 28, "stop_cm": 183}
+{"t": 1795015389.816, "event": "sensor_clear", "cm": null}
+{"t": 1795015391.077, "event": "sensor_near", "cm": 31, "stop_cm": 183}
+{"t": 1795015391.175, "event": "sensor_clear", "cm": null}
+{"t": 1795015391.257, "event": "sensor_near", "cm": 31, "stop_cm": 183}
+{"t": 1795015391.356, "event": "sensor_clear", "cm": null}
+{"t": 1795015393.273, "event": "sensor_near", "cm": 36, "stop_cm": 183}
+{"t": 1795015393.617, "event": "sensor_clear", "cm": null}
+{"t": 1795015393.666, "event": "sensor_near", "cm": 32, "stop_cm": 183}
+{"t": 1795015394.309, "event": "sensor_clear", "cm": null}
+{"t": 1795015394.37, "event": "sensor_near", "cm": 31, "stop_cm": 183}
+{"t": 1795015394.616, "event": "sensor_clear", "cm": null}
+{"t": 1795015395.152, "event": "sensor_near", "cm": 23, "stop_cm": 183}
+{"t": 1795015395.996, "event": "sensor_clear", "cm": null}
+{"t": 1795015396.246, "event": "sensor_near", "cm": 75, "stop_cm": 183}
+{"t": 1795015397.274, "event": "sensor_clear", "cm": null}
+{"t": 1795015397.336, "event": "sensor_near", "cm": 29, "stop_cm": 183}
+{"t": 1795015398.536, "event": "camera_person", "frame_at": 1795015398.496, "infer_ms": 37, "conf": 0.81, "box_h": 0.966, "sensor_cm": 66}
+{"t": 1795015399.08, "event": "sensor_clear", "cm": null}
+{"t": 1795015399.129, "event": "sensor_near", "cm": 51, "stop_cm": 183}
+{"t": 1795015399.482, "event": "sensor_clear", "cm": null}
+{"t": 1795015399.744, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795015400.765, "event": "camera_person", "frame_at": 1795015400.724, "infer_ms": 38, "conf": 0.49, "box_h": 0.863, "sensor_cm": 49}
+{"t": 1795015403.856, "event": "sensor_clear", "cm": null}
+{"t": 1795015404.2, "event": "sensor_near", "cm": 53, "stop_cm": 183}
+{"t": 1795015404.491, "event": "sensor_clear", "cm": null}
+{"t": 1795015404.667, "event": "sensor_near", "cm": 54, "stop_cm": 183}
+{"t": 1795015406.555, "event": "sensor_clear", "cm": null}
+{"t": 1795015406.608, "event": "sensor_near", "cm": 52, "stop_cm": 183}
+{"t": 1795015408.541, "event": "sensor_clear", "cm": null}
+{"t": 1795015408.705, "event": "sensor_near", "cm": 58, "stop_cm": 183}
+{"t": 1795015409.053, "event": "sensor_clear", "cm": null}
+{"t": 1795015409.119, "event": "sensor_near", "cm": 50, "stop_cm": 183}
+{"t": 1795015409.194, "event": "camera_person", "frame_at": 1795015409.152, "infer_ms": 37, "conf": 0.6, "box_h": 0.97, "sensor_cm": 75}
+{"t": 1795015411.625, "event": "sensor_clear", "cm": null}
+{"t": 1795015411.683, "event": "sensor_near", "cm": 79, "stop_cm": 183}
+{"t": 1795015422.434, "event": "sensor_clear", "cm": null}
+{"t": 1795015422.508, "event": "sensor_near", "cm": 43, "stop_cm": 183}
+{"t": 1795015428.651, "event": "sensor_clear", "cm": null}
+{"t": 1795015455.478, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795015455.794, "event": "sensor_clear", "cm": null}
+{"t": 1795015455.876, "event": "sensor_near", "cm": 58, "stop_cm": 183}
+{"t": 1795015456.588, "event": "sensor_clear", "cm": null}
+{"t": 1795015456.607, "event": "camera_person", "frame_at": 1795015456.568, "infer_ms": 36, "conf": 0.57, "box_h": 0.734, "sensor_cm": null}
+{"t": 1795015456.834, "event": "sensor_near", "cm": 40, "stop_cm": 183}
+{"t": 1795015457.707, "event": "sensor_clear", "cm": null}
+{"t": 1795015463.423, "event": "camera_person", "frame_at": 1795015463.387, "infer_ms": 33, "conf": 0.5, "box_h": 0.972, "sensor_cm": null}
+{"t": 1795015468.204, "event": "sensor_near", "cm": 106, "stop_cm": 183}
+{"t": 1795015470.62, "event": "sensor_clear", "cm": null}
+{"t": 1795015474.434, "event": "sensor_near", "cm": 84, "stop_cm": 183}
+{"t": 1795015477.78, "event": "sensor_clear", "cm": null}
+{"t": 1795015483.174, "event": "sensor_near", "cm": 69, "stop_cm": 183}
+{"t": 1795015483.188, "event": "tx_idle", "control": "forward", "sensor": true, "camera": false}
+{"t": 1795015483.276, "event": "sensor_clear", "cm": null}
+{"t": 1795015483.342, "event": "sensor_near", "cm": 60, "stop_cm": 183}
+{"t": 1795015483.491, "event": "camera_person", "frame_at": 1795015483.452, "infer_ms": 36, "conf": 0.69, "box_h": 0.304, "sensor_cm": 58}
+{"t": 1795015485.009, "event": "sensor_clear", "cm": null}
+{"t": 1795015485.189, "event": "sensor_near", "cm": 64, "stop_cm": 183}
+{"t": 1795015485.287, "event": "sensor_clear", "cm": null}
+{"t": 1795015485.578, "event": "camera_person", "frame_at": 1795015485.543, "infer_ms": 32, "conf": 0.43, "box_h": 0.327, "sensor_cm": null}
+{"t": 1795015486.317, "event": "tx_released", "control": "idle"}
+{"t": 1795015488.537, "event": "camera_person", "frame_at": 1795015488.498, "infer_ms": 37, "conf": 0.56, "box_h": 0.23, "sensor_cm": null}
+{"t": 1795015489.751, "event": "trial_start", "trial": 15, "auto_drive": false, "lead_s": 0}
+{"t": 1795015490.396, "event": "tx_idle", "control": "forward", "sensor": false, "camera": true}
+{"t": 1795015490.583, "event": "sensor_near", "cm": 70, "stop_cm": 183}
+{"t": 1795015491.248, "event": "tx_released", "control": "idle"}
+{"t": 1795015491.32, "event": "sensor_clear", "cm": null}
+{"t": 1795015491.406, "event": "sensor_near", "cm": 83, "stop_cm": 183}
+{"t": 1795015491.509, "event": "sensor_clear", "cm": null}
+{"t": 1795015491.756, "event": "tx_idle", "control": "forward", "sensor": true, "camera": true}
+{"t": 1795015492.838, "event": "tx_released", "control": "idle"}
+{"t": 1795015492.952, "event": "tx_idle", "control": "forward", "sensor": false, "camera": true}
+{"t": 1795015493.083, "event": "tx_released", "control": "idle"}
+{"t": 1795015493.165, "event": "tx_idle", "control": "forward", "sensor": false, "camera": true}
+{"t": 1795015493.296, "event": "tx_released", "control": "idle"}
+{"t": 1795015493.329, "event": "tx_idle", "control": "forward", "sensor": false, "camera": true}
+{"t": 1795015493.689, "event": "tx_released", "control": "idle"}
+{"t": 1795015493.804, "event": "tx_idle", "control": "forward", "sensor": false, "camera": true}
+{"t": 1795015493.984, "event": "tx_released", "control": "idle"}
+{"t": 1795015494.115, "event": "tx_idle", "control": "forward", "sensor": false, "camera": true}
+{"t": 1795015494.378, "event": "tx_released", "control": "idle"}
+{"t": 1795015494.558, "event": "tx_idle", "control": "forward", "sensor": false, "camera": true}
+{"t": 1795015494.672, "event": "tx_released", "control": "idle"}
+{"t": 1795015494.738, "event": "tx_idle", "control": "forward", "sensor": false, "camera": true}
+{"t": 1795015494.951, "event": "tx_released", "control": "idle"}
+{"t": 1795015494.984, "event": "tx_idle", "control": "forward", "sensor": false, "camera": true}
+{"t": 1795015495.557, "event": "tx_released", "control": "idle"}
+{"t": 1795015495.656, "event": "tx_idle", "control": "forward", "sensor": false, "camera": true}
+{"t": 1795015496.507, "event": "tx_released", "control": "idle"}
+{"t": 1795015496.622, "event": "tx_idle", "control": "forward", "sensor": false, "camera": true}
+{"t": 1795015496.737, "event": "tx_released", "control": "idle"}
+{"t": 1795015496.835, "event": "tx_idle", "control": "forward", "sensor": false, "camera": true}
+{"t": 1795015496.917, "event": "tx_released", "control": "idle"}
+{"t": 1795015497.015, "event": "tx_idle", "control": "forward", "sensor": false, "camera": true}
+{"t": 1795015497.13, "event": "tx_released", "control": "idle"}
+{"t": 1795015497.212, "event": "tx_idle", "control": "forward", "sensor": false, "camera": true}
+{"t": 1795015497.409, "event": "tx_released", "control": "idle"}
+{"t": 1795015497.507, "event": "tx_idle", "control": "forward", "sensor": false, "camera": true}
+{"t": 1795015497.778, "event": "trial_saved", "trial": 15, "truck_stopped": "yes"}
+{"t": 1795015497.818, "event": "tx_released", "control": "idle"}
+{"t": 1795015503.489, "event": "sensor_near", "cm": 43, "stop_cm": 183}
+{"t": 1795015503.504, "event": "tx_idle", "control": "forward", "sensor": true, "camera": false}
+{"t": 1795015504.419, "event": "sensor_clear", "cm": null}
+{"t": 1795015504.929, "event": "tx_resume", "control": "forward"}
+{"t": 1795015506.005, "event": "camera_person", "frame_at": 1795015505.965, "infer_ms": 37, "conf": 0.54, "box_h": 0.195, "sensor_cm": null}
+{"t": 1795015506.01, "event": "tx_idle", "control": "forward", "sensor": false, "camera": true}
+{"t": 1795015506.765, "event": "sensor_near", "cm": 55, "stop_cm": 183}
+{"t": 1795015506.864, "event": "sensor_clear", "cm": null}
+{"t": 1795015508.337, "event": "tx_released", "control": "idle"}
+{"t": 1795015508.468, "event": "tx_idle", "control": "forward", "sensor": false, "camera": true}
+{"t": 1795015508.992, "event": "tx_released", "control": "idle"}
+{"t": 1795015511.078, "event": "sensor_near", "cm": 74, "stop_cm": 183}
+{"t": 1795015511.089, "event": "tx_idle", "control": "forward", "sensor": true, "camera": false}
+{"t": 1795015511.938, "event": "camera_person", "frame_at": 1795015511.892, "infer_ms": 43, "conf": 0.79, "box_h": 0.498, "sensor_cm": 68}
+{"t": 1795015512.236, "event": "tx_released", "control": "idle"}
+{"t": 1795015512.397, "event": "sensor_clear", "cm": null}
+{"t": 1795015517.078, "event": "trial_start", "trial": 16, "auto_drive": false, "lead_s": 0}
+{"t": 1795015525.089, "event": "trial_saved", "trial": 16, "truck_stopped": "no"}
+{"t": 1795015531.933, "event": "trial_start", "trial": 17, "auto_drive": false, "lead_s": 0}
+{"t": 1795015533.314, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795015533.322, "event": "tx_idle", "control": "forward", "sensor": true, "camera": false}
+{"t": 1795015533.482, "event": "sensor_clear", "cm": null}
+{"t": 1795015533.984, "event": "camera_person", "frame_at": 1795015533.94, "infer_ms": 40, "conf": 0.46, "box_h": 0.255, "sensor_cm": null}
+{"t": 1795015535.62, "event": "sensor_near", "cm": 100, "stop_cm": 183}
+{"t": 1795015535.878, "event": "sensor_clear", "cm": null}
+{"t": 1795015536.386, "event": "tx_resume", "control": "forward"}
+{"t": 1795015536.776, "event": "camera_person", "frame_at": 1795015536.738, "infer_ms": 35, "conf": 0.42, "box_h": 0.307, "sensor_cm": null}
+{"t": 1795015536.795, "event": "tx_idle", "control": "forward", "sensor": false, "camera": true}
+{"t": 1795015537.619, "event": "sensor_near", "cm": 83, "stop_cm": 183}
+{"t": 1795015537.864, "event": "sensor_clear", "cm": null}
+{"t": 1795015538.45, "event": "tx_resume", "control": "forward"}
+{"t": 1795015538.513, "event": "camera_person", "frame_at": 1795015538.472, "infer_ms": 38, "conf": 0.67, "box_h": 0.528, "sensor_cm": null}
+{"t": 1795015538.515, "event": "tx_idle", "control": "forward", "sensor": false, "camera": true}
+{"t": 1795015539.515, "event": "tx_resume", "control": "forward"}
+{"t": 1795015539.953, "event": "trial_saved", "trial": 17, "truck_stopped": "yes"}
+{"t": 1795015541.575, "event": "sensor_near", "cm": 96, "stop_cm": 183}
+{"t": 1795015541.596, "event": "tx_idle", "control": "forward", "sensor": true, "camera": false}
+{"t": 1795015541.669, "event": "sensor_clear", "cm": null}
+{"t": 1795015542.169, "event": "tx_resume", "control": "forward"}
+{"t": 1795015542.929, "event": "camera_person", "frame_at": 1795015542.891, "infer_ms": 35, "conf": 0.49, "box_h": 0.29, "sensor_cm": null}
+{"t": 1795015542.955, "event": "tx_idle", "control": "forward", "sensor": false, "camera": true}
+{"t": 1795015544.114, "event": "sensor_near", "cm": 88, "stop_cm": 183}
+{"t": 1795015544.217, "event": "sensor_clear", "cm": null}
+{"t": 1795015544.303, "event": "sensor_near", "cm": 84, "stop_cm": 183}
+{"t": 1795015544.483, "event": "sensor_clear", "cm": null}
+{"t": 1795015544.569, "event": "sensor_near", "cm": 81, "stop_cm": 183}
+{"t": 1795015544.667, "event": "sensor_clear", "cm": null}
+{"t": 1795015546.626, "event": "tx_released", "control": "idle"}
+{"t": 1795015546.725, "event": "tx_idle", "control": "forward", "sensor": false, "camera": true}
+{"t": 1795015546.937, "event": "tx_released", "control": "idle"}
+{"t": 1795015547.476, "event": "camera_person", "frame_at": 1795015547.44, "infer_ms": 33, "conf": 0.54, "box_h": 0.386, "sensor_cm": null}
+{"t": 1795015567.102, "event": "camera_person", "frame_at": 1795015567.064, "infer_ms": 35, "conf": 0.5, "box_h": 0.201, "sensor_cm": null}
+{"t": 1795015585.26, "event": "sensor_near", "cm": 65, "stop_cm": 183}
+{"t": 1795015586.282, "event": "camera_person", "frame_at": 1795015586.243, "infer_ms": 36, "conf": 0.44, "box_h": 0.983, "sensor_cm": 57}
+{"t": 1795015586.587, "event": "sensor_clear", "cm": null}
+{"t": 1795015586.673, "event": "sensor_near", "cm": 79, "stop_cm": 183}
+{"t": 1795015586.841, "event": "sensor_clear", "cm": null}
+{"t": 1795015588.389, "event": "sensor_near", "cm": 86, "stop_cm": 183}
+{"t": 1795015590.085, "event": "sensor_clear", "cm": null}
+{"t": 1795015778.386, "event": "camera_person", "frame_at": 1795015778.345, "infer_ms": 38, "conf": 0.7, "box_h": 0.259, "sensor_cm": null}
+{"t": 1795016014.916, "event": "sensor_near", "cm": 70, "stop_cm": 183}
+{"t": 1795016015.076, "event": "sensor_clear", "cm": null}
+{"t": 1795016015.256, "event": "sensor_near", "cm": 73, "stop_cm": 183}
+{"t": 1795016015.87, "event": "sensor_clear", "cm": null}
+{"t": 1795016015.944, "event": "sensor_near", "cm": 72, "stop_cm": 183}
+{"t": 1795016016.038, "event": "sensor_clear", "cm": null}
+{"t": 1795016016.079, "event": "camera_person", "frame_at": 1795016016.066, "infer_ms": 11, "conf": 0.52, "box_h": 0.615, "sensor_cm": null}
+{"t": 1795016016.096, "event": "sensor_near", "cm": 72, "stop_cm": 183}
+{"t": 1795016016.337, "event": "sensor_clear", "cm": null}
+{"t": 1795016016.517, "event": "sensor_near", "cm": 73, "stop_cm": 183}
+{"t": 1795016016.62, "event": "sensor_clear", "cm": null}
+{"t": 1795016017.078, "event": "sensor_near", "cm": 68, "stop_cm": 183}
+{"t": 1795016017.431, "event": "sensor_clear", "cm": null}
+{"t": 1795016018.907, "event": "camera_person", "frame_at": 1795016018.895, "infer_ms": 10, "conf": 0.45, "box_h": 0.594, "sensor_cm": null}
+{"t": 1795016019.745, "event": "sensor_near", "cm": 70, "stop_cm": 183}
+{"t": 1795016019.905, "event": "sensor_clear", "cm": null}
+{"t": 1795016020.167, "event": "sensor_near", "cm": 70, "stop_cm": 183}
+{"t": 1795016020.326, "event": "sensor_clear", "cm": null}
+{"t": 1795016020.503, "event": "sensor_near", "cm": 71, "stop_cm": 183}
+{"t": 1795016020.605, "event": "sensor_clear", "cm": null}
+{"t": 1795016020.785, "event": "sensor_near", "cm": 72, "stop_cm": 183}
+{"t": 1795016021.342, "event": "sensor_clear", "cm": null}
+{"t": 1795016022.972, "event": "sensor_near", "cm": 73, "stop_cm": 183}
+{"t": 1795016023.075, "event": "sensor_clear", "cm": null}
+{"t": 1795016024.585, "event": "camera_person", "frame_at": 1795016024.572, "infer_ms": 10, "conf": 0.41, "box_h": 0.619, "sensor_cm": null}
+{"t": 1795016026.29, "event": "sensor_near", "cm": 75, "stop_cm": 183}
+{"t": 1795016026.532, "event": "sensor_clear", "cm": null}
+{"t": 1795016026.7, "event": "sensor_near", "cm": 71, "stop_cm": 183}
+{"t": 1795016027.093, "event": "sensor_clear", "cm": null}
+{"t": 1795016027.457, "event": "sensor_near", "cm": 74, "stop_cm": 183}
+{"t": 1795016027.551, "event": "sensor_clear", "cm": null}
+{"t": 1795016028.255, "event": "camera_person", "frame_at": 1795016028.24, "infer_ms": 13, "conf": 0.5, "box_h": 0.608, "sensor_cm": null}
+{"t": 1795016034.428, "event": "sensor_near", "cm": 72, "stop_cm": 183}
+{"t": 1795016034.608, "event": "sensor_clear", "cm": null}
+{"t": 1795016035.272, "event": "sensor_near", "cm": 71, "stop_cm": 183}
+{"t": 1795016035.534, "event": "sensor_clear", "cm": null}
+{"t": 1795016035.576, "event": "camera_person", "frame_at": 1795016035.563, "infer_ms": 11, "conf": 0.51, "box_h": 0.557, "sensor_cm": null}
+{"t": 1795016038.716, "event": "sensor_near", "cm": 72, "stop_cm": 183}
+{"t": 1795016038.819, "event": "sensor_clear", "cm": null}
+{"t": 1795016039.363, "event": "sensor_near", "cm": 81, "stop_cm": 183}
+{"t": 1795016039.466, "event": "sensor_clear", "cm": null}
+{"t": 1795016039.646, "event": "sensor_near", "cm": 87, "stop_cm": 183}
+{"t": 1795016039.83, "event": "sensor_clear", "cm": null}
+{"t": 1795016040.404, "event": "sensor_near", "cm": 82, "stop_cm": 183}
+{"t": 1795016040.506, "event": "sensor_clear", "cm": null}
+{"t": 1795016040.576, "event": "sensor_near", "cm": 80, "stop_cm": 183}
+{"t": 1795016040.731, "event": "sensor_clear", "cm": null}
+{"t": 1795016182.253, "event": "camera_person", "frame_at": 1795016182.228, "infer_ms": 22, "conf": 0.65, "box_h": 0.253, "sensor_cm": null}
+{"t": 1795016248.497, "event": "trial_start", "trial": 18, "auto_drive": true, "lead_s": 10.0}
+{"t": 1795016251.445, "event": "sensor_near", "cm": 58, "stop_cm": 183}
+{"t": 1795016251.896, "event": "camera_person", "frame_at": 1795016251.882, "infer_ms": 12, "conf": 0.46, "box_h": 0.83, "sensor_cm": 66}
+{"t": 1795016253.104, "event": "sensor_clear", "cm": null}
+{"t": 1795016253.288, "event": "sensor_near", "cm": 129, "stop_cm": 183}
+{"t": 1795016253.391, "event": "sensor_clear", "cm": null}
+{"t": 1795016258.497, "event": "trial_drive", "trial": 18, "vehicle": "truck"}
+{"t": 1795016258.511, "event": "tx_idle", "control": "forward", "sensor": false, "camera": true}
+{"t": 1795016266.527, "event": "trial_saved", "trial": 18, "truck_stopped": "yes"}
+{"t": 1795016266.531, "event": "tx_released", "control": "idle"}
+{"t": 1795016275.303, "event": "sensor_near", "cm": 131, "stop_cm": 183}
+{"t": 1795016277.522, "event": "camera_person", "frame_at": 1795016277.511, "infer_ms": 10, "conf": 0.51, "box_h": 0.968, "sensor_cm": 48}
+{"t": 1795016278.125, "event": "sensor_clear", "cm": null}
+{"t": 1795016278.469, "event": "sensor_near", "cm": 50, "stop_cm": 183}
+{"t": 1795016279.701, "event": "camera_person", "frame_at": 1795016279.688, "infer_ms": 11, "conf": 0.45, "box_h": 0.968, "sensor_cm": 50}
+{"t": 1795016280.806, "event": "camera_person", "frame_at": 1795016280.795, "infer_ms": 10, "conf": 0.42, "box_h": 0.972, "sensor_cm": 50}
+{"t": 1795016284.424, "event": "sensor_clear", "cm": null}
+{"t": 1795016305.247, "event": "sensor_near", "cm": 39, "stop_cm": 183}
+{"t": 1795016305.747, "event": "sensor_clear", "cm": null}
+{"t": 1795016305.894, "event": "sensor_near", "cm": 44, "stop_cm": 183}
+{"t": 1795016306.004, "event": "camera_person", "frame_at": 1795016305.992, "infer_ms": 10, "conf": 0.42, "box_h": 0.971, "sensor_cm": 44}
+{"t": 1795016306.295, "event": "sensor_clear", "cm": null}
+{"t": 1795016306.471, "event": "sensor_near", "cm": 61, "stop_cm": 183}
+{"t": 1795016309.548, "event": "sensor_clear", "cm": null}
+{"t": 1795016309.621, "event": "sensor_near", "cm": 131, "stop_cm": 183}
+{"t": 1795016309.723, "event": "sensor_clear", "cm": null}
+{"t": 1795016309.883, "event": "sensor_near", "cm": 125, "stop_cm": 183}
+{"t": 1795016310.137, "event": "sensor_clear", "cm": null}
+{"t": 1795016310.518, "event": "sensor_near", "cm": 137, "stop_cm": 183}
+{"t": 1795016310.62, "event": "sensor_clear", "cm": null}
+{"t": 1795016311.481, "event": "sensor_near", "cm": 139, "stop_cm": 183}
+{"t": 1795016311.583, "event": "sensor_clear", "cm": null}
+{"t": 1795016316.183, "event": "sensor_near", "cm": 136, "stop_cm": 183}
+{"t": 1795016316.49, "event": "sensor_clear", "cm": null}
+{"t": 1795016317.161, "event": "sensor_near", "cm": 145, "stop_cm": 183}
+{"t": 1795016317.26, "event": "sensor_clear", "cm": null}
+{"t": 1795016317.448, "event": "sensor_near", "cm": 138, "stop_cm": 183}
+{"t": 1795016317.632, "event": "sensor_clear", "cm": null}
+{"t": 1795016317.718, "event": "sensor_near", "cm": 126, "stop_cm": 183}
+{"t": 1795016318.017, "event": "sensor_clear", "cm": null}
+{"t": 1795016318.3, "event": "sensor_near", "cm": 123, "stop_cm": 183}
+{"t": 1795016318.394, "event": "sensor_clear", "cm": null}
+{"t": 1795016318.673, "event": "sensor_near", "cm": 123, "stop_cm": 183}
+{"t": 1795016318.767, "event": "sensor_clear", "cm": null}
+{"t": 1795016318.832, "event": "sensor_near", "cm": 123, "stop_cm": 183}
+{"t": 1795016319.41, "event": "sensor_clear", "cm": null}
+{"t": 1795016319.594, "event": "sensor_near", "cm": 120, "stop_cm": 183}
+{"t": 1795016319.922, "event": "sensor_clear", "cm": null}
+{"t": 1795016320.008, "event": "sensor_near", "cm": 131, "stop_cm": 183}
+{"t": 1795016320.196, "event": "sensor_clear", "cm": null}
+{"t": 1795016320.483, "event": "sensor_near", "cm": 128, "stop_cm": 183}
+{"t": 1795016320.663, "event": "sensor_clear", "cm": null}
+{"t": 1795016320.95, "event": "sensor_near", "cm": 138, "stop_cm": 183}
+{"t": 1795016323.69, "event": "sensor_clear", "cm": null}
+{"t": 1795016323.751, "event": "sensor_near", "cm": 36, "stop_cm": 183}
+{"t": 1795016323.985, "event": "sensor_clear", "cm": null}
+{"t": 1795016340.888, "event": "sensor_near", "cm": 48, "stop_cm": 183}
+{"t": 1795016340.986, "event": "sensor_clear", "cm": null}
+{"t": 1795016402.256, "event": "trial_start", "trial": 19, "auto_drive": true, "lead_s": 10.0}
+{"t": 1795016412.257, "event": "trial_drive", "trial": 19, "vehicle": "truck"}
+{"t": 1795016416.465, "event": "camera_person", "frame_at": 1795016416.435, "infer_ms": 28, "conf": 0.68, "box_h": 0.409, "sensor_cm": null}
+{"t": 1795016416.472, "event": "tx_idle", "control": "forward", "sensor": false, "camera": true}
+{"t": 1795016420.265, "event": "trial_saved", "trial": 19, "truck_stopped": "yes"}
+{"t": 1795016420.273, "event": "tx_released", "control": "idle"}
+{"t": 1795016422.619, "event": "sensor_near", "cm": 121, "stop_cm": 183}
+{"t": 1795016422.721, "event": "sensor_clear", "cm": null}
+{"t": 1795016422.791, "event": "sensor_near", "cm": 116, "stop_cm": 183}
+{"t": 1795016424.622, "event": "sensor_clear", "cm": null}
+{"t": 1795016424.671, "event": "sensor_near", "cm": 36, "stop_cm": 183}
+{"t": 1795016425.244, "event": "sensor_clear", "cm": null}
+{"t": 1795016425.703, "event": "sensor_near", "cm": 50, "stop_cm": 183}
+{"t": 1795016425.866, "event": "sensor_clear", "cm": null}
+{"t": 1795016425.948, "event": "sensor_near", "cm": 33, "stop_cm": 183}
+{"t": 1795016428.951, "event": "sensor_clear", "cm": null}
+{"t": 1795016441.209, "event": "sensor_near", "cm": 44, "stop_cm": 183}
+{"t": 1795016441.361, "event": "sensor_clear", "cm": null}
+{"t": 1795016441.426, "event": "sensor_near", "cm": 50, "stop_cm": 183}
+{"t": 1795016441.944, "event": "camera_person", "frame_at": 1795016441.933, "infer_ms": 10, "conf": 0.44, "box_h": 0.972, "sensor_cm": 52}
+{"t": 1795016451.219, "event": "sensor_clear", "cm": null}
+{"t": 1795016452.268, "event": "sensor_near", "cm": 37, "stop_cm": 183}
+{"t": 1795016453.095, "event": "sensor_clear", "cm": null}
+{"t": 1795016453.734, "event": "sensor_near", "cm": 37, "stop_cm": 183}
+{"t": 1795016455.192, "event": "sensor_clear", "cm": null}
+{"t": 1795016455.274, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795016456.245, "event": "sensor_clear", "cm": null}
+{"t": 1795016456.298, "event": "sensor_near", "cm": 45, "stop_cm": 183}
+{"t": 1795016456.689, "event": "camera_person", "frame_at": 1795016456.678, "infer_ms": 10, "conf": 0.91, "box_h": 0.975, "sensor_cm": 52}
+{"t": 1795016461.175, "event": "camera_person", "frame_at": 1795016461.162, "infer_ms": 11, "conf": 0.87, "box_h": 0.975, "sensor_cm": 57}
+{"t": 1795016468.0, "event": "sensor_clear", "cm": null}
+{"t": 1795016468.184, "event": "sensor_near", "cm": 43, "stop_cm": 183}
+{"t": 1795016468.278, "event": "sensor_clear", "cm": null}
+{"t": 1795016468.36, "event": "sensor_near", "cm": 60, "stop_cm": 183}
+{"t": 1795016468.462, "event": "sensor_clear", "cm": null}
+{"t": 1795016470.891, "event": "sensor_near", "cm": 60, "stop_cm": 183}
+{"t": 1795016470.989, "event": "sensor_clear", "cm": null}
+{"t": 1795016471.055, "event": "sensor_near", "cm": 60, "stop_cm": 183}
+{"t": 1795016471.325, "event": "sensor_clear", "cm": null}
+{"t": 1795016476.818, "event": "sensor_near", "cm": 75, "stop_cm": 183}
+{"t": 1795016477.302, "event": "camera_person", "frame_at": 1795016477.29, "infer_ms": 10, "conf": 0.7, "box_h": 0.969, "sensor_cm": 73}
+{"t": 1795016478.681, "event": "sensor_clear", "cm": null}
+{"t": 1795016478.755, "event": "sensor_near", "cm": 125, "stop_cm": 183}
+{"t": 1795016479.058, "event": "sensor_clear", "cm": null}
+{"t": 1795016479.132, "event": "sensor_near", "cm": 150, "stop_cm": 183}
+{"t": 1795016479.234, "event": "sensor_clear", "cm": null}
+{"t": 1795016480.205, "event": "sensor_near", "cm": 150, "stop_cm": 183}
+{"t": 1795016480.307, "event": "sensor_clear", "cm": null}
+{"t": 1795016480.684, "event": "sensor_near", "cm": 103, "stop_cm": 183}
+{"t": 1795016484.838, "event": "camera_person", "frame_at": 1795016484.827, "infer_ms": 10, "conf": 0.71, "box_h": 0.996, "sensor_cm": 80}
+{"t": 1795016485.345, "event": "sensor_clear", "cm": null}
+{"t": 1795016485.423, "event": "sensor_near", "cm": 124, "stop_cm": 183}
+{"t": 1795016485.517, "event": "sensor_clear", "cm": null}
+{"t": 1795016486.0, "event": "sensor_near", "cm": 161, "stop_cm": 183}
+{"t": 1795016486.103, "event": "sensor_clear", "cm": null}
+{"t": 1795016490.135, "event": "camera_calibrated", "min_box_h": 0.768, "cal_cm": 183, "sensor_cm": null}
+{"t": 1795016495.077, "event": "camera_person", "frame_at": 1795016495.064, "infer_ms": 11, "conf": 0.88, "box_h": 0.749, "sensor_cm": null}
+{"t": 1795016503.977, "event": "sensor_near", "cm": 129, "stop_cm": 183}
+{"t": 1795016504.071, "event": "sensor_clear", "cm": null}
+{"t": 1795016506.127, "event": "sensor_near", "cm": 133, "stop_cm": 183}
+{"t": 1795016506.225, "event": "sensor_clear", "cm": null}
+{"t": 1795016506.409, "event": "sensor_near", "cm": 113, "stop_cm": 183}
+{"t": 1795016506.667, "event": "sensor_clear", "cm": null}
+{"t": 1795016506.757, "event": "sensor_near", "cm": 118, "stop_cm": 183}
+{"t": 1795016507.22, "event": "sensor_clear", "cm": null}
+{"t": 1795016507.282, "event": "sensor_near", "cm": 109, "stop_cm": 183}
+{"t": 1795016507.532, "event": "sensor_clear", "cm": null}
+{"t": 1795016507.691, "event": "sensor_near", "cm": 111, "stop_cm": 183}
+{"t": 1795016507.88, "event": "sensor_clear", "cm": null}
+{"t": 1795016507.949, "event": "sensor_near", "cm": 112, "stop_cm": 183}
+{"t": 1795016508.052, "event": "sensor_clear", "cm": null}
+{"t": 1795016508.208, "event": "sensor_near", "cm": 100, "stop_cm": 183}
+{"t": 1795016508.588, "event": "sensor_clear", "cm": null}
+{"t": 1795016508.674, "event": "sensor_near", "cm": 110, "stop_cm": 183}
+{"t": 1795016509.031, "event": "sensor_clear", "cm": null}
+{"t": 1795016509.408, "event": "sensor_near", "cm": 126, "stop_cm": 183}
+{"t": 1795016509.51, "event": "sensor_clear", "cm": null}
+{"t": 1795016509.584, "event": "sensor_near", "cm": 129, "stop_cm": 183}
+{"t": 1795016509.76, "event": "sensor_clear", "cm": null}
+{"t": 1795016510.239, "event": "sensor_near", "cm": 134, "stop_cm": 183}
+{"t": 1795016510.972, "event": "sensor_clear", "cm": null}
+{"t": 1795016511.148, "event": "sensor_near", "cm": 139, "stop_cm": 183}
+{"t": 1795016511.386, "event": "sensor_clear", "cm": null}
+{"t": 1795016511.55, "event": "sensor_near", "cm": 144, "stop_cm": 183}
+{"t": 1795016511.865, "event": "sensor_clear", "cm": null}
+{"t": 1795016512.143, "event": "sensor_near", "cm": 150, "stop_cm": 183}
+{"t": 1795016512.238, "event": "sensor_clear", "cm": null}
+{"t": 1795016513.688, "event": "sensor_near", "cm": 157, "stop_cm": 183}
+{"t": 1795016513.79, "event": "sensor_clear", "cm": null}
+{"t": 1795016514.457, "event": "sensor_near", "cm": 160, "stop_cm": 183}
+{"t": 1795016514.634, "event": "sensor_clear", "cm": null}
+{"t": 1795016514.904, "event": "sensor_near", "cm": 160, "stop_cm": 183}
+{"t": 1795016515.363, "event": "sensor_clear", "cm": null}
+{"t": 1795016515.441, "event": "sensor_near", "cm": 162, "stop_cm": 183}
+{"t": 1795016516.043, "event": "sensor_clear", "cm": null}
+{"t": 1795016516.12, "event": "sensor_near", "cm": 166, "stop_cm": 183}
+{"t": 1795016516.301, "event": "sensor_clear", "cm": null}
+{"t": 1795016517.66, "event": "sensor_near", "cm": 172, "stop_cm": 183}
+{"t": 1795016518.234, "event": "sensor_clear", "cm": null}
+{"t": 1795016518.621, "event": "camera_calibrated", "min_box_h": null, "cal_cm": null, "sensor_cm": null}
+{"t": 1795016538.991, "event": "sensor_near", "cm": 173, "stop_cm": 183}
+{"t": 1795016539.093, "event": "sensor_clear", "cm": null}
+{"t": 1795016539.859, "event": "sensor_near", "cm": 147, "stop_cm": 183}
+{"t": 1795016539.958, "event": "sensor_clear", "cm": null}
+{"t": 1795016540.044, "event": "sensor_near", "cm": 138, "stop_cm": 183}
+{"t": 1795016540.236, "event": "sensor_clear", "cm": null}
+{"t": 1795016540.322, "event": "sensor_near", "cm": 140, "stop_cm": 183}
+{"t": 1795016540.416, "event": "sensor_clear", "cm": null}
+{"t": 1795016540.592, "event": "sensor_near", "cm": 112, "stop_cm": 183}
+{"t": 1795016542.288, "event": "sensor_clear", "cm": null}
+{"t": 1795016542.37, "event": "sensor_near", "cm": 49, "stop_cm": 183}
+{"t": 1795016542.468, "event": "sensor_clear", "cm": null}
+{"t": 1795016542.55, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795016542.653, "event": "sensor_clear", "cm": null}
+{"t": 1795016566.015, "event": "sensor_near", "cm": 61, "stop_cm": 183}
+{"t": 1795016567.005, "event": "camera_person", "frame_at": 1795016566.992, "infer_ms": 12, "conf": 0.51, "box_h": 0.977, "sensor_cm": 60}
+{"t": 1795016567.395, "event": "sensor_clear", "cm": null}
+{"t": 1795016583.319, "event": "sensor_near", "cm": 150, "stop_cm": 183}
+{"t": 1795016583.688, "event": "sensor_clear", "cm": null}
+{"t": 1795016583.762, "event": "sensor_near", "cm": 135, "stop_cm": 183}
+{"t": 1795016584.167, "event": "sensor_clear", "cm": null}
+{"t": 1795016584.241, "event": "sensor_near", "cm": 117, "stop_cm": 183}
+{"t": 1795016584.343, "event": "sensor_clear", "cm": null}
+{"t": 1795016584.413, "event": "sensor_near", "cm": 111, "stop_cm": 183}
+{"t": 1795016586.33, "event": "sensor_clear", "cm": null}
+{"t": 1795016586.412, "event": "sensor_near", "cm": 58, "stop_cm": 183}
+{"t": 1795016586.661, "event": "sensor_clear", "cm": null}
+{"t": 1795016605.711, "event": "sensor_near", "cm": 4, "stop_cm": 183}
+{"t": 1795016608.312, "event": "sensor_clear", "cm": null}
+{"t": 1795016608.563, "event": "camera_person", "frame_at": 1795016608.553, "infer_ms": 9, "conf": 0.51, "box_h": 0.972, "sensor_cm": null}
+{"t": 1795016613.964, "event": "camera_person", "frame_at": 1795016613.949, "infer_ms": 14, "conf": 0.45, "box_h": 0.465, "sensor_cm": null}
+{"t": 1795016614.39, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795016614.639, "event": "sensor_clear", "cm": null}
+{"t": 1795016614.689, "event": "sensor_near", "cm": 37, "stop_cm": 183}
+{"t": 1795016615.909, "event": "sensor_clear", "cm": null}
+{"t": 1795016617.166, "event": "sensor_near", "cm": 178, "stop_cm": 183}
+{"t": 1795016617.269, "event": "sensor_clear", "cm": null}
+{"t": 1795016622.155, "event": "sensor_near", "cm": 162, "stop_cm": 183}
+{"t": 1795016622.257, "event": "sensor_clear", "cm": null}
+{"t": 1795016623.519, "event": "sensor_near", "cm": 176, "stop_cm": 183}
+{"t": 1795016623.695, "event": "sensor_clear", "cm": null}
+{"t": 1795016629.872, "event": "sensor_near", "cm": 176, "stop_cm": 183}
+{"t": 1795016629.974, "event": "sensor_clear", "cm": null}
+{"t": 1795016630.551, "event": "sensor_near", "cm": 147, "stop_cm": 183}
+{"t": 1795016631.133, "event": "sensor_clear", "cm": null}
+{"t": 1795016631.203, "event": "sensor_near", "cm": 104, "stop_cm": 183}
+{"t": 1795016632.071, "event": "sensor_clear", "cm": null}
+{"t": 1795016632.648, "event": "sensor_near", "cm": 141, "stop_cm": 183}
+{"t": 1795016632.751, "event": "sensor_clear", "cm": null}
+{"t": 1795016633.525, "event": "sensor_near", "cm": 146, "stop_cm": 183}
+{"t": 1795016633.627, "event": "sensor_clear", "cm": null}
+{"t": 1795016633.804, "event": "sensor_near", "cm": 140, "stop_cm": 183}
+{"t": 1795016634.156, "event": "sensor_clear", "cm": null}
+{"t": 1795016634.315, "event": "sensor_near", "cm": 132, "stop_cm": 183}
+{"t": 1795016634.492, "event": "sensor_clear", "cm": null}
+{"t": 1795016634.975, "event": "sensor_near", "cm": 134, "stop_cm": 183}
+{"t": 1795016635.45, "event": "sensor_clear", "cm": null}
+{"t": 1795016635.524, "event": "sensor_near", "cm": 137, "stop_cm": 183}
+{"t": 1795016635.769, "event": "sensor_clear", "cm": null}
+{"t": 1795016636.228, "event": "sensor_near", "cm": 135, "stop_cm": 183}
+{"t": 1795016636.486, "event": "sensor_clear", "cm": null}
+{"t": 1795016636.667, "event": "sensor_near", "cm": 137, "stop_cm": 183}
+{"t": 1795016636.904, "event": "sensor_clear", "cm": null}
+{"t": 1795016637.285, "event": "sensor_near", "cm": 138, "stop_cm": 183}
+{"t": 1795016638.165, "event": "sensor_clear", "cm": null}
+{"t": 1795016638.546, "event": "sensor_near", "cm": 137, "stop_cm": 183}
+{"t": 1795016638.915, "event": "sensor_clear", "cm": null}
+{"t": 1795016640.651, "event": "sensor_near", "cm": 137, "stop_cm": 183}
+{"t": 1795016640.754, "event": "sensor_clear", "cm": null}
+{"t": 1795016640.934, "event": "sensor_near", "cm": 137, "stop_cm": 183}
+{"t": 1795016641.037, "event": "sensor_clear", "cm": null}
+{"t": 1795016642.007, "event": "sensor_near", "cm": 138, "stop_cm": 183}
+{"t": 1795016642.339, "event": "sensor_clear", "cm": null}
+{"t": 1795016642.429, "event": "sensor_near", "cm": 140, "stop_cm": 183}
+{"t": 1795016642.617, "event": "sensor_clear", "cm": null}
+{"t": 1795016643.195, "event": "sensor_near", "cm": 154, "stop_cm": 183}
+{"t": 1795016643.297, "event": "sensor_clear", "cm": null}
+{"t": 1795016643.482, "event": "sensor_near", "cm": 154, "stop_cm": 183}
+{"t": 1795016643.67, "event": "sensor_clear", "cm": null}
+{"t": 1795016645.333, "event": "sensor_near", "cm": 157, "stop_cm": 183}
+{"t": 1795016645.73, "event": "sensor_clear", "cm": null}
+{"t": 1795016647.786, "event": "sensor_near", "cm": 153, "stop_cm": 183}
+{"t": 1795016647.979, "event": "sensor_clear", "cm": null}
+{"t": 1795016648.065, "event": "sensor_near", "cm": 148, "stop_cm": 183}
+{"t": 1795016648.163, "event": "sensor_clear", "cm": null}
+{"t": 1795016648.339, "event": "sensor_near", "cm": 140, "stop_cm": 183}
+{"t": 1795016648.442, "event": "sensor_clear", "cm": null}
+{"t": 1795016648.528, "event": "sensor_near", "cm": 131, "stop_cm": 183}
+{"t": 1795016651.186, "event": "sensor_clear", "cm": null}
+{"t": 1795016671.709, "event": "sensor_near", "cm": 8, "stop_cm": 183}
+{"t": 1795016671.963, "event": "sensor_clear", "cm": null}
+{"t": 1795016679.029, "event": "camera_person", "frame_at": 1795016679.017, "infer_ms": 10, "conf": 0.57, "box_h": 0.256, "sensor_cm": null}
+{"t": 1795016681.908, "event": "camera_person", "frame_at": 1795016681.897, "infer_ms": 10, "conf": 0.5, "box_h": 0.209, "sensor_cm": null}
+{"t": 1795016686.206, "event": "camera_person", "frame_at": 1795016686.191, "infer_ms": 13, "conf": 0.5, "box_h": 0.253, "sensor_cm": null}
+{"t": 1795016692.126, "event": "camera_person", "frame_at": 1795016692.111, "infer_ms": 12, "conf": 0.42, "box_h": 0.259, "sensor_cm": null}
+{"t": 1795016695.485, "event": "camera_person", "frame_at": 1795016695.471, "infer_ms": 12, "conf": 0.58, "box_h": 0.25, "sensor_cm": null}
+{"t": 1795016711.163, "event": "camera_person", "frame_at": 1795016711.15, "infer_ms": 11, "conf": 0.43, "box_h": 0.084, "sensor_cm": null}
+{"t": 1795016714.846, "event": "camera_person", "frame_at": 1795016714.83, "infer_ms": 13, "conf": 0.44, "box_h": 0.244, "sensor_cm": null}
+{"t": 1795016717.693, "event": "sensor_near", "cm": 88, "stop_cm": 183}
+{"t": 1795016717.795, "event": "sensor_clear", "cm": null}
+{"t": 1795016718.254, "event": "sensor_near", "cm": 87, "stop_cm": 183}
+{"t": 1795016718.356, "event": "sensor_clear", "cm": null}
+{"t": 1795016718.536, "event": "sensor_near", "cm": 88, "stop_cm": 183}
+{"t": 1795016718.864, "event": "sensor_clear", "cm": null}
+{"t": 1795016719.229, "event": "sensor_near", "cm": 58, "stop_cm": 183}
+{"t": 1795016719.806, "event": "camera_person", "frame_at": 1795016719.79, "infer_ms": 14, "conf": 0.46, "box_h": 0.253, "sensor_cm": 57}
+{"t": 1795016720.125, "event": "sensor_clear", "cm": null}
+{"t": 1795016720.191, "event": "sensor_near", "cm": 58, "stop_cm": 183}
+{"t": 1795016721.289, "event": "sensor_clear", "cm": null}
+{"t": 1795016721.354, "event": "sensor_near", "cm": 87, "stop_cm": 183}
+{"t": 1795016721.579, "event": "sensor_clear", "cm": null}
+{"t": 1795016721.665, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795016721.764, "event": "sensor_clear", "cm": null}
+{"t": 1795016721.85, "event": "sensor_near", "cm": 87, "stop_cm": 183}
+{"t": 1795016722.329, "event": "sensor_clear", "cm": null}
+{"t": 1795016722.363, "event": "camera_person", "frame_at": 1795016722.35, "infer_ms": 12, "conf": 0.43, "box_h": 0.215, "sensor_cm": null}
+{"t": 1795016722.902, "event": "sensor_near", "cm": 88, "stop_cm": 183}
+{"t": 1795016723.349, "event": "sensor_clear", "cm": null}
+{"t": 1795016723.435, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795016723.611, "event": "sensor_clear", "cm": null}
+{"t": 1795016723.779, "event": "sensor_near", "cm": 57, "stop_cm": 183}
+{"t": 1795016724.197, "event": "sensor_clear", "cm": null}
+{"t": 1795016725.949, "event": "sensor_near", "cm": 87, "stop_cm": 183}
+{"t": 1795016726.138, "event": "sensor_clear", "cm": null}
+{"t": 1795016726.318, "event": "sensor_near", "cm": 87, "stop_cm": 183}
+{"t": 1795016727.325, "event": "camera_person", "frame_at": 1795016727.31, "infer_ms": 13, "conf": 0.41, "box_h": 0.251, "sensor_cm": 87}
+{"t": 1795016728.718, "event": "sensor_clear", "cm": null}
+{"t": 1795016728.788, "event": "sensor_near", "cm": 86, "stop_cm": 183}
+{"t": 1795016730.414, "event": "sensor_clear", "cm": null}
+{"t": 1795016730.697, "event": "sensor_near", "cm": 87, "stop_cm": 183}
+{"t": 1795016731.008, "event": "sensor_clear", "cm": null}
+{"t": 1795016731.094, "event": "sensor_near", "cm": 88, "stop_cm": 183}
+{"t": 1795016731.196, "event": "sensor_clear", "cm": null}
+{"t": 1795016731.266, "event": "sensor_near", "cm": 87, "stop_cm": 183}
+{"t": 1795016731.495, "event": "sensor_clear", "cm": null}
+{"t": 1795016734.313, "event": "camera_person", "frame_at": 1795016734.299, "infer_ms": 13, "conf": 0.43, "box_h": 0.252, "sensor_cm": null}
+{"t": 1795016740.322, "event": "sensor_near", "cm": 87, "stop_cm": 183}
+{"t": 1795016740.719, "event": "sensor_clear", "cm": null}
+{"t": 1795016741.001, "event": "sensor_near", "cm": 87, "stop_cm": 183}
+{"t": 1795016741.104, "event": "sensor_clear", "cm": null}
+{"t": 1795016741.513, "event": "camera_person", "frame_at": 1795016741.499, "infer_ms": 11, "conf": 0.48, "box_h": 0.209, "sensor_cm": null}
+{"t": 1795016741.563, "event": "sensor_near", "cm": 88, "stop_cm": 183}
+{"t": 1795016741.952, "event": "sensor_clear", "cm": null}
+{"t": 1795016742.894, "event": "sensor_near", "cm": 89, "stop_cm": 183}
+{"t": 1795016743.418, "event": "sensor_clear", "cm": null}
+{"t": 1795016747.325, "event": "sensor_near", "cm": 89, "stop_cm": 183}
+{"t": 1795016748.239, "event": "sensor_clear", "cm": null}
+{"t": 1795016752.748, "event": "sensor_near", "cm": 90, "stop_cm": 183}
+{"t": 1795016752.85, "event": "sensor_clear", "cm": null}
+{"t": 1795016753.622, "event": "camera_person", "frame_at": 1795016753.611, "infer_ms": 10, "conf": 0.4, "box_h": 0.234, "sensor_cm": null}
+{"t": 1795016755.062, "event": "camera_person", "frame_at": 1795016755.051, "infer_ms": 11, "conf": 0.48, "box_h": 0.226, "sensor_cm": null}
+{"t": 1795016758.261, "event": "camera_person", "frame_at": 1795016758.251, "infer_ms": 9, "conf": 0.47, "box_h": 0.216, "sensor_cm": null}
+{"t": 1795016760.343, "event": "camera_person", "frame_at": 1795016760.331, "infer_ms": 11, "conf": 0.45, "box_h": 0.203, "sensor_cm": null}
+{"t": 1795016766.426, "event": "camera_person", "frame_at": 1795016766.41, "infer_ms": 13, "conf": 0.44, "box_h": 0.212, "sensor_cm": null}
+{"t": 1795016771.545, "event": "camera_person", "frame_at": 1795016771.53, "infer_ms": 12, "conf": 0.47, "box_h": 0.237, "sensor_cm": null}
+{"t": 1795016775.061, "event": "camera_person", "frame_at": 1795016775.05, "infer_ms": 9, "conf": 0.44, "box_h": 0.262, "sensor_cm": null}

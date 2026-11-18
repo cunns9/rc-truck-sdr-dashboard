@@ -58,14 +58,30 @@ objects (it can't tell a chair from a person), while the camera should not.
 - **Stop distance: 183 cm (6 ft).** The default 152 cm is exactly 5 ft, so a person on
   the 5 ft mark would sit right on the edge and trigger at random. 6 ft puts all three
   distances inside the stop zone. Set it with the slider before trial 1 and don't change it.
-- **Camera range calibrated at 6 ft** (dashboard: stand on the 6 ft mark facing the camera,
-  click "Calibrate"). The camera can't measure distance, so before this it held the truck
-  for anyone anywhere in view. Now it holds only for a person whose box in the picture is
-  at least as tall as at 6 ft (95% of it). Farther people are still logged in
-  `camera_seen_any_distance`. Recalibrate if the camera is moved.
+- **Camera and sensor stop at the same distance (6 ft).** Put the camera lens and the
+  HC-SR04 side by side, pointing the same way; measure every floor mark from that spot.
+  Calibrate the camera on the 6 ft mark (dashboard: one person on the mark, alone in
+  the picture, facing the camera, click "Calibrate: I'm on the 6 ft mark", hold still 2 s).
+  First check the Person distance tile reads about 6 ft (183 cm) with you on the mark.
+  The camera can't measure distance, so it uses box height: the calibration saves the
+  median height of your box over 2 s together with the stop distance (`cal_cm`) and what
+  the sensor read (`sensor_cm`) in `camera_cal.json`. From then on the camera holds only
+  for a person whose box is at least 95% that tall, i.e. about 6 ft or closer, the same
+  as the sensor. Farther people are still logged in `camera_seen_any_distance`. Each
+  trial row records `camera_cal_cm` next to `stop_cm` so you can show they matched. If the
+  slider is moved, the dashboard says to recalibrate; recalibrate if the camera is moved.
+- **Check before trial 1:** standing on the 5 ft mark both stops hold (sensor tile red,
+  camera says "In range"); at about 7 ft both clear. Note the result in PROGRESS.md.
 - **Sensor hold 0.5 s** (`SENSOR_HOLD_S`): the HC-SR04 flickers between a reading and
   "no echo" on a person, so the stop keeps holding for 0.5 s after the last close reading.
 - The physical remote stays off. Drive only from the dashboard.
+- **Auto-drive (added 2026-11-18):** the keyboard is wired, so the tester can't hold the up
+  arrow while walking in. With "Auto-drive forward" ticked on the Trials card, Start (or T)
+  counts down the walk-out time (default 10 s, go to your start spot out of the camera's
+  view), beeps once, drives the truck forward for the 8 s window and beeps twice when done
+  (idle, then transmitter off). Esc or Stop cancels without saving. Rows record
+  `auto_drive`. For object trials, place the object during the walk-out countdown and step
+  out of view before the beep.
 
 ## Randomize the order
 

@@ -129,7 +129,7 @@ td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
     <div class="row" style="margin-top:6px;gap:10px">
       <span class="sub" style="margin:0">Camera range:</span>
       <b id="calState">any distance</b>
-      <button class="act" id="calBtn" title="Stand on the stop-distance mark facing the camera, then click">Calibrate: I'm on the 6 ft mark</button>
+      <button class="act" id="calBtn" title="Click, then walk to the stop-distance mark during the 10 s countdown; one beep = hold still 2 s, two beeps = done, three = failed">Calibrate on the <span id="calFt">6</span> ft mark (10 s countdown)</button>
       <button class="link" id="calClear">reset to any distance</button>
       <span class="sub" id="calMsg" style="margin:0"></span>
     </div>
@@ -137,14 +137,20 @@ td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
 
   <section class="card" style="margin-bottom:12px" id="trialCard">
     <h2>Trials</h2>
-    <div class="sub">Hold <b>↑</b> so the truck is driving, press <b>Start</b> (or <b>T</b>), then bring the target in. Each trial records for <span id="trWin">8</span> s and saves to <span class="mono">data/trials.csv</span>. Re-running a number replaces it.</div>
+    <div class="sub">Press <b>Start</b> (or <b>T</b>). With <b>Auto-drive</b> on, you get the walk-out time to reach your start spot (out of the camera's view), then a beep: the truck drives forward by itself and you bring the target in. Two beeps = done. <b>Esc</b> or <b>Stop</b> cancels. With auto-drive off, hold <b>↑</b> yourself. Each trial records for <span id="trWin">8</span> s and saves to <span class="mono">data/trials.csv</span>. Re-running a number replaces it.</div>
+    <div class="row" style="margin-top:4px;gap:14px;align-items:center">
+      <label style="display:flex;align-items:center;gap:6px"><input type="checkbox" id="trAuto" checked> Auto-drive forward</label>
+      <label style="display:flex;align-items:center;gap:6px">walk-out time <input type="text" inputmode="numeric" id="trLead" value="10" style="width:56px;font:inherit;padding:6px 8px;border-radius:8px;border:1px solid var(--axis);background:var(--page);color:var(--ink)"> s</label>
+    </div>
     <div class="row" style="margin-top:4px;gap:10px">
       <label>Trial <input type="text" inputmode="numeric" id="trNum" style="width:70px;font:inherit;padding:6px 8px;border-radius:8px;border:1px solid var(--axis);background:var(--page);color:var(--ink)"></label>
       <span id="trSpec" style="font-size:16px;font-weight:600"></span>
       <button class="act primary" id="trStart">Start</button>
+      <button class="act" id="trStop" style="display:none">Stop</button>
       <span class="sub" id="trProg" style="margin:0"></span>
     </div>
     <div class="msg" id="trMsg"></div>
+    <div id="trBig" style="font-size:40px;font-weight:700;font-variant-numeric:tabular-nums;margin-top:4px"></div>
     <div id="trLast" style="margin-top:8px"></div>
   </section>
 
@@ -292,7 +298,7 @@ window.addEventListener('keydown', e => { if (e.target.tagName === 'INPUT') retu
   if (e.code === 'KeyT' && !e.repeat && !e.metaKey && !e.ctrlKey) { e.preventDefault(); startTrial(); return; }
   const k = keyOf(e);
   if (k) { e.preventDefault(); held.add(k); drive(keyCombo()); }
-  else if (e.key === 'Escape' || e.key === ' ') { e.preventDefault(); held.clear(); drive(null); } });
+  else if (e.key === 'Escape' || e.key === ' ') { e.preventDefault(); held.clear(); drive(null); if (trials && trials.running) stopTrial(); } });
 window.addEventListener('keyup', e => { const k = KEYS[e.code]; if (!k) return; held.delete(k);
   const next = keyCombo(); if (next) drive(next); else release(); });
 window.addEventListener('blur', () => { if (driving) drive(null); });
@@ -307,10 +313,31 @@ const unfocus = () => { const a = document.activeElement; if (a && a !== documen
 let guardTouched = 0;   // don't let polling overwrite the slider while it's being dragged
 $('guardOn').onchange = e => { guardTouched = Date.now(); post('/api/guard', { enabled: e.target.checked }); unfocus(); };
 $('camGuardOn').onchange = e => { guardTouched = Date.now(); post('/api/guard', { camera: e.target.checked }); unfocus(); };
+let calTimer = null;   // walk-out countdown before calibrating (one person can click, then go stand on the mark)
 async function calibrate(clear) {
-  const r = await fetch('/api/camera/calibrate', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ clear }) });
-  const res = await r.json().catch(() => ({}));
-  $('calMsg').textContent = r.ok ? (clear ? 'Camera holds for people at any distance again.' : 'Calibrated: the camera now holds only for people about this close or closer.') : (res.error || 'Could not calibrate.');
+  if (calTimer) { clearInterval(calTimer); calTimer = null; $('calMsg').textContent = 'Calibration cancelled.'; $('calBtn').disabled = false; return; }
+  if (!clear) {
+    beep(0);   // unlock audio while we still have the click
+    let n = 10;
+    $('calMsg').textContent = `Go stand on the mark, facing the camera, straight in front of the sensor: calibrating in ${n} s (click Calibrate again to cancel)`;
+    calTimer = setInterval(() => {
+      n -= 1;
+      if (n > 0) { $('calMsg').textContent = `Go stand on the mark: calibrating in ${n} s`; return; }
+      clearInterval(calTimer); calTimer = null; beep(1); sendCal(false);
+    }, 1000);
+    unfocus();
+    return;
+  }
+  sendCal(true);
+}
+async function sendCal(clear) {
+  $('calMsg').textContent = clear ? '' : 'Calibrating: hold still for 2 s…';
+  const r = await fetch('/api/camera/calibrate', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ clear }) }).catch(() => null);
+  const res = r ? await r.json().catch(() => ({})) : {};
+  if (!clear) beep(r && r.ok ? 2 : 3);
+  $('calMsg').textContent = r && r.ok ? (clear ? 'Camera holds for people at any distance again.'
+    : 'Calibrated: the camera now holds at the same distance as the sensor.' + (res.notes && res.notes.length ? ' Check: ' + res.notes.join('; ') + '.' : ''))
+    : (res.error || 'Could not calibrate.');
   unfocus();
 }
 $('calBtn').onclick = () => calibrate(false);
@@ -324,15 +351,34 @@ const pretty = t => String(t || '').replace('_', ' ');
 const spec = r => r ? `${r.distance_ft} ft · ${r.lighting} · ${pretty(r.target)}` : '';
 $('trNum').oninput = () => { trNumTouched = Date.now(); renderTrials(); };
 $('trNum').onkeydown = e => { if (e.key === 'Enter') unfocus(); };
+let audio = null;   // created on Start (browsers only allow sound after a click or key press)
+function beep(times) {
+  try {
+    audio = audio || new (window.AudioContext || window.webkitAudioContext)();
+    if (audio.state === 'suspended') audio.resume();
+    for (let i = 0; i < times; i++) {
+      const o = audio.createOscillator(), g = audio.createGain(), t = audio.currentTime + i * 0.3;
+      o.frequency.value = 880; g.gain.setValueAtTime(0.3, t); g.gain.exponentialRampToValueAtTime(0.001, t + 0.22);
+      o.connect(g).connect(audio.destination); o.start(t); o.stop(t + 0.25);
+    }
+  } catch (err) {}
+}
+let trPhase = null;
 async function startTrial() {
   const n = +$('trNum').value;
   if (!n) { $('trMsg').textContent = 'Type a trial number.'; return; }
-  const r = await fetch('/api/trial/start', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ trial: n }) });
+  beep(0);   // unlock audio while we still have the key press / click
+  const lead = Math.max(0, Math.min(60, +$('trLead').value || 0));
+  const body = { trial: n, auto_drive: $('trAuto').checked, vehicle: 'truck', lead_s: lead };
+  const r = await fetch('/api/trial/start', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
   const res = await r.json().catch(() => ({}));
   if (!r.ok) $('trMsg').textContent = res.error || 'Could not start.';
   trNumTouched = 0; unfocus();
 }
 $('trStart').onclick = startTrial;
+async function stopTrial() { await post('/api/trial/cancel', {}); $('trMsg').textContent = 'Trial cancelled (not saved).'; unfocus(); }
+$('trStop').onclick = stopTrial;
+$('trLead').onkeydown = e => { if (e.key === 'Enter') unfocus(); };
 async function saveNote() {
   const n = trials && trials.last && +trials.last.trial; if (!n) return;
   const ok = await post('/api/trial/note', { trial: n, time_to_stop_s: $('trTts').value.trim(), notes: $('trNotes').value.trim() });
@@ -348,8 +394,14 @@ function renderTrials() {
   $('trSpec').textContent = sp ? spec(sp) + (redo ? ' (already recorded: will replace)' : '') : 'not in the list';
   $('trProg').textContent = `${t.done} of ${t.total} recorded`;
   $('trStart').disabled = !!t.running || !sp;
+  $('trStop').style.display = t.running ? '' : 'none';
+  const ph = t.running ? t.phase : null;
+  if (ph !== trPhase) { if (ph === 'recording' && t.running.auto_drive === 'yes') beep(1); if (!ph && trPhase === 'recording') beep(2); trPhase = ph; }
+  $('trBig').textContent = ph === 'lead' ? `Walk out… driving in ${Math.ceil(t.lead_left_s)}` : ph === 'recording' ? `${t.running.auto_drive === 'yes' ? 'Driving' : 'Recording'}: ${t.remaining_s.toFixed(1)} s` : '';
+  $('trBig').style.color = ph === 'recording' ? 'var(--series-2)' : '';
   $('trialCard').style.borderColor = t.running ? 'var(--series-2)' : '';
-  $('trMsg').textContent = t.error ? t.error : t.running ? `Recording trial ${t.running.trial} (${spec(t.running)}): ${t.remaining_s.toFixed(1)} s left. Bring the target in now.`
+  $('trMsg').textContent = t.error ? t.error : ph === 'lead' ? `Trial ${t.running.trial} (${spec(t.running)}): go to your start spot, out of the camera's view.`
+    : t.running ? `Recording trial ${t.running.trial} (${spec(t.running)}): ${t.remaining_s.toFixed(1)} s left. Bring the target in now.`
     : t.next ? '' : 'All trials recorded.';
   const L = t.last;
   if (!L) { setHTML($('trLast'), ''); trShown = null; return; }
@@ -419,13 +471,20 @@ function render(s) {
   if (cam.online && camLive !== camWant) { $('camImg').src = `/api/camera.mjpg?t=${Date.now()}`; camLive = camWant; }
   if (!cam.online) camLive = false;
   const seen = cam.online && det.ready && det.fresh && det.near > 0;
-  $('calState').textContent = det.min_box_h == null ? 'any distance (not calibrated)' : `calibrated (person box ≥ ${Math.round(det.min_box_h * 95)}% of picture height)`;
+  const stopFt = px.stop_cm ? Math.round(px.stop_cm / 30.48 * 2) / 2 : 6;
+  $('calFt').textContent = stopFt;
+  const calFt = det.cal_cm ? Math.round(det.cal_cm / 30.48 * 2) / 2 : null;
+  const calOff = det.min_box_h != null && calFt != null && calFt !== stopFt;
+  $('calState').textContent = det.min_box_h == null ? 'any distance (not calibrated)'
+    : calOff ? `calibrated at ${calFt} ft but the stop is ${stopFt} ft: recalibrate on the ${stopFt} ft mark`
+    : `${calFt ?? '?'} ft, same as the sensor (person box ≥ ${Math.round(det.min_box_h * 95)}% of picture height` + (det.cal_sensor_cm ? `; sensor read ${(det.cal_sensor_cm / 30.48).toFixed(1)} ft)` : ')');
+  $('calState').style.color = calOff ? '#e5484d' : '';
   const tally = list => Object.entries(list.reduce((m, f) => (m[f.name] = (m[f.name] || 0) + 1, m), {}))
     .map(([n, c]) => c > 1 ? `${c} ${n}s` : n).join(', ');
   const found = det.found || [];
   const alive = tally(found.filter(f => f.near)), far = tally(found.filter(f => f.living && !f.near)), things = tally(found.filter(f => !f.living));
   $('camPeople').textContent = !cam.online ? '' : det.error ? det.error : !det.ready ? 'Detection starting…'
-    : (seen ? `In range: ${alive}` : 'No people or animals in range') + (far ? ` · Farther away (ignored): ${far}` : '') + (things ? ` · Objects: ${things}` : '');
+    : (seen ? `In range: ${alive}` : 'No people in range') + (far ? ` · Farther away (ignored): ${far}` : '') + (things ? ` · Objects: ${things}` : '');
   $('camPeople').style.color = seen ? '#e5484d' : '';
   $('camCard').style.borderColor = seen ? '#e5484d' : '';
 
@@ -434,7 +493,7 @@ function render(s) {
   $('camGuardOn').disabled = !det.ready;
   const why = [];
   if (px.blocked) why.push(`someone is ${ft.toFixed(1)} ft away`);
-  if (det.blocked) why.push(`camera sees ${alive || 'a person or animal'}`);
+  if (det.blocked) why.push(`camera sees ${alive || 'a person'}`);
   const waiting = [px.enabled && !px.online && 'sensor', det.enabled !== false && !(cam.online && det.ready) && 'camera'].filter(Boolean);
   $('guardMsg').textContent = why.length ? `Holding ${tx ? `“${tx.name}”` : 'drive'}: ${why.join(' and ')}.`
     : !px.enabled && (det.enabled === false || !det.ready) ? 'Off: the truck will not stop for people.'

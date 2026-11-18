@@ -110,6 +110,38 @@ Run the dashboard: `python3 server.py` then open http://localhost:8642
   photo, re-run `l`, then make server.py's Camera ask `d` and feed Proximity.
 - server.py is NOT changed yet; the dashboard still expects the Mega for distance.
 
+## 2026-11-18: camera and sensor stop at the same distance
+- The camera calibration used to be a single frame and didn't record its distance, so the
+  camera and the sensor could stop at different distances. Now `Detector.calibrate()`
+  takes the median person box height over 2 s (rejects >1 person or no person), saves it
+  with `cal_cm` = the sensor's stop distance and `sensor_cm` = what the HC-SR04 read
+  during calibration, and warns if the sensor read differs by more than 30 cm or the
+  person fills the picture (box >= 90% of the frame height) or their head is cut off at the top (then box height grows as the feet drop, and the camera may hold farther than the sensor). `camera_person` events now log `sensor_cm`, so a slow walk-in shows the distance where each stop triggered. The dashboard shows the calibrated distance and turns red with
+  "recalibrate" if the stop slider no longer matches it. Trial rows gain `camera_cal_cm`.
+- Unit-tested with fake frames (median of jittery boxes, two people, nobody, sensor
+  disagreeing, old camera_cal.json format, reset, stale camera). Not yet run on hardware.
+- Trials 1-4 were recorded before calibration: re-run them (same numbers overwrite).
+- Camera stop now reacts to **people only** (`LIVING = {"person"}`): animals were dropped
+  at the user's request (YOLO had mislabelled lab furniture as "bird"). Animals and all other
+  classes show as grey objects and never hold the truck.
+- Auto-drive trials (Start/T -> walk-out countdown -> forward for 8 s -> idle -> off; Esc/Stop
+  cancels without saving; `auto_drive` column). Trials 5-8 were run from the old page (no
+  auto-drive, nobody holding up) so the truck never drove: invalid.
+
+### 2026-11-18 end of class (where to pick up on Friday 2026-11-20)
+- Hardware all worked together: Mega + HC-SR04, ESP32-CAM (USB), HackRF. Camera is stacked
+  about 6 cm above the sensor so they point the same way (put insulation between the boards:
+  the Mega went silent once after stacking; restarting the dashboard revived it).
+- Auto-drive works on the real truck (trial 18: countdown, forward, idle, transmitter off).
+- **Rows 1-18 in data/trials.csv are NOT valid data:** 1-4 and 9-18 ran with the camera
+  uncalibrated (it held for anyone in view, e.g. trial 15 "chair" was stopped by a person),
+  5-12 mostly never drove (old page, nobody holding up). Move them to
+  data/practice_trials.csv and restart the real trials at 1 (not done yet: waiting for the
+  user's OK).
+- **Camera NOT calibrated** (camera_cal.json cleared). The HC-SR04 did not see a person
+  standing on the 6 ft mark (no echo), and by the end the camera was tilted down at the floor.
+- Calibrate button now has a 10 s walk-out countdown with beeps (one person can do it).
+
 ## Open issues / next steps
 1. **Mac networking:** the Mac is on the lab WiFi (Ethernet inactive). Joining TruckCam
    would cut its internet. Options: plug Ethernet back in (preferred), put the camera on
